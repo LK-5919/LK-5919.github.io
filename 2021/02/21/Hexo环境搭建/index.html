@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="LK的个人博客">
+  <link rel="icon" href="/img/logo.jpg">
+  <title>Hexo环境搭建</title>
+  
+  
+  <meta property="og:title" content="Hexo环境搭建">
+  
+  
+  <meta property="og:url" content="http://example.com/2021/02/21/Hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+  
+  
+  <meta property="og:img" content="/img/2.png">
+  
+  
+  <meta property="og:img" content="Hexo环境搭建（转载）">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2021-02-21">
+  <meta property="og:article:modified_time" content="2021-02-21">
+  <meta property="og:article:author" content="LK">
+  
+  
+  <meta property="og:article:tag" content="Hexo">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/logo.jpg" alt="logo">
+      
+      <span class="navbar-logo-dsc">DebugCoder</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<div class="image-wrapper">
+  <img src="/img/2.png" data-src="/img/2.png"
+    srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+    class="image lozad"
+    alt="thumbnail"
+  >
+</div>
+
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Hexo环境搭建
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-02-21T03:24:55.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2021-02-21</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/Hexo环境搭建/" class="post-meta-link">Hexo环境搭建</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.1k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/Hexo/" class="post-meta-link">Hexo</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="1-1-创建博客项目"><a href="#1-1-创建博客项目" class="headerlink" title="1.1 创建博客项目"></a>1.1 创建博客项目</h2><p>安装Hexo</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install -g hexo-cli<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>初始化博客项目</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo init dm-blog<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>进入项目文件夹，安装相关依赖</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>目录结构</p>
+<pre class="line-numbers language-none"><code class="language-none">.
+├── _config.yml
+├── package.json
+├── scaffolds
+├── source
+|   ├── _drafts
+|   └── _posts
+└── themes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>打开_config.yml，配置基本信息</p>
+<pre class="line-numbers language-none"><code class="language-none"># Site
+title: 淡漠Blog
+subtitle: &#39;&#39;
+description: &#39;淡漠DM的博客&#39;
+keywords:
+author: 淡漠DM
+language: zh-CN
+timezone: &#39;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>启动项目</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo s<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<p>常用命令介绍</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>简写</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hexo server</td>
+<td>hexo s</td>
+<td>本地启动</td>
+</tr>
+<tr>
+<td>hexo generate</td>
+<td>hexo g</td>
+<td>生成静态文件</td>
+</tr>
+<tr>
+<td>hexo deploy</td>
+<td>hexo d</td>
+<td>部署网站</td>
+</tr>
+<tr>
+<td>hexo clean</td>
+<td>无</td>
+<td>清除缓存及生成的静态文件</td>
+</tr>
+</tbody></table>
+<h2 id="1-2-修改主题"><a href="#1-2-修改主题" class="headerlink" title="1.2 修改主题"></a>1.2 修改主题</h2><p>选择自己喜欢的主题</p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/themes/">https://hexo.io/themes/</a></p>
+<p>这里选择Kaze</p>
+<p>进入themes文件夹，下载主题，并重命名为kaze</p>
+<pre class="line-numbers language-none"><code class="language-none">cd themes
+git clone https:&#x2F;&#x2F;github.com&#x2F;theme-kaze&#x2F;hexo-theme-Kaze.git kaze<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>修改配置文件（_config.yml）</p>
+<pre class="line-numbers language-none"><code class="language-none">theme: kaze<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>主题名称为文件夹名称，默认为：landscape</p>
+<p>回到项目根目录，启动项目</p>
+<pre class="line-numbers language-none"><code class="language-none">hexo clean
+hexo g
+hexo s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="1-3-完善博客项目"><a href="#1-3-完善博客项目" class="headerlink" title="1.3 完善博客项目"></a>1.3 完善博客项目</h2><h3 id="1-3-1-修改基本信息"><a href="#1-3-1-修改基本信息" class="headerlink" title="1.3.1 修改基本信息"></a>1.3.1 修改基本信息</h3><p>进入<code>themes/kaze/source</code> ，创建文件夹 <code>img</code>，放入logo图片和作者头像</p>
+<pre class="line-numbers language-none"><code class="language-none">title: 淡漠Blog
+author: 淡漠DM
+logo_img: &#x2F;img&#x2F;logo.png # put the logo on the $&#123;blog_path&#125;&#x2F;source&#x2F;img&#x2F;$&#123;picname&#125;.png or use urls
+author_img: &#x2F;img&#x2F;author.jpg
+author_description: 最有趣的编程，莫过于服务生活。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="1-3-2-开启站点访问量统计（默认关闭）"><a href="#1-3-2-开启站点访问量统计（默认关闭）" class="headerlink" title="1.3.2 开启站点访问量统计（默认关闭）"></a>1.3.2 开启站点访问量统计（默认关闭）</h3><pre class="line-numbers language-none"><code class="language-none">footer:
+  statistics:
+    enable: true
+    type: busuanzi # now version only supports busuanzi
+    pv:
+      enable: true
+      style: 本站总访问量&#123;&#125;次 # the style will be shown as $1&#123;pv&#125;$2
+    uv:
+      enable: true
+      style: 本站总访客数&#123;&#125;次<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>enable</code> 开启访问量统计（默认关闭）</p>
+<pre class="line-numbers language-none"><code class="language-none">type&#96; 目前仅支持 &#96;busuanzi<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><code>pv</code> 访问总量统计</p>
+<p><code>uv</code> 用户总量统计</p>
+<h3 id="1-3-3-友链"><a href="#1-3-3-友链" class="headerlink" title="1.3.3 友链"></a>1.3.3 友链</h3><pre class="line-numbers language-none"><code class="language-none">links:
+  小R资源:
+    url: https:&#x2F;&#x2F;www.tomyres.com
+    avatar: https:&#x2F;&#x2F;www.tomyres.com&#x2F;static&#x2F;images&#x2F;logo&#x2F;res_logo_1.png
+    description: 小R资源,免费的编程资源在线分享<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="1-3-4-文章头部"><a href="#1-3-4-文章头部" class="headerlink" title="1.3.4 文章头部"></a>1.3.4 文章头部</h3><p>hello-world.md</p>
+<pre class="line-numbers language-none"><code class="language-none">---
+title: Hello World
+banner_img: https:&#x2F;&#x2F;www.tomyres.com&#x2F;static&#x2F;images&#x2F;logo&#x2F;res_logo_1.png
+category: Hi
+tag: hello
+excerpt: 这是一段简介
+---<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>banner_img</code> 文章封面</p>
+<p><code>category</code> 分类</p>
+<p><code>tag</code> 标签</p>
+<p><code>excerpt</code> 简介</p>
+<h3 id="1-3-5-代码高亮"><a href="#1-3-5-代码高亮" class="headerlink" title="1.3.5 代码高亮"></a>1.3.5 代码高亮</h3><p>在md文件写一段JavaScript代码</p>
+<pre class="line-numbers language-none"><code class="language-none">​&#96;&#96;&#96;javascript
+const smoothScrollToTop &#x3D; () &#x3D;&gt; &#123;
+  let yTopValve &#x3D; (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop);
+  if (yTopValve &gt; 1) &#123;
+    window.requestAnimationFrame(smoothScrollToTop);
+    scrollTo(0, Math.floor(yTopValve * 0.85));
+  &#125; else &#123;
+    scrollTo(0, 0);
+  &#125;
+&#125;;
+
+setTimeout(() &#x3D;&gt; &#123;
+  document.getElementById(&#39;scrollbutton&#39;).onclick &#x3D; smoothScrollToTop;
+&#125;, 0);
+​&#96;&#96;&#96;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>关闭 highlight，开启 prismjs（_config.yml）</p>
+<pre class="line-numbers language-none"><code class="language-none">highlight:
+  enable: false
+  line_number: true
+  auto_detect: false
+  tab_replace: &#39;&#39;
+  wrap: true
+  hljs: false
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: true
+  tab_replace: &#39;&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>设置主题（kaze/_config.yml）</p>
+<pre class="line-numbers language-none"><code class="language-none">prism:
+  theme: tomorrow<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="1-3-6-评论"><a href="#1-3-6-评论" class="headerlink" title="1.3.6 评论"></a>1.3.6 评论</h3><p>这里使用 valine 实现评论，官方网 <a target="_blank" rel="noopener" href="https://leancloud.cn/">https://leancloud.cn/</a></p>
+<p>进入控制台后点击左下角创建应用</p>
+<p>应用创建好以后，进入刚刚创建的应用，选择左下角的设置&gt;应用Key，然后就能看到你的APP ID和APP Key了</p>
+<p>开启评论功能 <code>kaze/_config.yml</code></p>
+<pre class="line-numbers language-none"><code class="language-none">comment:
+  enable: true
+  type: valine # valine | gitalk | livere | disqus | we recommend valine
+  # gitalk config details can see in https:&#x2F;&#x2F;github.com&#x2F;gitalk&#x2F;gitalk&#x2F;blob&#x2F;master&#x2F;readme-cn.md
+  valine:
+    appId: 你的appId
+    appKey: 你的appKey<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="1-4-部署gitee"><a href="#1-4-部署gitee" class="headerlink" title="1.4 部署gitee"></a>1.4 部署gitee</h2><p>创建一个公开的仓库，仓库名称需要和个人空间地址相同</p>
+<p>个人空间地址查看方式：设置——&gt;基本设置——&gt;个人资料</p>
+<p>初始化</p>
+<pre class="line-numbers language-none"><code class="language-none">git init
+git remote add origin git@gitee.com:个人空间地址&#x2F;仓库名称.git
+git pull origin master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>提交项目</p>
+<pre class="line-numbers language-none"><code class="language-none">git add .
+git commit -m &#39;我的第一个博客项目&#39;
+git push origin master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>第一次提交时，确保仓库没有文件，因为如果仓库有文件，且文件名字正好和本地项目的某个文件名相同，会导致提交失败</p>
+<p>修改配置文件</p>
+<pre class="line-numbers language-none"><code class="language-none">deploy:
+  type: git
+  repo: git@gitee.com:个人空间地址&#x2F;仓库名称.git
+  branch: master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>部署到gitee</p>
+<pre class="line-numbers language-none"><code class="language-none">npm install --save hexo-deployer-git
+hexo clean
+hexo g
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>选择强制使用https</p>
+<p>部署后会显示网站地址，直接访问即可。</p>
+<p>项目每一次更新提交到gitee之后，需要更新部署</p>
+<p><strong>注意：</strong></p>
+<p>如果更新部署后访问项目没有变化，可以尝试 <code>CTRL+F5</code> 强制刷新，或清除浏览器缓存。</p>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="http://example.com/about">LK</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="http://example.com/2021/02/21/Hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">http://example.com/2021/02/21/Hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2021/02/20/hello-world/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">Hello Hexo </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.1 创建博客项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">1.2 修改主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%AE%8C%E5%96%84%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.3 完善博客项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-%E4%BF%AE%E6%94%B9%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-text">1.3.1 修改基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-%E5%BC%80%E5%90%AF%E7%AB%99%E7%82%B9%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%EF%BC%88%E9%BB%98%E8%AE%A4%E5%85%B3%E9%97%AD%EF%BC%89"><span class="toc-text">1.3.2 开启站点访问量统计（默认关闭）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-3-%E5%8F%8B%E9%93%BE"><span class="toc-text">1.3.3 友链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-4-%E6%96%87%E7%AB%A0%E5%A4%B4%E9%83%A8"><span class="toc-text">1.3.4 文章头部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-5-%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="toc-text">1.3.5 代码高亮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-6-%E8%AF%84%E8%AE%BA"><span class="toc-text">1.3.6 评论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E9%83%A8%E7%BD%B2gitee"><span class="toc-text">1.4 部署gitee</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/author.png" class="author-img">
+
+<p class="author-name">LK</p>
+<p class="author-description">学习如何高效的摸鱼！</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>2</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>2</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>1</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.1 创建博客项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">1.2 修改主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%AE%8C%E5%96%84%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.3 完善博客项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-%E4%BF%AE%E6%94%B9%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-text">1.3.1 修改基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-%E5%BC%80%E5%90%AF%E7%AB%99%E7%82%B9%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%EF%BC%88%E9%BB%98%E8%AE%A4%E5%85%B3%E9%97%AD%EF%BC%89"><span class="toc-text">1.3.2 开启站点访问量统计（默认关闭）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-3-%E5%8F%8B%E9%93%BE"><span class="toc-text">1.3.3 友链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-4-%E6%96%87%E7%AB%A0%E5%A4%B4%E9%83%A8"><span class="toc-text">1.3.4 文章头部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-5-%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="toc-text">1.3.5 代码高亮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-6-%E8%AF%84%E8%AE%BA"><span class="toc-text">1.3.6 评论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E9%83%A8%E7%BD%B2gitee"><span class="toc-text">1.4 部署gitee</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.1 创建博客项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%98"><span class="toc-text">1.2 修改主题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%AE%8C%E5%96%84%E5%8D%9A%E5%AE%A2%E9%A1%B9%E7%9B%AE"><span class="toc-text">1.3 完善博客项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-%E4%BF%AE%E6%94%B9%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-text">1.3.1 修改基本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-%E5%BC%80%E5%90%AF%E7%AB%99%E7%82%B9%E8%AE%BF%E9%97%AE%E9%87%8F%E7%BB%9F%E8%AE%A1%EF%BC%88%E9%BB%98%E8%AE%A4%E5%85%B3%E9%97%AD%EF%BC%89"><span class="toc-text">1.3.2 开启站点访问量统计（默认关闭）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-3-%E5%8F%8B%E9%93%BE"><span class="toc-text">1.3.3 友链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-4-%E6%96%87%E7%AB%A0%E5%A4%B4%E9%83%A8"><span class="toc-text">1.3.4 文章头部</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-5-%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE"><span class="toc-text">1.3.5 代码高亮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-6-%E8%AF%84%E8%AE%BA"><span class="toc-text">1.3.6 评论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E9%83%A8%E7%BD%B2gitee"><span class="toc-text">1.4 部署gitee</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-02-21</div>
+        <a href="/2021/02/21/Hexo环境搭建/"><div class="recent-posts-item-content">Hexo环境搭建</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-02-20</div>
+        <a href="/2021/02/20/hello-world/"><div class="recent-posts-item-content">Hello Hexo</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2021
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">DebugCoder </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
