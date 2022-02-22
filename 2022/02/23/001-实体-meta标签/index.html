@@ -8,28 +8,28 @@
   <meta name="theme-color" content="#fff" id="theme-color">
   <meta name="description" content="LK的个人博客">
   <link rel="icon" href="/img/logo.png">
-  <title>Hello Hexo</title>
+  <title>001-实体/meta标签</title>
   
   
-  <meta property="og:title" content="Hello Hexo">
+  <meta property="og:title" content="001-实体/meta标签">
   
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2021/02/20/hello-world/index.html">
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/index.html">
   
   
-  <meta property="og:img" content="/img/1.jpg">
+  <meta property="og:img" content="/img/63127322_p0.png">
   
   
-  <meta property="og:img" content="这是我的第一篇Hexo博客">
+  <meta property="og:img" content="实体,meta标签">
   
   
   <meta property="og:type" content="article">
-  <meta property="og:article:published_time" content="2021-02-20">
-  <meta property="og:article:modified_time" content="2021-02-21">
+  <meta property="og:article:published_time" content="2022-02-23">
+  <meta property="og:article:modified_time" content="2022-02-23">
   <meta property="og:article:author" content="LK">
   
   
-  <meta property="og:article:tag" content="Hexo">
+  <meta property="og:article:tag" content="WEB前端">
   
   
   
@@ -199,7 +199,7 @@
         <div class="columns">
           <main class="main-column">
 <div class="image-wrapper">
-  <img src="/img/1.jpg" data-src="/img/1.jpg"
+  <img src="/img/63127322_p0.png" data-src="/img/63127322_p0.png"
     srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
     class="image lozad"
     alt="thumbnail"
@@ -209,23 +209,23 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      Hello Hexo
+      001-实体/meta标签
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2021-02-20T14:43:56.406Z">
+    <time datetime="2022-02-22T16:02:40.000Z">
       <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
-      <span>2021-02-20</span>
+      <span>2022-02-23</span>
     </time>
     
     <span class="dot"></span>
     
-    <a href="/categories/Hexo文章测试/" class="post-meta-link">Hexo文章测试</a>
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML+CSS学习</a>
     
     
     
     <span class="dot"></span>
-    <span>44 字</span>
+    <span>497 字</span>
     
   </div>
   
@@ -234,33 +234,71 @@
       <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
       
       
-        <a href="/tags/Hexo/" class="post-meta-link">Hexo</a>
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
       
     </div>
   </div>
   
   </header>
   <div id="section" class="post-content">
-    <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> <span class="token function-variable function">smoothScrollToTop</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">let</span> yTopValve <span class="token operator">=</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span>pageYOffset <span class="token operator">||</span> document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop <span class="token operator">||</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>yTopValve <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>smoothScrollToTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">scrollTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span><span class="token function">floor</span><span class="token punctuation">(</span>yTopValve <span class="token operator">*</span> <span class="token number">0.85</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-    <span class="token function">scrollTo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <h2 id="1-HTML结构"><a href="#1-HTML结构" class="headerlink" title="1.HTML结构"></a>1.HTML结构</h2><p>​    HTML结构可分为以下三部分：</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!--在这里可以使用meta title标签 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+        
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-HTML5的标识"><a href="#2-HTML5的标识" class="headerlink" title="2.HTML5的标识"></a>2.HTML5的标识</h2><p>​    在html文件开头使用<!Doctype Html>标签来区分html4与5的区别</p>
+<p>​    <em>文档声明用来告诉浏览器当前网页的版本</em></p>
+<p>​        <em>- html5的文档声明</em></p>
+<p>​        <em><!doctype html></em></p>
+<p>​        <em><!Doctype HTML></em></p>
+<h2 id="3-HTML编码字符集"><a href="#3-HTML编码字符集" class="headerlink" title="3.HTML编码字符集"></a>3.HTML编码字符集</h2><p>​    <em>常见的字符集：</em></p>
+<p>​        <em>ASCII</em></p>
+<p>​        <em>ISO88591</em></p>
+<p>​        <em>GB2312</em></p>
+<p>​        <em>GBK</em></p>
+<p>​        <em>UTF-8，在开发时我们使用的字符集都是UTF-8</em></p>
+<h2 id="4-meta标签"><a href="#4-meta标签" class="headerlink" title="4.meta标签"></a>4.meta标签</h2><p>​    该标签在主要用于设置一些网页中的元数据，元数据用于网站的搜索引擎检索，可以在此标签内指定网页的编码字符集，如下代码：</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token comment">&lt;!-- 
+       meta主要用于设置网页中的一些元数据，元数据不是给用户看
+           charset 指定网页的字符集
+           name 指定的数据的名称
+           content 指定的数据的内容
 
-<span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'scrollbutton'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>onclick <span class="token operator">=</span> smoothScrollToTop<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+            keywords 表示网站的关键字，可以同时指定多个关键字，关键字间使用,隔开
+                 
+             description 用于指定网站的描述
+                   
+              网站的描述会显示在搜索引擎的搜索的结果中
+
+               title标签的内容会作为搜索结果的超链接上的文字显示    
+    --></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>keywords<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HTML5,前端,CSS3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>这是一个非常不错的网站<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>这是标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>使用meta标签有http-equiv, name,scheme 属性可选 其对应的content值具体参照文档</p>
+<meta> 标签支持 HTML 中的全局属性。
+ <meta http-equiv="refresh" content="3;url=https://www.mozilla.org"> 
+        将页面重定向到另一个网站
+
+
+
+<h2 id="5-实体标签"><a href="#5-实体标签" class="headerlink" title="5.实体标签"></a>5.实体标签</h2><p>​    在 HTML 中，某些字符是预留的。</p>
+<p>​    在 HTML 中不能使用小于号（&lt;）和大于号（&gt;），这是因为浏览器会误认为它们是标签。</p>
+<p>​    如果希望正确地显示预留字符，我们必须在 HTML 源代码中使用字符实体（character entities）。</p>
+<p>使用方法： &amp;需转义的字符;(&amp; ;均是英文符号)</p>
+<p>常用的转义字符：</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220222232554158.png" alt="image-20220222232554158" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220222232554158.png" class="lozad post-image"></p>
 
   </div>
   <div>
   
   <div class="post-note note-warning copyright" style="margin-top: 42px">
     <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">LK</a></p>
-    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2021/02/20/hello-world/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2021/02/20/hello-world/</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/</a></p>
     <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
   </div>
   
@@ -268,18 +306,18 @@
 </article>
 <div class="nav">
   
-  <div class="nav-item-prev">
-    <a href="/2021/02/21/Hexo环境搭建/" class="nav-link">
-      <i class="iconfont icon-left nav-prev-icon"></i>
+  
+  <div class="nav-item-next">
+    <a href="/2021/07/08/计网复习/" class="nav-link">
       <div>
-        <div class="nav-label">上一篇</div>
+        <div class="nav-label">下一篇</div>
         
-        <div class="nav-title">Hexo环境搭建 </div>
+        <div class="nav-title">计算机网络复习 </div>
         
       </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
     </a>
   </div>
-  
   
 </div>
 
@@ -319,7 +357,7 @@
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -352,7 +390,7 @@
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
     </div>
   </article>
   
@@ -418,7 +456,7 @@
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
   </article>
   
   
