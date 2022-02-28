@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="LK的个人博客">
+  <link rel="icon" href="/img/logo.png">
+  <title>006-文档流-盒模型</title>
+  
+  
+  <meta property="og:title" content="006-文档流-盒模型">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/27/006-%E6%96%87%E6%A1%A3%E6%B5%81-%E7%9B%92%E6%A8%A1%E5%9E%8B/index.html">
+  
+  
+  <meta property="og:img" content="/img/author.jpg">
+  
+  
+  <meta property="og:img" content="LK的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-02-27">
+  <meta property="og:article:modified_time" content="2022-02-28">
+  <meta property="og:article:author" content="LK">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/logo.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">简笔</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      006-文档流-盒模型
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-02-27T15:13:50.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-02-27</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>4.2k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="1-文档流（normal-flow）"><a href="#1-文档流（normal-flow）" class="headerlink" title="1.文档流（normal flow）"></a>1.文档流（normal flow）</h2><p>​    在文档流中，<strong>内联元素</strong>默认从左到右流，遇到阻碍或者宽度不够的自动换行，继续按照从左到右的方式布局；<strong>块级元素</strong>独占一行，按照从上到下的方式布局。</p>
+<p>​    文档流是网页的基础 所创建的元素默认在文档流中排列</p>
+<pre><code>元素在文档流中有什么特点：
+        - 块元素
+            - 块元素会在页面中独占一行(自上向下垂直排列)
+            - 默认宽度是父元素的全部（会把父元素撑满）
+            - 默认高度是被内容撑开（子元素）
+
+        - 行内元素
+            - 行内元素不会独占页面的一行，只占自身的大小
+            - 行内元素在页面中左向右水平排列，如果一行之中不能容纳下所有的行内元素
+                则元素会换到第二行继续自左向右排列（书写习惯一致）
+            - 行内元素的默认宽度和高度都是被内容撑开
+</code></pre>
+<h2 id="2-盒模型（Box-Model）"><a href="#2-盒模型（Box-Model）" class="headerlink" title="2.盒模型（Box Model）"></a>2.盒模型（Box Model）</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">盒模型 ： 可以将网页中的任何元素都看成一个矩形
+		每一个盒子都由以下几个部分组成：
+		1.内容区（content）
+		2.内边距（padding）
+		3.边框（border）
+		4.外边距（margin）
+
+	内容区 内边距 边框 都会影响可见盒模型的大小！！！
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220228102122714.png" alt="image-20220228102122714" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220228102122714.png" class="lozad post-image">
+
+<h3 id="1-内容区（content）"><a href="#1-内容区（content）" class="headerlink" title="1.内容区（content）"></a>1.内容区（content）</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css">内容区的大小由 width 和 height 两个属性设置
+<span class="token comment">/* 设置 demo 盒子的大小 */</span>
+        <span class="token selector">.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-边框（border）"><a href="#2-边框（border）" class="headerlink" title="2.边框（border）"></a>2.边框（border）</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css">要想在网页的盒子显示边框 必须要设置三个属性 border-width border-color border-style
+		border-width 和 border-color 有默认值 可省略不写（border-width默认3px border-color默认使用盒子的color）
+	（1）border-width：可用来指定盒子四个方向的边框宽度 有默认值 3px
+				值的情况：四个值 ----上 右 下 左 （顺时针）
+						三个值 ---- 上 左右 下
+						两个值 ---- 上下 左右
+						一个值 ---- 上下左右
+		border-xxx-width： 可单独指定任意一边的宽度 xxx---top right  bottom  left
+	<span class="token property">（2）border-color</span><span class="token punctuation">:</span> 可用来指定盒子边框的颜色 有默认值 使用color值
+				使用规则与border-width 基本相同
+				也有border-xxx-color可使用
+	（3）border-style ： 用来指定边框的样式 没有默认值 none
+				solid 表示实线
+                  dotted 点状虚线
+                  dashed 虚线
+                  double 双线
+			
+border简写属性，通过该属性可以同时设置边框所有的相关样式，并且没有顺序要求
+		<span class="token property">border</span><span class="token punctuation">:</span> red 10px solid <span class="token punctuation">(</span>三者顺序任意 需用空格间隔开<span class="token punctuation">)</span>
+ 除了border以外还有四个 border-xxx
+                       border-top
+                       border-right
+                       border-bottom
+                       border-left   用来单独设置每一条边框的具体样式
+			也有 border-xxx-style 可使用
+
+ 		<span class="token comment">/* 设置demo1 盒子的边框样式 */</span>
+        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置边框样式 */</span>
+            <span class="token property">border-width</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+            <span class="token property">border-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+            <span class="token property">border-style</span><span class="token punctuation">:</span> solid<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 此时的盒子大小为 边框 + 内容 为 220 * 220  */</span>
+        <span class="token punctuation">&#125;</span>
+          <span class="token comment">/* 设置demo2 盒子的边框样式 */</span>
+          <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置边框样式 */</span>
+           <span class="token property">border</span><span class="token punctuation">:</span> 10px red solid<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 此时的盒子大小为 边框 + 内容 为 220 * 220  */</span>
+        <span class="token punctuation">&#125;</span>
+         <span class="token comment">/* 设置demo3 盒子的边框样式 */</span>
+         <span class="token selector">.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置边框样式 */</span>
+           <span class="token property">border-style</span><span class="token punctuation">:</span> solid<span class="token punctuation">;</span>
+           
+           <span class="token property">border-top-style</span><span class="token punctuation">:</span> double<span class="token punctuation">;</span>
+
+           <span class="token comment">/* 此时边框宽度使用默认值 边框颜色使用默认值 black */</span>
+
+            <span class="token comment">/* 此时的盒子大小为 边框 + 内容 为 220 * 220  */</span>
+        <span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-内边距（padding）"><a href="#3-内边距（padding）" class="headerlink" title="3.内边距（padding）"></a>3.内边距（padding）</h3><p>​    内容区和边框之间的是内边距区 一共有四个方向的内边距 padding-top/right/bottom/left </p>
+<p>​    内边距的设置会影响盒子的大小  背景颜色会延伸到内边距区 内边距区不能单独设置背景颜色</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">padding 内边距的简写属性同 border-width 相同 可同时指定四个方向的内边距大小
+
+ <span class="token comment">/* 设置demo1 盒子的外边距 */</span>
+        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+
+
+            <span class="token comment">/* 设置内边距 20px 此时盒子的高度为220px 盒子的背景颜色延伸到内边距区*/</span>
+            <span class="token comment">/* padding-top: 20px; */</span>
+            <span class="token comment">/* 内边距区不能单独设置背景颜色 */</span>
+
+            <span class="token comment">/* 直接设置4个方向的内边距大小 */</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 10px 20px 30px 40px<span class="token punctuation">;</span>
+
+            <span class="token property">border</span><span class="token punctuation">:</span> red 10px solid<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span>
+            <span class="token comment">/* demo2盒子在demo1盒子中 大小与demo1的内容区大小一致 此时设置demo1 的内边距 直接影响demo1
+                盒子的整体大小
+                此时demo1的整体高度为240px
+            */</span>
+
+
+
+            <span class="token property">padding-top</span><span class="token punctuation">:</span>10px<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置demo2 盒子的内边距不影响demo1的盒子大小 此时 设置demo2 内边距 padding-top 10px 
+                此时demo2 整个盒子的高度变为210px
+                因为demo1此时边框距demo2 的边框还差 20px 所以两者边框未重叠
+            */</span>
+
+            <span class="token property">border</span><span class="token punctuation">:</span> blue 10px solid<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 此时设置；两盒子的边框 demo2 的盒子高度达到230px 此时与demo1 的边框重合 
+                demo2 此时覆盖了demo1 的padding-bottom 30px    
+            */</span>
+        <span class="token punctuation">&#125;</span>
+
+	&lt;div class=<span class="token string">"demo1"</span>>
+        &lt;div class=<span class="token string">"demo2"</span>>&lt;/div>
+    &lt;/div>
+
+
+盒子的可见框的大小，由内容区 内边距 和 边框共同决定，所以在计算盒子大小时，需要将这三个区域加到一起计算<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="4-外边距（margin）"><a href="#4-外边距（margin）" class="headerlink" title="4.外边距（margin）"></a>4.外边距（margin）</h3><p>​    外边距不会影响盒子可见框的大小 只影响盒子排放的位置 一共有四个方向的外边距</p>
+<pre class="line-numbers language-css" data-language="css"><code class="language-css">                 margin-top
+                            - 上外边距，设置一个正值，元素会向下移动
+                 margin-right
+                            - 默认情况下设置margin-right不会产生任何效果
+                 margin-bottom
+                            - 下外边距，设置一个正值，其下边的元素会向下移动
+                 margin-left
+                            - 左外边距，设置一个正值，元素会向右移动
+                - margin也可以设置负值，如果是负值则元素会向相反的方向移动
+
+                - 元素在页面中是按照自左向右的顺序排列的，
+                    所以默认情况下如果我们设置的左和上外边距则会移动元素自身
+                    而设置下和右外边距会移动其他元素
+
+                - margin的简写属性
+                    margin 可以同时设置四个方向的外边距 ，用法和padding一样
+
+                - margin会影响到盒子实际占用空间
+
+		<span class="token comment">/* 设置demo1盒子的外边距样式 */</span>
+        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置外边框 */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px red solid<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置外边距大小 */</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 30px 20px 50px 100px<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 从效果可知此时盒子在设置margin-top 和 margin-left 时才会移动自身的位置 */</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> gainsboro<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 调整demo1 的 margin-bottom 时 demo2 的位置会下移 */</span>
+             <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 此处其实有垂直方向上的 两个盒子 的margin-bottom 和 margin-top 重叠 */</span>
+        <span class="token punctuation">&#125;</span>
+
+&lt;div class=<span class="token string">"demo1"</span>>&lt;/div>
+&lt;div class=<span class="token string">"demo2"</span>>&lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="5-盒模型的水平布局"><a href="#5-盒模型的水平布局" class="headerlink" title="5.盒模型的水平布局"></a>5.盒模型的水平布局</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">块元素独占一行 元素在其父元素中的水平方向的位置由以下几个属性共同决定
+					  margin-left
+                        border-left
+                        padding-left
+                        width
+                        padding-right
+                        border-right
+                        margin-right
+	刚好是盒子从外到内在到内 从左到右的水平宽度之和
+一个元素在其父元素的水平布局中必须满足以下等式：
+margin-left+border-left+padding-left+width+padding-right+border-right+margin-right = 其父元素内容区的宽度 （必须满足）
+
+若以上等式右边之和小于父元素宽度 称为 过度约束 此时等式会自动调整
+		调整原则：1.这七个值中没有为 auto 的值的时候 浏览器自动调整margin-right值使等式成立
+				2.如果 width margin-left margin-right 三个值中有为 auto 值的 浏览器会自动优先调整auto使等式成立
+					如果 width 和 margin-left/right 均设置为auto 则宽度会默认调整到最大 margin为0
+					如果只有连个外边距为auto width固定值 此时会自动调整到margin-left=margin-right
+							实现元素在父元素中居中
+
+ 	.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时demo2的宽度300px 就算小于其父元素的1000px
+                两个demo2共同排放在其父元素demo中 也不可能排放在同一排
+
+                此时 过度约束 成立 没有设置auto值 浏览器调整 demo2的margin-right 为 700px 使等式成立 
+
+                此时demo2的宽度总和占满以父元素 所以 demo3 自动被挤出父元素换行
+            */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellow<span class="token punctuation">;</span>
+
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo4</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo5</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* width 和 margin 均为 auto 此时width为最大 margin为0 */</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo6</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* width 为 400px ， margin 均为 auto 此时；水平两边margin值相等 实现元素在父元素中居中 */</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> auto<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+ &lt;div class=<span class="token string">"demo"</span>>
+        &lt;div class=<span class="token string">"demo2"</span>>&lt;/div>
+        &lt;div class=<span class="token string">"demo3"</span>>&lt;/div>
+    &lt;/div>
+
+    &lt;hr>
+
+    &lt;div class=<span class="token string">"demo4"</span>>
+        &lt;div class=<span class="token string">"demo5"</span>>&lt;/div>
+        &lt;div class=<span class="token string">"demo6"</span>>&lt;/div>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="6-盒模型的垂直布局"><a href="#6-盒模型的垂直布局" class="headerlink" title="6.盒模型的垂直布局"></a>6.盒模型的垂直布局</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">默认情况下父元素的高度被内容撑开
+ .demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 父元素不设置高度 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.test</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+            <span class="token comment">/* 子元素高度设置为200px 此时父元素的高度被撑开 为200px */</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token selector">&lt;div class="demo">
+        &lt;div class="test">&lt;/div>
+    &lt;/div>
+
+子元素在父元素的内容区中排列 如果子元素大小超过父元素 称子元素从父元素中 溢出（overflow）
+	使用 overflow 属性处理溢出的子元素
+
+				可选值：
+                        visible，默认值 子元素会从父元素中溢出，在父元素外部的位置显示
+                        hidden 溢出内容将会被裁剪不会显示
+                        scroll 生成两个滚动条，通过滚动条来查看完整的内容
+                        auto 根据需要生成滚动条
+ .demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+           
+
+            <span class="token comment">/* overflow属性应写在父元素中 */</span>
+             <span class="token comment">/* overflow: visible;  */</span>
+            <span class="token comment">/* overflow默认值为 visible 即显示溢出不作处理 */</span>
+            <span class="token comment">/* overflow: hidden; */</span>
+            <span class="token comment">/* overflow: scroll; */</span>
+            <span class="token comment">/* overflow: auto; */</span>
+            
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.test1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时子元素高度超过父元素 从中溢出 */</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo1"</span>>
+        &lt;div class=<span class="token string">"test1"</span>>&lt;/div>
+    &lt;/div>
+
+还有 			<span class="token property">overflow-x</span><span class="token punctuation">:</span> 调整水平溢出
+                <span class="token property">overflow-y</span><span class="token punctuation">:</span>调整垂直溢出<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="7-外边距的折叠"><a href="#7-外边距的折叠" class="headerlink" title="7.外边距的折叠"></a>7.外边距的折叠</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">盒子的相邻垂直方向外边距（margin）会发生重叠现象
+	1.兄弟元素 间的相邻垂直外边距取两者之间最大值（当两者都为正值时）
+		相邻两外边距一正一负时取两者之和
+		若两外边距都是负值时取绝对值大的
+
+		.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 将demo1 的margin-bottom 设置为 负值 */</span>
+            <span class="token property">margin-bottom</span><span class="token punctuation">:</span> -30px<span class="token punctuation">;</span>
+
+
+            <span class="token comment">/* 此时两盒子的垂直外边距均为负值 取demo1 的外边距 -30 px （绝对值较大） */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 此时demo1的margin-bottom值为50px
+                设置demo2 的margin-top 为50px
+            */</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token comment">/* 可知发生外边距折叠 此时盒子布局和只设置demo1 margin-bottom 50px 效果一致 */</span>
+
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token comment">/* 若将demo2的 margin-top 设置为100 px 两盒子间的间隔 取demo2
+                    外边距（100px较大）
+            */</span>
+
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> -20px<span class="token punctuation">;</span>
+            <span class="token comment">/* 若将demo2 的margin-top 值设置为 -20 px 此时两盒子的间隔为 50px-20px=30px 取两者之和 */</span>
+        <span class="token punctuation">&#125;</span>
+
+&lt;div class=<span class="token string">"demo1"</span>>&lt;/div>
+&lt;div class=<span class="token string">"demo2"</span>>&lt;/div>
+
+实际开发中 兄弟间的边距折叠现象是有利的 不用去处理
+
+	2.父子元素相邻外边距
+			子元素的外边距会传递给父元素
+			父子外边距折叠会影响页面布局 需要处理
+
+        <span class="token comment">/* 父子间元素 */</span>
+
+        <span class="token selector">.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置父元素的边框 */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token comment">/* 给父元素设置边框后 就将父子的边框分离开来 此时 子元素的外边距不会传递给父元素 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo4</span><span class="token punctuation">&#123;</span>
+             <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token comment">/* 只设置子元素的边框无法分离父子元素的边框 需要在父元素处设置边框 */</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 250px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 250px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置子元素的外边距 */</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token comment">/* 可知此时子元素的外边距与父元素的外边距重叠 设置子元素外边距时父元素的外边距也一起变化 */</span>           
+        <span class="token punctuation">&#125;</span>
+ 	&lt;div class=<span class="token string">"demo3"</span>>
+        &lt;div class=<span class="token string">"demo4"</span>>&lt;/div>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="8-行内元素的盒模型"><a href="#8-行内元素的盒模型" class="headerlink" title="8.行内元素的盒模型"></a>8.行内元素的盒模型</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">行内元素不支持设置宽度和高度
+	行内元素可以设置padding border margin 都是垂直方向均无效 不影响布局
+		.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置高度和宽度均无效 */</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置垂直外边距无效 */</span>
+            <span class="token property">margin-left</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token property">margin-right</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置水平外边距有效 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置高度和宽度均无效 */</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> yellowgreen<span class="token punctuation">;</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置垂直外边距无效 */</span>
+            <span class="token property">margin-left</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token property">margin-right</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置水平外边距有效 相邻水平间距取两者之和*/</span>
+        <span class="token punctuation">&#125;</span>
+ <span class="token selector">&lt;span class="demo1">我是类名为demo1 的span&lt;/span>
+ &lt;span class="demo2">我是类名为demo2 的span&lt;/span>
+
+行内元素的两个属性：
+	（1）display 用来设置元素显示的类型
+					  inline 将元素设置为行内元素
+                        block 将元素设置为块元素
+                        inline-block 将元素设置为行内块元素 
+                                行内块，既可以设置宽度和高度又不会独占一行
+                        table 将元素设置为一个表格
+                        none 元素不在页面中显示
+	（2）visibility 用来设置元素的显示状态
+   					  visible 默认值，元素在页面中正常显示
+                        hidden 元素在页面中隐藏 不显示，但是依然占据页面的位置	
+
+  .box1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> inline<span class="token punctuation">;</span>
+            <span class="token comment">/* div变成行内元素后 宽度和高度设置将失效 */</span>
+        <span class="token punctuation">&#125;</span>
+  <span class="token selector">&lt;div class="box1">我是一个变成行内元素的div&lt;/div>
+  &lt;div class="box1">我是一个变成行内元素的div&lt;/div>
+
+.test1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token comment">/* 将span的display属性设置为 block span将变为块元素 独占一行 */</span>
+        <span class="token punctuation">&#125;</span>
+ <span class="token selector">.test2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> palegoldenrod<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+            <span class="token comment">/* display 属性设置为 none 元素将隐藏 */</span>
+        <span class="token punctuation">&#125;</span>
+ <span class="token selector">.test3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> pink<span class="token punctuation">;</span>
+            <span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+            <span class="token comment">/* visibility属性设置为 hidden 将元素隐藏 但还是在网页占据位置
+                display ： none 元素不再网页中占据位置空间
+            */</span>
+        <span class="token punctuation">&#125;</span>
+	&lt;span class=<span class="token string">"test1"</span>>我是类名为 test1 的span&lt;/span>
+    &lt;span class=<span class="token string">"test2"</span>>我是类名为 test2 的span&lt;/span>
+    &lt;span class=<span class="token string">"test3"</span>>我是类名为 test3 的span&lt;/span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="9-盒子的尺寸"><a href="#9-盒子的尺寸" class="headerlink" title="9.盒子的尺寸"></a>9.盒子的尺寸</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">默认情况下 盒子可见框有 content padding border 三者决定
+	box-sizing 用来设置盒子尺寸的计算方式（即设置 width 和 height 的作用）
+		可选值：content-box 为默认值 此时设置的 width 和height 均为content大小
+				border-box 此时width 和 height 设置整个盒子的可见框大小
+		.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px red solid<span class="token punctuation">;</span>
+            <span class="token property">box-sizing</span><span class="token punctuation">:</span> content-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 默认值 此时width 和 height 为content 大小 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px red solid<span class="token punctuation">;</span>
+            <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时width 和 height 决定整个盒子可见框大小 */</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="10-轮廓和圆角"><a href="#10-轮廓和圆角" class="headerlink" title="10.轮廓和圆角"></a>10.轮廓和圆角</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">（1）轮廓：outline 用来设置元素的轮廓线 用法和border一致
+			轮廓和边框不同的是轮廓不会影响可见框的大小
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* border: 10px red solid; */</span>
+            <span class="token property">outline</span><span class="token punctuation">:</span> 10px red solid<span class="token punctuation">;</span>
+            <span class="token comment">/* outline 属性不影响页面布局 
+                outline会遮住下面的行内元素 但是border不会
+            */</span> 
+        <span class="token punctuation">&#125;</span>
+<span class="token selector">&lt;div class="demo">&lt;/div>
+    &lt;span>hello&lt;/span>
+
+（2）阴影：box-shadow 用来设置元素的阴影效果 阴影不会影响页面布局
+			   第一个值 水平偏移量 设置阴影的水平位置 正值向右移动 负值向左移动
+                第二个值 垂直偏移量 设置阴影的水平位置 正值向下移动 负值向上移动
+                第三个值 阴影的模糊半径
+                第四个值 阴影的颜色
+ 	.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+           <span class="token property">box-shadow</span><span class="token punctuation">:</span> 20px 5px 30px <span class="token function">rgba</span><span class="token punctuation">(</span>0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> 0<span class="token punctuation">,</span> .4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+（3）圆角： border-radius 用来设置圆角 圆角设置的圆的半径大小
+			<span class="token comment">/* border-top-left-radius:  */</span>
+            <span class="token comment">/* border-top-right-radius */</span>
+            <span class="token comment">/* border-bottom-left-radius:  */</span>
+            <span class="token comment">/* border-bottom-right-radius:  */</span>
+	 <span class="token selector">border-radius 可以分别指定四个角的圆角
+                    四个值 左上 右上 右下 左下
+                    三个值 左上 右上/左下 右下 
+                    两个个值 左上/右下 右上/左下  
+	.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* border-radius: 30px; */</span>
+            <span class="token comment">/* 50% 为圆形 */</span>
+            <span class="token comment">/* border-radius: 50%; */</span>
+
+            <span class="token property">border-radius</span><span class="token punctuation">:</span> 10px / 55px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置椭圆角 第一个值为 垂直半轴 第二个值为 水平半轴*/</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="3-练习"><a href="#3-练习" class="headerlink" title="3.练习"></a>3.练习</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">line-height 值设置为与父元素的height相等时 此时可让子元素中的字体在父元素中垂直居中
+text-decoration ：none 为去除超链接下划线样式
+
+padding的设置增加的大小属于盒子 margin的设置增加的大小不属于盒子
+display：inline-block 将元素转换成行内块元素
+重温伪元素选择器 ::before</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+
+设计页面时先考虑整体布局 先实现整体布局效果 再进一步修改每处细节样式<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">LK</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/27/006-%E6%96%87%E6%A1%A3%E6%B5%81-%E7%9B%92%E6%A8%A1%E5%9E%8B/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/27/006-%E6%96%87%E6%A1%A3%E6%B5%81-%E7%9B%92%E6%A8%A1%E5%9E%8B/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/02/27/005-样式继承-选择器权重-单位-颜色/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">005-样式继承-选择器权重-单位-颜色 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E6%B5%81%EF%BC%88normal-flow%EF%BC%89"><span class="toc-text">1.文档流（normal flow）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%92%E6%A8%A1%E5%9E%8B%EF%BC%88Box-Model%EF%BC%89"><span class="toc-text">2.盒模型（Box Model）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%85%E5%AE%B9%E5%8C%BA%EF%BC%88content%EF%BC%89"><span class="toc-text">1.内容区（content）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BE%B9%E6%A1%86%EF%BC%88border%EF%BC%89"><span class="toc-text">2.边框（border）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E8%BE%B9%E8%B7%9D%EF%BC%88padding%EF%BC%89"><span class="toc-text">3.内边距（padding）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A4%96%E8%BE%B9%E8%B7%9D%EF%BC%88margin%EF%BC%89"><span class="toc-text">4.外边距（margin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%B8%83%E5%B1%80"><span class="toc-text">5.盒模型的水平布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9E%82%E7%9B%B4%E5%B8%83%E5%B1%80"><span class="toc-text">6.盒模型的垂直布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%8A%98%E5%8F%A0"><span class="toc-text">7.外边距的折叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="toc-text">8.行内元素的盒模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%9B%92%E5%AD%90%E7%9A%84%E5%B0%BA%E5%AF%B8"><span class="toc-text">9.盒子的尺寸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%BD%AE%E5%BB%93%E5%92%8C%E5%9C%86%E8%A7%92"><span class="toc-text">10.轮廓和圆角</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BB%83%E4%B9%A0"><span class="toc-text">3.练习</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/author.jpg" class="author-img">
+
+<p class="author-name">LK</p>
+<p class="author-description">学习如何高效的摸鱼！</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>9</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>4</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E6%B5%81%EF%BC%88normal-flow%EF%BC%89"><span class="toc-text">1.文档流（normal flow）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%92%E6%A8%A1%E5%9E%8B%EF%BC%88Box-Model%EF%BC%89"><span class="toc-text">2.盒模型（Box Model）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%85%E5%AE%B9%E5%8C%BA%EF%BC%88content%EF%BC%89"><span class="toc-text">1.内容区（content）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BE%B9%E6%A1%86%EF%BC%88border%EF%BC%89"><span class="toc-text">2.边框（border）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E8%BE%B9%E8%B7%9D%EF%BC%88padding%EF%BC%89"><span class="toc-text">3.内边距（padding）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A4%96%E8%BE%B9%E8%B7%9D%EF%BC%88margin%EF%BC%89"><span class="toc-text">4.外边距（margin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%B8%83%E5%B1%80"><span class="toc-text">5.盒模型的水平布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9E%82%E7%9B%B4%E5%B8%83%E5%B1%80"><span class="toc-text">6.盒模型的垂直布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%8A%98%E5%8F%A0"><span class="toc-text">7.外边距的折叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="toc-text">8.行内元素的盒模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%9B%92%E5%AD%90%E7%9A%84%E5%B0%BA%E5%AF%B8"><span class="toc-text">9.盒子的尺寸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%BD%AE%E5%BB%93%E5%92%8C%E5%9C%86%E8%A7%92"><span class="toc-text">10.轮廓和圆角</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BB%83%E4%B9%A0"><span class="toc-text">3.练习</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E6%B5%81%EF%BC%88normal-flow%EF%BC%89"><span class="toc-text">1.文档流（normal flow）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%9B%92%E6%A8%A1%E5%9E%8B%EF%BC%88Box-Model%EF%BC%89"><span class="toc-text">2.盒模型（Box Model）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%86%85%E5%AE%B9%E5%8C%BA%EF%BC%88content%EF%BC%89"><span class="toc-text">1.内容区（content）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%BE%B9%E6%A1%86%EF%BC%88border%EF%BC%89"><span class="toc-text">2.边框（border）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%86%85%E8%BE%B9%E8%B7%9D%EF%BC%88padding%EF%BC%89"><span class="toc-text">3.内边距（padding）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A4%96%E8%BE%B9%E8%B7%9D%EF%BC%88margin%EF%BC%89"><span class="toc-text">4.外边距（margin）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%B8%83%E5%B1%80"><span class="toc-text">5.盒模型的水平布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%9B%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%9E%82%E7%9B%B4%E5%B8%83%E5%B1%80"><span class="toc-text">6.盒模型的垂直布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E5%A4%96%E8%BE%B9%E8%B7%9D%E7%9A%84%E6%8A%98%E5%8F%A0"><span class="toc-text">7.外边距的折叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%E7%9A%84%E7%9B%92%E6%A8%A1%E5%9E%8B"><span class="toc-text">8.行内元素的盒模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%9B%92%E5%AD%90%E7%9A%84%E5%B0%BA%E5%AF%B8"><span class="toc-text">9.盒子的尺寸</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%BD%AE%E5%BB%93%E5%92%8C%E5%9C%86%E8%A7%92"><span class="toc-text">10.轮廓和圆角</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BB%83%E4%B9%A0"><span class="toc-text">3.练习</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-27</div>
+        <a href="/2022/02/27/006-文档流-盒模型/"><div class="recent-posts-item-content">006-文档流-盒模型</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-27</div>
+        <a href="/2022/02/27/005-样式继承-选择器权重-单位-颜色/"><div class="recent-posts-item-content">005-样式继承-选择器权重-单位-颜色</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-26</div>
+        <a href="/2022/02/26/004-CSS选择器/"><div class="recent-posts-item-content">004-CSS选择器</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-25</div>
+        <a href="/2022/02/25/003-列表-超链接-图片-音视频/"><div class="recent-posts-item-content">003-列表-超链接-图片-音视频</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">简笔 </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
