@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="LK的个人博客">
+  <link rel="icon" href="/img/logo.png">
+  <title>007-float布局</title>
+  
+  
+  <meta property="og:title" content="007-float布局">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/index.html">
+  
+  
+  <meta property="og:img" content="/img/author.jpg">
+  
+  
+  <meta property="og:img" content="float布局">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-01">
+  <meta property="og:article:modified_time" content="2022-03-01">
+  <meta property="og:article:author" content="LK">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/logo.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">简笔</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      007-float布局
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-01T07:34:05.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-01</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.9k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="1-浮动布局（Float）"><a href="#1-浮动布局（Float）" class="headerlink" title="1.浮动布局（Float）"></a>1.浮动布局（Float）</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">浮动： 使用 float 属性设置 默认值为none； left 元素向左移动； right 元素向右移动；
+	PS：一旦元素开启了float属性 此元素将脱离文档流 水平布局的等式便不再强制成立
+		不占用文档流的元素浮动后 还在文档流的元素将自动补上
+
+ .demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时没开启float时 块级元素独占一行 盒子的可见框大小为 200px * 200px 浏览器将自动调整margin-right */</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 开启float 后 margin-right == 0 元素脱离文档流*/</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 205px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 205px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时demo1自动补上文档流中的demo离开的位置 此时demo1完全被浮动的demo遮挡 不可见 */</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo"</span>>&lt;/div>
+&lt;div class=<span class="token string">"demo1"</span>>&lt;/div>
+
+浮动的特点： 按元素的浮动顺序排列 排在后面的浮动元素所在高度不会超过其前面浮动元素的所在高度
+                                排在前面的浮动元素越接近父元素的边界 但无法超出父元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-浮动布局与文字"><a href="#2-浮动布局与文字" class="headerlink" title="2.浮动布局与文字"></a>2.浮动布局与文字</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">浮动布局最早用来解决文字环绕问题 浮动元素不会遮住文字 文字会自动环绕在浮动元素周围
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 开启float后 div上浮 但不会遮住span中的文本 */</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token selector">.content</span><span class="token punctuation">&#123;</span>
+           
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 可知行内元素开启float 脱离文档流后 特点变得和块元素一样 */</span>
+        <span class="token punctuation">&#125;</span>
+
+ <span class="token selector">&lt;span class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae enim officia dolore non dolor eligendi maxime et quis, accusamus laborum pariatur praesentium, saepe dolores ipsa est libero delectus itaque ullam!&lt;/span>
+ &lt;div class="demo">&lt;/div>
+
+.test1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 未开启float时 div默认独占一行 不主动设置宽高的时候 div宽度默认100% 高度由内容撑开 */</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 开启float 后 块级元素div 脱离文档流 此时元素的宽高默认由内容撑开 */</span>
+        <span class="token punctuation">&#125;</span>
+ &lt;div class=<span class="token string">"test1"</span>>
+        我是一个类名为 test1 的div
+        &lt;div class=<span class="token string">"test2"</span>>我是在test1类里的div&lt;/div>
+  &lt;/div>
+
+
+脱离文档流的特点：
+                    块元素：
+                        1、块元素不在独占页面的一行
+                        2、脱离文档流以后，块元素的宽度和高度默认都被内容撑开
+
+                    行内元素：
+                        行内元素脱离文档流以后会变成块元素，特点和块元素一样
+
+                    脱离文档流以后，不需要再区分块和行内了
+
+PPS ： float元素 默认宽高均由内容撑开 但也可以手动设置宽高 此时不再区分块元素和内联元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="3-高度塌陷问题"><a href="#3-高度塌陷问题" class="headerlink" title="3.高度塌陷问题"></a>3.高度塌陷问题</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">在普通布局中 外层的块级元素高度默认由内部的块级元素高度撑开 但若父元素内部的子元素开启浮动后 父元素高度将丢失
+
+        .box1</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* 1.不设置宽高 默认其由子元素撑开 */</span>
+            <span class="token comment">/* 2.设置边框 */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 5px red solid<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.box2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.此时子元素将父元素撑开 */</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.开启子元素浮动后 子元素脱离文档流 将无法撑开父元素高度 */</span>
+        <span class="token punctuation">&#125;</span>
+	 &lt;div class=<span class="token string">"box1"</span>>
+        &lt;div class=<span class="token string">"box2"</span>>&lt;/div>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="4-BFC（块级格式化环境）解决高度塌陷问题"><a href="#4-BFC（块级格式化环境）解决高度塌陷问题" class="headerlink" title="4.BFC（块级格式化环境）解决高度塌陷问题"></a>4.BFC（块级格式化环境）解决高度塌陷问题</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"> <span class="token selector">BFC(Block Formatting Context) 块级格式化环境
+                    - BFC是一个CSS中的一个隐含的属性，可以为一个元素开启BFC
+                        开启BFC该元素会变成一个独立的布局区域
+                    - 元素开启BFC后的特点：
+                        1.开启BFC的元素不会被浮动元素所覆盖
+                        2.开启BFC的元素子元素和父元素外边距不会重叠
+                        3.开启BFC的元素可以包含浮动的子元素
+
+                    - 可以通过一些特殊方式来开启元素的BFC：
+                        1、设置元素的浮动（不推荐）
+                        2、将元素设置为行内块元素（不推荐）
+                        3、将元素的overflow设置为一个非visible的值
+                            - 常用的方式 为元素设置 overflow:hidden 开启其BFC 以使其可以包含浮动元素
+ .box1</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* 1.不设置宽高 默认其由子元素撑开 */</span>
+            <span class="token comment">/* 2.设置边框 */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 5px red solid<span class="token punctuation">;</span>
+            <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+            <span class="token comment">/* 5.父元素开启 BFC 使其可以包含浮动元素 此时父元素不会被浮动元素遮挡*/</span>
+            
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.box2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.此时子元素将父元素撑开 */</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.开启子元素浮动后 子元素脱离文档流 将无法撑开父元素高度 浮动的子元素遮挡住了父元素*/</span>
+        <span class="token punctuation">&#125;</span>
+ <span class="token selector">&lt;div class="box1">
+        &lt;div class="box2">&lt;/div>
+ &lt;/div>
+
+
+BFC   解决外边距重叠问题
+ .demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.父元素开启BFC 父元素的外边距与子元素的外边距不重叠 实现子元素在父元素中下移 而父元素不下移 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> skyblue<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.此时子元素与父元素的外边距重叠 */</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.此时父元素 与 子元素 一起下移*/</span>
+        <span class="token punctuation">&#125;</span>
+
+ &lt;div class=<span class="token string">"demo1"</span>>
+        &lt;div class=<span class="token string">"demo2"</span>>&lt;/div>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="5-clear"><a href="#5-clear" class="headerlink" title="5.clear"></a>5.clear</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">在普通的块级元素的垂直布局中 若文档流中有元素由于浮动脱离文档流后 该元素之和的文档流元素位置将发生移动 
+	若不希望元素受到浮动的影响 可使用clear 属性清除浮动元素产生的影响
+clear
+                    - 作用：清除浮动元素对当前元素所产生的影响
+                    - 可选值：
+                        left 清除左侧浮动元素对当前元素的影响
+                        right 清除右侧浮动元素对当前元素的影响
+                        both 清除两侧中最大影响的那侧
+
+                    原理：
+                        设置清除浮动以后，浏览器会自动为元素添加一个上外边距，
+                            以使其位置不受其他元素的影响
+
+ 		.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.此时demo1开启浮动 文档流中其后的demo2 和 demo3 位置将发生移动 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> skyblue<span class="token punctuation">;</span>
+            <span class="token property">clear</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.demo2 开启clear ：left 清除其前面元素demo1 左浮带来的影响 */</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.此时demo2 开启右浮 demo3位置发生改变 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+            <span class="token property">clear</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+            <span class="token comment">/* demo3 开启 clear ： right 消除demo2右浮的影响 */</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo1"</span>>1&lt;/div>
+&lt;div class=<span class="token string">"demo2"</span>>2&lt;/div>
+&lt;div class=<span class="token string">"demo3"</span>>3&lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="6-clearfix解决高度塌陷"><a href="#6-clearfix解决高度塌陷" class="headerlink" title="6.clearfix解决高度塌陷"></a>6.clearfix解决高度塌陷</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* 1.demo不设置宽高 默认其的高度由子元素撑开 此时默认width为100% */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 5px red solid<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.test</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.开启子元素浮动 父元素高度塌陷 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo::after</span><span class="token punctuation">&#123;</span>
+            <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token property">clear</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.使用伪类选择器 在父元素的最后加入内容
+                    加入的内容为：
+                        1.''空字符串
+                        2.将这个字符串转换成block元素
+                        3.因为这个字符串元素在浮动元素test后面 使用clear 清除浮动影响
+                        使用clear相当于在这个字符串元素身上加上了 margin-top 高度为test的高度 所以此时父元素相当于被这个字符串元素撑开
+            
+            这里也不推荐使用block 推荐使用table
+            */</span>
+        <span class="token punctuation">&#125;</span>
+
+&lt;div class=<span class="token string">"demo"</span>>
+	 &lt;div class=<span class="token string">"test"</span>>&lt;/div>
+&lt;/div>
+
+
+最终的clearfix样式：
+<span class="token comment">/* clearfix 这个样式可以同时解决高度塌陷和外边距重叠的问题，当你在遇到这些问题时，直接使用clearfix这个类即可 */</span>
+        <span class="token selector">.clearfix::before,
+        .clearfix::after</span><span class="token punctuation">&#123;</span>
+            <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> table<span class="token punctuation">;</span>
+            <span class="token property">clear</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+PS：这里将字符串元素转换成table类型 是因为block不能讲父子元素的外边距分离开
+	而采用table可以实现外间距分离和高度塌陷
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">LK</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/02/27/006-文档流-盒模型/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">006-文档流-盒模型 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/author.jpg" class="author-img">
+
+<p class="author-name">LK</p>
+<p class="author-description">学习如何高效的摸鱼！</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>10</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>4</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">7</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-01</div>
+        <a href="/2022/03/01/007-float布局/"><div class="recent-posts-item-content">007-float布局</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-27</div>
+        <a href="/2022/02/27/006-文档流-盒模型/"><div class="recent-posts-item-content">006-文档流-盒模型</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-27</div>
+        <a href="/2022/02/27/005-样式继承-选择器权重-单位-颜色/"><div class="recent-posts-item-content">005-样式继承-选择器权重-单位-颜色</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-26</div>
+        <a href="/2022/02/26/004-CSS选择器/"><div class="recent-posts-item-content">004-CSS选择器</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">简笔 </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
