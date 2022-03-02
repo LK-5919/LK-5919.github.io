@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="LK的个人博客">
+  <link rel="icon" href="/img/logo.png">
+  <title>009-字体和图标</title>
+  
+  
+  <meta property="og:title" content="009-字体和图标">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/02/009-%E5%AD%97%E4%BD%93%E5%92%8C%E5%9B%BE%E6%A0%87/index.html">
+  
+  
+  <meta property="og:img" content="/img/author.jpg">
+  
+  
+  <meta property="og:img" content="字体与图标">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-02">
+  <meta property="og:article:modified_time" content="2022-03-03">
+  <meta property="og:article:author" content="LK">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/logo.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">简笔</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      009-字体和图标
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-02T13:41:18.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-02</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.8k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="1-默认字体格式"><a href="#1-默认字体格式" class="headerlink" title="1.默认字体格式"></a>1.默认字体格式</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">设置网页字体属性 
+	1. color 设置元素的字体颜色
+	2. font-size 设置字体的大小 单位 px em（以父元素为标准） rem（以根元素body为标准）
+		1em / 1rem =1默认字体大小
+	3. font-family 字体族 设置字体的样式 
+		可选值 ： serif 衬线字体 ； sans-serif 非衬线字体 ； monospace 等宽字体 ；
+		font-family 可同时指定多个字体 多个字体间用 , 隔开 字体生效时优先使用第一个 往后以此类推
+	4. font-weight 字重 设置字体的加粗
+		可选值 ： normal 默认值； bold 加粗； 
+	5. font-style 字体风格
+		可选值 ： normal 默认值； italic 斜体；
+		
+.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置demo1 字体颜色 */</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> skyblue<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置demo1 字体大小 */</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 18px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置demo1 字体样式 非衬线字体*/</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> sans-serif<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 1em<span class="token punctuation">;</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> monospace<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.demo3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 2rem<span class="token punctuation">;</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> serif<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+
+<span class="token selector">字体的简写格式
+font 可以设置字体相关的所有属性 语法： font: 字体大小/行高 字体族 行高 可以省略不写 如果不写使用默认值
+	 p</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 30px/40px monospace<span class="token punctuation">;</span>
+            <span class="token comment">/* 将字体设置为 大小为 30px 行高为40px 字体族为等宽字体 */</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> italic bold 30px serif<span class="token punctuation">;</span>
+            <span class="token comment">/* 将字体设置为 斜体 粗体 大小为30px 行高默认 字体族为衬线字体 */</span>
+        <span class="token punctuation">&#125;</span>
+&lt;p>遇沉沉不语之士，且莫输心；见悻悻自好之人，应须防口。 --菜根谭·概论&lt;/p><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-使用自定义字体格式"><a href="#2-使用自定义字体格式" class="headerlink" title="2.使用自定义字体格式"></a>2.使用自定义字体格式</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">在 &lt;style> 标签中导入自已的字体样式资源
+
+	<span class="token atrule"><span class="token rule">@font-face</span></span><span class="token punctuation">&#123;</span>
+        <span class="token comment">/* 指定字体在网页中使用时的名字 */</span>
+        <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'自己起的字体名字'</span><span class="token punctuation">;</span>
+        <span class="token property">src</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'字体所在的路径'</span><span class="token punctuation">)</span></span> <span class="token function">format</span><span class="token punctuation">(</span><span class="token string">"truetype"</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.demo4</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 1em<span class="token punctuation">;</span>
+            <span class="token comment">/* 使用自定义字体样式 */</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> myfont<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="3-矢量图标–Awesome的使用"><a href="#3-矢量图标–Awesome的使用" class="headerlink" title="3.矢量图标–Awesome的使用"></a>3.矢量图标–Awesome的使用</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">1.下载 <span class="token property">https</span><span class="token punctuation">:</span>//fontawesome.com/
+            2.解压
+            3.将css和webfonts移动到项目中
+            4.将all.css引入到网页中
+            5.使用图标字体
+                - 直接通过类名来使用图标字体
+                    class=<span class="token string">"fas fa-bell"</span>
+                    class=<span class="token string">"fab fa-accessible-icon"</span>
+PS ： class 中 只有fas 和 fab 是免费的 当图标字体加载不出来的应在fas 和 fab 中切换尝试
+
+&lt;link rel=<span class="token string">"stylesheet"</span> href=<span class="token string">"./fa/css/all.css"</span>>
+
+方法1：
+ &lt;!-- 通过直接在标签类名使用图标 -->
+    &lt;i class=<span class="token string">"fas fa-spider"</span> style=<span class="token string">"font-size: 40px; color: red;"</span>>&lt;/i>
+
+方法2：
+ &lt;!-- 通过使用实体编码使用图标  &amp;#x实体编码<span class="token punctuation">;</span> -->
+    &lt;i class=<span class="token string">"fas"</span> style=<span class="token string">"font-size: 25px;"</span>>&amp;#xf6be<span class="token selector">;&lt;/i>
+
+方法3：在伪元素选择器中使用图标
+p::before</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* 使用 \ 加实体编码 作为图标的表示 */</span>
+            <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'\f0a4'</span><span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token comment">/* 必须指定图标族名 Font Awesome 5 Brands/Free 二选一 */</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'Font Awesome 5 Free'</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">p::after</span><span class="token punctuation">&#123;</span>
+            <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'\f0a5'</span><span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'Font Awesome 5 Free'</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    &lt;p>
+        好一似今朝沦落人，且回首往昔荣华日。 --鼻子
+    &lt;/p><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="4-阿里字体库使用–iconfont"><a href="#4-阿里字体库使用–iconfont" class="headerlink" title="4.阿里字体库使用–iconfont"></a>4.阿里字体库使用–iconfont</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">1.在阿里图标库官网选择需要的图标 添加至项目 下载项目并解压
+2.将文件放入网页静态资源中 通过 link 引入样式 iconfont.css 文件
+3.使用方法和Awesome基本一致 在标签中使用时类名均为 iconfont
+	&lt;link rel=<span class="token string">"stylesheet"</span> href=<span class="token string">"./MyiconFont/iconfont.css"</span>>
+
+方法1：
+	&lt;!-- 使用标签类名使用图标 -->
+    &lt;i class=<span class="token string">"iconfont icon-a-1"</span>>&lt;/i>
+
+方法2：
+    &lt;!-- 使用实体编码使用图标 -->
+    &lt;i class=<span class="token string">"iconfont"</span>>&amp;#xe733<span class="token selector">;&lt;/i>
+
+方法3：
+ p::before</span><span class="token punctuation">&#123;</span>
+     		<span class="token comment">/* 转义编码为实体编码&amp;#x 后的字符 */</span>
+            <span class="token property">content</span><span class="token punctuation">:</span> <span class="token string">'\e73f'</span><span class="token punctuation">;</span>
+            <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'iconfont'</span><span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+ 	&lt;p>
+        万物皆有裂痕，那是光照进来的地方。 --颂歌
+    &lt;/p><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="5-行高"><a href="#5-行高" class="headerlink" title="5.行高"></a>5.行高</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">行高指文字占有的实际高度 可通过 line-height 指定行高
+行高可以直接指定一个大小（px em）
+                        也可以直接为行高设置一个整数
+                            如果是一个整数的话，行高将会是字体的指定的倍数
+ 行间距 = 行高 - 字体大小
+ 字体框 - 字体框就是字体存在的格子，设置font-size实际上就是在设置字体框的高度
+ 			行高会在字体框的上下平均分配
+
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* 设置字体大小 */</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置边框 */</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置行高 */</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.此时文字和行高一致 若此时文字的行高小于字体大小的话 文字将叠在一起 */</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 60px<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.此时行高大于字体大小 即实际上文字的高度小于文字所在行的高度 此时可见文本行间距较大 */</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo"</span>>
+        但使文章有风骨，岂凭时间庸人辱。 --知乎Lorem ipsum<span class="token punctuation">,</span> dolor sit amet consectetur adipisicing elit. Corrupti iste reiciendis aliquid consectetur porro autem aut recusandae odit<span class="token punctuation">,</span> sint<span class="token punctuation">,</span> quis adipisci odio obcaecati quas maxime ducimus exercitationem est! Repellat<span class="token punctuation">,</span> ad.
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="6-文本的样式"><a href="#6-文本的样式" class="headerlink" title="6.文本的样式"></a>6.文本的样式</h2><h3 id="1-文本水平，垂直对齐"><a href="#1-文本水平，垂直对齐" class="headerlink" title="1.文本水平，垂直对齐"></a>1.文本水平，垂直对齐</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">text-align 属性可设置文本的水平对齐方式
+	可选值：left 左对齐；right 右对齐；center 居中对齐； justify 两端对齐；
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 30px monospace<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.居中对齐 */</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.居左对齐 */</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> justify<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.两端对齐 */</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.居右对齐 */</span>
+        <span class="token punctuation">&#125;</span>
+
+<span class="token selector">vertical-align 属性设置元素的垂直对齐方式
+	可选值： baseline 默认值 基线对齐
+			top 顶部对齐
+			bottom 底部对齐
+			middle 居中对齐
+
+		.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 50px monospace<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 2px red solid<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">span</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px blue solid<span class="token punctuation">;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 30px serif<span class="token punctuation">;</span>
+            <span class="token property">vertical-align</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.设置基线对齐 默认值 */</span>
+            <span class="token property">vertical-align</span><span class="token punctuation">:</span> top<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.设置垂直顶部对齐 此时span元素在行间以父元素的顶部对齐 */</span>
+            <span class="token property">vertical-align</span><span class="token punctuation">:</span> bottom<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.设置垂直底部对齐 此时span 元素在行间以父元素的底部对齐 底部对齐低于基线对齐 */</span>
+            <span class="token property">vertical-align</span><span class="token punctuation">:</span> middle<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.设置垂直居中对齐 此时span元素在行间以父元素中的x的中心点为基准对齐*/</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo1"</span>>
+        上善若水，水善利万物而不争。x&lt;span>Hellox督导室覅女卫&lt;/span> --老子·道经·第八章
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-文本修饰"><a href="#2-文本修饰" class="headerlink" title="2.文本修饰"></a>2.文本修饰</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">text-decoration 设置文本修饰
+	可选值：none 什么都没有； underline 下划线； line-through 删除线； overline 上划线；
+
+ .demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 30px monospace<span class="token punctuation">;</span>
+            <span class="token property">text-decoration</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.text-decoration : none 此时文本无效果 */</span>
+            <span class="token property">text-decoration</span><span class="token punctuation">:</span> line-through<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.删除线效果 */</span>
+            <span class="token property">text-decoration</span><span class="token punctuation">:</span> underline<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.下划线效果 */</span>
+            <span class="token property">text-decoration</span><span class="token punctuation">:</span> overline<span class="token punctuation">;</span>
+            <span class="token comment">/* 4上划线效果 */</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token selector">&lt;div class="demo1">
+        凡事都有一个与一望而知不同的真相 --约翰·勒卡雷
+    &lt;/div>
+
+white-space 设置网页如何处理空白
+	可选值： normal 正常 默认值； nowrap 不换行； pre 保留空白；
+
+ .demo2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">font</span><span class="token punctuation">:</span> 30px sans-serif<span class="token punctuation">;</span>
+            <span class="token property">white-space</span><span class="token punctuation">:</span> normal<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.normal 正常 此时网页解析时 多个空格解析成一个空格 */</span>
+            <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.nowrap 不换行 此时网页解析时文本段不换行 */</span>
+            <span class="token property">white-space</span><span class="token punctuation">:</span> pre<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.pre 保留空白 此时网页解析时按照编辑器里文本的格式解析*/</span>
+        <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo2"</span>>没有人愿意承认自己是孤独的，孤独很可耻。            
+           --此间的少年Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis eos praesentium repellendus<span class="token punctuation">,</span> facilis iure ullam accusamus? Quis<span class="token punctuation">,</span> culpa numquam itaque voluptatem ullam magni tenetur<span class="token punctuation">,</span> asperiores consequuntur necessitatibus nostrum ut dolores!
+        &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">LK</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/02/009-%E5%AD%97%E4%BD%93%E5%92%8C%E5%9B%BE%E6%A0%87/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/02/009-%E5%AD%97%E4%BD%93%E5%92%8C%E5%9B%BE%E6%A0%87/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/01/008-position布局/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">008-position布局 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%BB%98%E8%AE%A4%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.默认字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">2.使用自定义字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E2%80%93Awesome%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">3.矢量图标–Awesome的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%98%BF%E9%87%8C%E5%AD%97%E4%BD%93%E5%BA%93%E4%BD%BF%E7%94%A8%E2%80%93iconfont"><span class="toc-text">4.阿里字体库使用–iconfont</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%A1%8C%E9%AB%98"><span class="toc-text">5.行高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%87%E6%9C%AC%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="toc-text">6.文本的样式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%87%E6%9C%AC%E6%B0%B4%E5%B9%B3%EF%BC%8C%E5%9E%82%E7%9B%B4%E5%AF%B9%E9%BD%90"><span class="toc-text">1.文本水平，垂直对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E6%9C%AC%E4%BF%AE%E9%A5%B0"><span class="toc-text">2.文本修饰</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/author.jpg" class="author-img">
+
+<p class="author-name">LK</p>
+<p class="author-description">学习如何高效的摸鱼！</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>12</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>4</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%BB%98%E8%AE%A4%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.默认字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">2.使用自定义字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E2%80%93Awesome%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">3.矢量图标–Awesome的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%98%BF%E9%87%8C%E5%AD%97%E4%BD%93%E5%BA%93%E4%BD%BF%E7%94%A8%E2%80%93iconfont"><span class="toc-text">4.阿里字体库使用–iconfont</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%A1%8C%E9%AB%98"><span class="toc-text">5.行高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%87%E6%9C%AC%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="toc-text">6.文本的样式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%87%E6%9C%AC%E6%B0%B4%E5%B9%B3%EF%BC%8C%E5%9E%82%E7%9B%B4%E5%AF%B9%E9%BD%90"><span class="toc-text">1.文本水平，垂直对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E6%9C%AC%E4%BF%AE%E9%A5%B0"><span class="toc-text">2.文本修饰</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%BB%98%E8%AE%A4%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">1.默认字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-text">2.使用自定义字体格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%9F%A2%E9%87%8F%E5%9B%BE%E6%A0%87%E2%80%93Awesome%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">3.矢量图标–Awesome的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%98%BF%E9%87%8C%E5%AD%97%E4%BD%93%E5%BA%93%E4%BD%BF%E7%94%A8%E2%80%93iconfont"><span class="toc-text">4.阿里字体库使用–iconfont</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%A1%8C%E9%AB%98"><span class="toc-text">5.行高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%87%E6%9C%AC%E7%9A%84%E6%A0%B7%E5%BC%8F"><span class="toc-text">6.文本的样式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%87%E6%9C%AC%E6%B0%B4%E5%B9%B3%EF%BC%8C%E5%9E%82%E7%9B%B4%E5%AF%B9%E9%BD%90"><span class="toc-text">1.文本水平，垂直对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E6%9C%AC%E4%BF%AE%E9%A5%B0"><span class="toc-text">2.文本修饰</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-02</div>
+        <a href="/2022/03/02/009-字体和图标/"><div class="recent-posts-item-content">009-字体和图标</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-01</div>
+        <a href="/2022/03/01/008-position布局/"><div class="recent-posts-item-content">008-position布局</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-01</div>
+        <a href="/2022/03/01/007-float布局/"><div class="recent-posts-item-content">007-float布局</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-02-27</div>
+        <a href="/2022/02/27/006-文档流-盒模型/"><div class="recent-posts-item-content">006-文档流-盒模型</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">简笔 </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
