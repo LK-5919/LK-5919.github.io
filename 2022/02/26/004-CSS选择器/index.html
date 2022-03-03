@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-02-26">
-  <meta property="og:article:modified_time" content="2022-02-27">
+  <meta property="og:article:modified_time" content="2022-03-03">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -149,7 +149,7 @@
       
       <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
       
-      <span class="navbar-logo-dsc">Todo</span>
+      <span class="navbar-logo-dsc">Codeing</span>
     </span>
   </div>
   <div class="navbar-menu">
@@ -217,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>1.9k 字</span>
+    <span>2.7k 字</span>
     
   </div>
   
@@ -252,7 +252,7 @@
 --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>这是css文件路径<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-在实际开发中推荐使用方式3 可是css文件实现复用
+在实际开发中推荐使用方式3 css文件可实现复用
 
 css文件中的注释符号为  /*  这是注释 */<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="2-CSS选择器"><a href="#2-CSS选择器" class="headerlink" title="2.CSS选择器"></a>2.CSS选择器</h2><h3 id="1-常用选择器"><a href="#1-常用选择器" class="headerlink" title="1.常用选择器"></a>1.常用选择器</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">（1）元素选择器：根据标签名选中指定元素 页面中所有该元素的标签都有效
@@ -297,46 +297,102 @@ div.box</span><span class="token punctuation">&#123;</span>
     这是一个并集选择器 同时选中div，span，h1 三种标签
     <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="3-关系选择器"><a href="#3-关系选择器" class="headerlink" title="3.关系选择器"></a>3.关系选择器</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css">		<span class="token selector">父元素
-            - 直接包含子元素的元素叫做父元素
-        子元素
-            - 直接被父元素包含的元素是子元素
-        祖先元素
-            - 直接或间接包含后代元素的元素叫做祖先元素
-            - 一个元素的父元素也是它的祖先元素
-        后代元素
-            - 直接或间接被祖先元素包含的元素叫做后代元素
-            - 子元素也是后代元素
-        兄弟元素
-            - 拥有相同父元素的元素是兄弟元素
-	 
-		（1）子元素选择器：选中指定父元素中的指定子元素
+<h3 id="3-关系选择器"><a href="#3-关系选择器" class="headerlink" title="3.关系选择器"></a>3.关系选择器</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css">父元素
+          - 直接包含子元素的元素叫做父元素
+      子元素
+          - 直接被父元素包含的元素是子元素
+      祖先元素
+          - 直接或间接包含后代元素的元素叫做祖先元素
+          - 一个元素的父元素也是它的祖先元素
+      后代元素
+          - 直接或间接被祖先元素包含的元素叫做后代元素
+          - 子元素也是后代元素
+      兄弟元素
+          - 拥有相同父元素的元素是兄弟元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="1-子元素选择器"><a href="#1-子元素选择器" class="headerlink" title="1.子元素选择器"></a>1.子元素选择器</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">（1）子元素选择器：选中指定父元素中的指定子元素
 			语法：父元素 > 子元素
 div.box > span</span> <span class="token punctuation">&#123;</span>
-    选中类名为box的div中的span在子元素
-    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-		<span class="token selector">(2)后代元素选择器：选中指定元素中的后代元素
-			语法：祖先 后代
-div span</span><span class="token punctuation">&#123;</span>
-    选中div中的span所有后代
-    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-	<span class="token punctuation">(</span>3<span class="token punctuation">)</span>选择下一个兄弟
-			<span class="token property">语法</span><span class="token punctuation">:</span>前一个 + 下一个
-	   选择下边所有兄弟
-			语法：兄 ~ 弟
- <span class="token comment">/* 选中类名叫demo的div中的第一个子元素的下一个兄弟 */</span>
-          <span class="token selector">#test + span</span> <span class="token punctuation">&#123;</span>
-              <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+    <span class="token comment">/* 选中类名为box的div中的所有span子元素 只选中子元素*/</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token selector">;span</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.给所有span元素设置颜色 */</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token selector">.demo1 > span</span><span class="token punctuation">&#123;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.选择demo1 中下属的直接子元素（不包括子元素的后代） 可见只有demo1
+                下的子元素才有效果 demo1的孙子元素及其以后未被选中！
+            */</span>
           <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
-  <span class="token comment">/* 选中test后面的所有兄弟 */</span>
-          <span class="token selector">#test ~ span</span><span class="token punctuation">&#123;</span>
-              <span class="token property">font-size</span><span class="token punctuation">:</span> 40px<span class="token punctuation">;</span>
-          <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&lt;div class=<span class="token string">"demo1"</span>>
+        &lt;span>Span #1<span class="token punctuation">,</span> in the div.
+            &lt;span>Span #2<span class="token punctuation">,</span> in the span that's in the div.&lt;/span>
+          &lt;/span>
+          &lt;span>我是demo中的第三个span子元素&lt;/span>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-后代元素选择器"><a href="#2-后代元素选择器" class="headerlink" title="2.后代元素选择器"></a>2.后代元素选择器</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">(2)后代元素选择器：选中指定元素中的后代元素
+			语法：祖先 后代
+ 		span</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.给所有span元素设置颜色 */</span>
+            <span class="token punctuation">&#125;</span>
+		 <span class="token selector">em</span><span class="token punctuation">&#123;</span>
+                <span class="token property">color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
+        	<span class="token punctuation">&#125;</span>
+<span class="token selector">.demo2 span</span><span class="token punctuation">&#123;</span>
+              <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+              <span class="token comment">/* 可知此时选中了demo2中的所有span后代元素 包括demo2子元素的后代 
+                这一点适合子元素选择器不一样的
+                demo2中的后代em元素未被选中
+              */</span>
+          <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo2"</span>>
+        &lt;span>
+            深情隐现眉宇间，他人已知我相思。 --阴阳师
+            &lt;span>
+                深情隐现眉宇间，他人已知我相思。 --阴阳师
+            &lt;/span>
+        &lt;/span>
+        &lt;span>
+            深情隐现眉宇间，他人已知我相思。 --阴阳师
+            &lt;span>
+                深情隐现眉宇间，他人已知我相思。 --阴阳师
+                &lt;em>
+                    深情隐现眉宇间，他人已知我相思。 --阴阳师
+                &lt;/em>
+            &lt;/span>
+        &lt;/span>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="3-下一个兄弟元素选择器"><a href="#3-下一个兄弟元素选择器" class="headerlink" title="3.下一个兄弟元素选择器"></a>3.下一个兄弟元素选择器</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">(3)选择下一个兄弟
+			语法:前一个 + 下一个
+  .demo3 > :nth-child(2) + li</span><span class="token punctuation">&#123;</span>
+              <span class="token comment">/* 选中demo3 的所有后代元素中的第2个后代 的下一个元素 */</span>
+              <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+              <span class="token comment">/* 可知兄弟选择器只选中第三个li子元素 即兄弟元素选择器选择指定的
+                    元素的下一个元素
+              */</span>
+          <span class="token punctuation">&#125;</span>
+&lt;ul class=<span class="token string">"demo3"</span>>
+        &lt;li>南风知我意，吹梦到西洲。 --西洲曲&lt;/li>
+        &lt;li>南风知我意，吹梦到西洲。 --西洲曲&lt;/li>
+        &lt;li>南风知我意，吹梦到西洲。 --西洲曲&lt;/li>
+        &lt;li>南风知我意，吹梦到西洲。 --西洲曲&lt;/li>
+    &lt;/ul><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="4-所有兄弟元素选择器"><a href="#4-所有兄弟元素选择器" class="headerlink" title="4.所有兄弟元素选择器"></a>4.所有兄弟元素选择器</h4><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">（4）选择下边所有兄弟
+			语法：兄 ~ 弟
+ #one ~ span</span><span class="token punctuation">&#123;</span>
+              <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+              <span class="token comment">/* 此时选中了 id 名为 one 的span元素后面同级的span兄弟（不包括兄弟的后代）   */</span>
+          <span class="token punctuation">&#125;</span>
+&lt;div class=<span class="token string">"demo4"</span>>
+        &lt;span id=<span class="token string">"one"</span>>曾经沧海难为水，除却巫山不是云。 --离思五首·其四&lt;/span>&lt;br>
+        &lt;span id=<span class="token string">"two"</span>>曾经沧海难为水，除却巫山不是云。 --离思五首·其四
+            &lt;span id=<span class="token string">"three"</span>>曾经沧海难为水，除却巫山不是云。 --离思五首·其四&lt;/span>
+        &lt;/span>
+        &lt;br>
+        &lt;span id=<span class="token string">"four"</span>>曾经沧海难为水，除却巫山不是云。 --离思五首·其四&lt;/span>
+    &lt;/div><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="4-属性选择器"><a href="#4-属性选择器" class="headerlink" title="4.属性选择器"></a>4.属性选择器</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">属性选择器：选择指定属性的标签元素
 		语法：（1）[属性名=属性值] 选择含有指定属性和指定元素值的标签
 如 p[name="box"]</span><span class="token punctuation">&#123;</span>
@@ -404,7 +460,29 @@ div span</span><span class="token punctuation">&#123;</span>
         <span class="token comment">/* 使用伪类选择器 选择 类名为demo 的ul 中的除最后一个span子元素 */</span>
         <span class="token selector">.demo > span:not(:last-child)</span><span class="token punctuation">&#123;</span>
            <span class="token property">font-size</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        <span class="token punctuation">&#125;</span>
+
+<span class="token selector">example： 
+.first span:nth-child(2n+1)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">/* 此时选择的是first类中的所有后代中 排在奇数位的span元素 
+    	即如果此时first类中第三个直接子元素不是span类型的元素则不被选中
+    也就是所除了span元素外的后代元素也参与排列
+    */</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">.first span:nth-of-type(2n+1)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">/* 此时选中的是first类中的所有后代 排在奇数位的span元素
+    	但是此时只有后代元素是span类型才参与排列
+    */</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">div:only-child</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">/* 此时选择只有一个孩子元素的div中的孩子 */</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">main:only-of-type</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">/* 此时选中mian标签中 所有没有同类型兄弟的后代元素 */</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="6-元素的伪类"><a href="#6-元素的伪类" class="headerlink" title="6.元素的伪类"></a>6.元素的伪类</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css">元素的伪类： 用于指定特殊元素 
 			如 a标签的 link visited（这两个只有a标签能用） hover active
   		<span class="token comment">/* 
@@ -535,7 +613,7 @@ div span</span><span class="token punctuation">&#123;</span>
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.子元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%90%8E%E4%BB%A3%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.后代元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.下一个兄弟元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.所有兄弟元素选择器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -568,7 +646,7 @@ div span</span><span class="token punctuation">&#123;</span>
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.子元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%90%8E%E4%BB%A3%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.后代元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.下一个兄弟元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.所有兄弟元素选择器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
     </div>
   </article>
   
@@ -634,7 +712,7 @@ div span</span><span class="token punctuation">&#123;</span>
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-CSS%E8%AF%AD%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="toc-text">1.CSS语法简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%B8%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.常用选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%8D%E5%90%88%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.复合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B3%E7%B3%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.关系选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">1.子元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%90%8E%E4%BB%A3%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">2.后代元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%8B%E4%B8%80%E4%B8%AA%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">3.下一个兄弟元素选择器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E5%85%84%E5%BC%9F%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.所有兄弟元素选择器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">4.属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BC%AA%E7%B1%BB%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">5.伪类选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%85%83%E7%B4%A0%E7%9A%84%E4%BC%AA%E7%B1%BB"><span class="toc-text">6.元素的伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BC%AA%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">7.伪元素选择器</span></a></li></ol></li></ol>
   </article>
   
   
@@ -686,7 +764,7 @@ div span</span><span class="token punctuation">&#123;</span>
           2022
         </span>
         &nbsp;
-        <a href="/" class="footer-link">Todo </a>
+        <a href="/" class="footer-link">Codeing </a>
       </div>
     </div>
 
