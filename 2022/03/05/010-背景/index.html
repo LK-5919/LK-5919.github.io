@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>010-背景-颜色渐变</title>
+  
+  
+  <meta property="og:title" content="010-背景-颜色渐变">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/05/010-%E8%83%8C%E6%99%AF/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="背景-颜色渐变">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-05">
+  <meta property="og:article:modified_time" content="2022-03-05">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Codeing</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      010-背景-颜色渐变
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-05T07:34:08.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-05</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.9k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a>1.背景</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">background-color 设置背景颜色
+
+background-image 设置背景图片
+	可以同时设置背景颜色和背景图片 此时背景颜色会成为背景图片的背景色
+		1.如果背景图片小于当前的元素大小 背景图片会自动在元素中平铺
+		2.如果背景图大于元素 将会溢出父元素 溢出元素的背景无法显示
+		3.若背景图片和元素一样大 则会直接正常显示
+
+ background-repeat 用来设置背景的重复方式
+         可选值：
+                repeat 默认值 ， 背景会沿着x轴 y轴双方向重复
+                repeat-x 沿着x轴方向重复
+                repeat-y 沿着y轴方向重复
+                no-repeat 背景图片不重复
+
+ background-position 用来设置背景图片的位置
+                    设置方式：
+                        通过 top left right bottom center 几个表示方位的词来设置背景图片的位置
+                            使用方位词时必须要同时指定两个值，如果只写一个则第二个默认就是center
+
+                        通过偏移量来指定背景图片的位置：
+                            水平方向的偏移量 垂直方向变量
+
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+
+            <span class="token comment">/* 设置背景图片 */</span>
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'./img/1.png'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span>
+            <span class="token comment">/* 1.原背景图片 大小为  128* 128 此时背景图小于元素
+                此时背景图默认在元素中重复平铺展示
+            */</span>
+
+            <span class="token comment">/* width: 100px;
+            height: 100px; */</span>
+            <span class="token comment">/* 2.将元素大小修改成小于背景图 此时溢出元素的背景无法显示 */</span>
+
+            <span class="token comment">/* width: 128px;
+            height: 128px; */</span>
+            <span class="token comment">/* 3.此时元素与背景图大小一致 正常显示 */</span>
+
+            <span class="token property">background-repeat</span><span class="token punctuation">:</span> repeat<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.设置背景图的重复方式 此时背景图小于元素 
+            且重复方式为 repeat默认值 此时背景图水平垂直方向上均重复*/</span>
+
+            <span class="token comment">/* background-repeat: repeat-x; */</span>
+            <span class="token comment">/* 5.设置背景图重复方式为水平重复 此时垂直方向上无重复 */</span>
+
+            <span class="token comment">/* background-repeat: repeat-y; */</span>
+            <span class="token comment">/* 6.设置背景图垂直重复 此时背景图水平方向上无重复 */</span>
+
+            <span class="token property">background-repeat</span><span class="token punctuation">:</span> no-repeat<span class="token punctuation">;</span>
+            <span class="token comment">/* 7.设置背景图水平垂直方向上均无重复 */</span>
+
+            <span class="token property">background-position</span><span class="token punctuation">:</span> 0 0<span class="token punctuation">;</span>
+            <span class="token comment">/* 8.设置背景图偏移量来设置背景图的位置 此时 0 0 为默认值 
+                为父元素文档流中的位置 元素的内边距区开始计算
+            */</span>
+
+            <span class="token property">background-position</span><span class="token punctuation">:</span> 10px 20px<span class="token punctuation">;</span>
+            <span class="token comment">/* 9.第一个值为水平方向上的偏移（正值时图片向右移动）
+                第二个值为垂直方向上的偏移（正值时图片向下移动）
+            */</span>
+
+            <span class="token property">background-position</span><span class="token punctuation">:</span> center center<span class="token punctuation">;</span>
+            <span class="token comment">/* 10. 通过方位词来设置背景图的位置 */</span>
+
+        <span class="token punctuation">&#125;</span>
+
+<span class="token selector">background-clip 设置背景范围
+	可选值 : border-box 默认值 此时背景图会出现在边框的下边
+			padding-box 此时背景不会出现在边框下边 但会出现在内容区和内边距区
+			content-box 此时背景只会出现在内容区
+
+.demo</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px transparent solid<span class="token punctuation">;</span>
+            <span class="token comment">/* 给元素添加10px 的透明边框  */</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+            <span class="token comment">/* 给元素添加 10 px 的内边距区 */</span>
+            <span class="token property">background-clip</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.此时的background-clip 值为border-box 默认值 此时背景会出现在边框区 和 内边距区*/</span>
+            <span class="token property">background-clip</span><span class="token punctuation">:</span> padding-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.设置background-clip 值为 padding-box 
+            此时背景颜色不会出现在边框区 此时元素的外边框因背景透明不可见 */</span>
+            <span class="token property">background-clip</span><span class="token punctuation">:</span> content-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.设置背景颜色只出现在内容区 此时内边距区因背景透明不可见 */</span>
+
+        <span class="token punctuation">&#125;</span>
+
+<span class="token selector">backgroung-origin 设置背景图偏移量（background-position）的计算原点
+	可选值： padding-box 默认值 此时计算原点从内边距区处开始计算
+			content-box 背景图偏移量计算原点从内容区开始
+			border-box 背景图偏移量的计算原点从边框处开始计算
+
+background-size 设置背景图的大小 第一个值表示宽 第二个值表示高
+	若只写一个值 则默认第二个值是auto
+	cover --- 图片的比例不变 将元素铺满
+	contain --- 图片比例不变 将图片在元素中完整显示
+
+background-attachment 设置背景是否会跟随元素移动
+	可选值 : scroll 默认值此时背景图会跟随元素移动
+			fixed 背景图会固定在页面中 不会跟随元素移动
+
+.demo1</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 1920px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">'./img/2.jpg'</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span>
+            <span class="token comment">/* 此时背景图远大于元素 溢出部分无法显示 */</span>
+
+            <span class="token property">background-size</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token comment">/* 1.通过设置background-size 设置背景图的宽为500px 此时高等比例缩小
+            此时背景图在元素内平铺 效果和 contain 一致
+            */</span>
+
+            <span class="token property">background-size</span><span class="token punctuation">:</span> cover<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.图片的比例不变 将元素铺满 */</span>
+            <span class="token comment">/* background-size: contain; */</span>
+            <span class="token comment">/* 3.图片的比例不变 将图片在元素中完整显示 可能会出现重复平铺 */</span>
+            <span class="token property">background-repeat</span><span class="token punctuation">:</span> no-repeat<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.设置背景图不重复平铺 */</span>
+
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px solid red<span class="token punctuation">;</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+            <span class="token comment">/* 设置外边框个内边距 此时背景图延伸到内边距区 */</span>
+
+            <span class="token property">background-origin</span><span class="token punctuation">:</span> padding-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 5.设置背景图的偏移计算原地为内边距区 */</span>
+            <span class="token comment">/* background-position: 10px 10px; */</span>
+            
+            <span class="token property">background-origin</span><span class="token punctuation">:</span> content-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 6.设置背景图的偏移计算原点为内容区 */</span>
+
+            <span class="token property">background-origin</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+            <span class="token comment">/* 7.设置背景图偏移量计算原点为外边框区 */</span>
+
+            <span class="token property">background-attachment</span><span class="token punctuation">:</span> scroll<span class="token punctuation">;</span>
+            <span class="token comment">/* 8.设置背景图跟随元素移动 scroll 为默认值 */</span>
+
+            <span class="token property">background-attachment</span><span class="token punctuation">:</span> fixed<span class="token punctuation">;</span>
+            <span class="token comment">/* 9.设置背景图以原图大小固定在在页面中元素文档流的位置 
+                溢出的背景不可见 滑动页面元素移动时背景不会动
+                想象是移动画框 画固定在原地
+            */</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-背景色渐变"><a href="#2-背景色渐变" class="headerlink" title="2.背景色渐变"></a>2.背景色渐变</h2><h3 id="1-水平垂直线性渐变"><a href="#1-水平垂直线性渐变" class="headerlink" title="1.水平垂直线性渐变"></a>1.水平垂直线性渐变</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">渐变 ： 一个颜色向其他颜色过渡的效果 
+PS： 渐变是图片！！ 需通过background-image 来设置
+	linear-gradient 线性渐变 颜色沿着一条直线发生变化
+	线性渐变的开头 可以指定一个渐变的方向
+		to left ； to right ； to bottom ； to top ； to top left ...
+		deg --- 度数 ； turn --- 圈数 ；
+	渐变可以同时指定多个颜色 多个颜色情况下平均分布；
+		可以手动指定渐变的分布情况；
+
+.box2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>red<span class="token punctuation">,</span>green<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 设置线性渐变 从红色到绿色 默认情况上是 从上到下渐变 各占一半分布 */</span>
+
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>to right<span class="token punctuation">,</span>red<span class="token punctuation">,</span>yellow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 设置从左到右的线性渐变 从红色到绿色 */</span>
+
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>to left<span class="token punctuation">,</span> red<span class="token punctuation">,</span>yellow 50px<span class="token punctuation">,</span>gold 100px <span class="token punctuation">,</span>orange 150px<span class="token punctuation">,</span>grey 200px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 设置从左到右由红色开始渐变到黄色占50px 
+                再由黄色渐变到金色 占50px
+                再由金色渐变到橘色 占50px
+                再由橘色渐变到灰色 占50px
+            */</span>
+
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>90deg<span class="token punctuation">,</span> red<span class="token punctuation">,</span>yellow <span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 0度 时为从下到上渐变 90deg为顺时针旋转90度 此时为由红色到黄色 从左到右水平线性渐变*/</span>
+
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>0.25turn<span class="token punctuation">,</span>red<span class="token punctuation">,</span>yellow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 0turn为从下到上渐变  0.25turn相当于顺时针旋转90度*/</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-径向渐变"><a href="#2-径向渐变" class="headerlink" title="2.径向渐变"></a>2.径向渐变</h3><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">background-image：radial-gradient（） 可设置径向渐变（放射性效果）
+	默认情况下径向渐变的形状根据元素的形状来计算 正方形 --- 圆形； 长方形 --- 椭圆形；
+	也可以手动指定径向渐变的大小
+		1.circle ； 2.ellipse ； 
+	指定渐变的位置
+		radial-gradient（大小 at 位置 ， 颜色 位置， 颜色 位置，颜色 位置）
+				大小：circle 圆形；ellipse 椭圆形；closest-side 近边；closest-corner 近角； 
+					farthest-side 远边； farthest-corner 远角；
+ .box2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token function">radial-gradient</span><span class="token punctuation">(</span>circle at 50px 50px<span class="token punctuation">,</span>red<span class="token punctuation">,</span>yellow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">/* 设置径向渐变  */</span>
+        <span class="token punctuation">&#125;</span>
+详见参考官方文档  ： <span class="token property">https</span><span class="token punctuation">:</span>//developer.mozilla.org/zh-CN/docs/Web/CSS/gradient/<span class="token function">radial-gradient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/05/010-%E8%83%8C%E6%99%AF/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/05/010-%E8%83%8C%E6%99%AF/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/02/009-字体和图标/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">009-字体和图标 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1.背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%83%8C%E6%99%AF%E8%89%B2%E6%B8%90%E5%8F%98"><span class="toc-text">2.背景色渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E6%B8%90%E5%8F%98"><span class="toc-text">1.水平垂直线性渐变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BE%84%E5%90%91%E6%B8%90%E5%8F%98"><span class="toc-text">2.径向渐变</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>13</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>4</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1.背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%83%8C%E6%99%AF%E8%89%B2%E6%B8%90%E5%8F%98"><span class="toc-text">2.背景色渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E6%B8%90%E5%8F%98"><span class="toc-text">1.水平垂直线性渐变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BE%84%E5%90%91%E6%B8%90%E5%8F%98"><span class="toc-text">2.径向渐变</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">10</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%83%8C%E6%99%AF"><span class="toc-text">1.背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%83%8C%E6%99%AF%E8%89%B2%E6%B8%90%E5%8F%98"><span class="toc-text">2.背景色渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E7%BA%BF%E6%80%A7%E6%B8%90%E5%8F%98"><span class="toc-text">1.水平垂直线性渐变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%BE%84%E5%90%91%E6%B8%90%E5%8F%98"><span class="toc-text">2.径向渐变</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-05</div>
+        <a href="/2022/03/05/010-背景/"><div class="recent-posts-item-content">010-背景-颜色渐变</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-02</div>
+        <a href="/2022/03/02/009-字体和图标/"><div class="recent-posts-item-content">009-字体和图标</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-01</div>
+        <a href="/2022/03/01/008-position布局/"><div class="recent-posts-item-content">008-position布局</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-01</div>
+        <a href="/2022/03/01/007-float布局/"><div class="recent-posts-item-content">007-float布局</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Codeing </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
