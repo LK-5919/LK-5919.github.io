@@ -8,24 +8,24 @@
   <meta name="theme-color" content="#fff" id="theme-color">
   <meta name="description" content="_NULL0的个人博客">
   <link rel="icon" href="/img/blog.png">
-  <title>001-实体-meta标签</title>
+  <title>011-表格-表单</title>
   
   
-  <meta property="og:title" content="001-实体-meta标签">
+  <meta property="og:title" content="011-表格-表单">
   
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/index.html">
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/06/011-%E8%A1%A8%E6%A0%BC-%E8%A1%A8%E5%8D%95/index.html">
   
   
-  <meta property="og:img" content="/img/63127322_p0.png">
+  <meta property="og:img" content="/img/touxiang.png">
   
   
-  <meta property="og:img" content="实体/meta标签">
+  <meta property="og:img" content="表格和表单">
   
   
   <meta property="og:type" content="article">
-  <meta property="og:article:published_time" content="2022-02-23">
-  <meta property="og:article:modified_time" content="2022-02-23">
+  <meta property="og:article:published_time" content="2022-03-06">
+  <meta property="og:article:modified_time" content="2022-03-06">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -198,24 +198,16 @@
       <div class="container">
         <div class="columns">
           <main class="main-column">
-<div class="image-wrapper">
-  <img src="/img/63127322_p0.png" data-src="/img/63127322_p0.png"
-    srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
-    class="image lozad"
-    alt="thumbnail"
-  >
-</div>
-
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      001-实体-meta标签
+      011-表格-表单
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2022-02-22T16:39:46.000Z">
+    <time datetime="2022-03-06T12:31:14.000Z">
       <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
-      <span>2022-02-23</span>
+      <span>2022-03-06</span>
     </time>
     
     <span class="dot"></span>
@@ -225,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>493 字</span>
+    <span>1.1k 字</span>
     
   </div>
   
@@ -241,61 +233,165 @@
   
   </header>
   <div id="section" class="post-content">
-    <h2 id="1-HTML结构"><a href="#1-HTML结构" class="headerlink" title="1.HTML结构"></a>1.HTML结构</h2><p>​    HTML结构可分为以下三部分：</p>
-<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
-        <span class="token comment">&lt;!--在这里可以使用meta title标签 --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
-        
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="2-HTML5的标识"><a href="#2-HTML5的标识" class="headerlink" title="2.HTML5的标识"></a>2.HTML5的标识</h2><p>​    在html文件开头使用<!Doctype Html>标签来区分html4与5的区别</p>
-<p>​    <em>文档声明用来告诉浏览器当前网页的版本</em></p>
-<p>​        <em>- html5的文档声明</em></p>
-<pre class="line-numbers language-html" data-language="html"><code class="language-html"> <span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token name">doctype</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+    <h2 id="1-表格"><a href="#1-表格" class="headerlink" title="1.表格"></a>1.表格</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">使用 table 标签 在网页中创建表格
+	tr 标签表示表格中的一行
+	td 标签表示表格中的一个单元格
+		可在table标签中设置表格的边框属性 默认为没有边框
+		table是块元素 但是其默认的宽度不会是占满一行 而是由内容撑开 其他的由浏览器自动调整margin-right
 
-<span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token name">Doctype</span> <span class="token name">HTML</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h2 id="3-HTML编码字符集"><a href="#3-HTML编码字符集" class="headerlink" title="3.HTML编码字符集"></a>3.HTML编码字符集</h2><p>​    <em>常见的字符集：</em></p>
-<p>​        <em>ASCII</em></p>
-<p>​        <em>ISO88591</em></p>
-<p>​        <em>GB2312</em></p>
-<p>​        <em>GBK</em></p>
-<p>​        <em>UTF-8，在开发时我们使用的字符集都是UTF-8</em></p>
-<h2 id="4-meta标签"><a href="#4-meta标签" class="headerlink" title="4.meta标签"></a>4.meta标签</h2><p>​    该标签在主要用于设置一些网页中的元数据，元数据用于网站的搜索引擎检索，可以在此标签内指定网页的编码字符集，如下代码：</p>
-<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token comment">&lt;!-- 
-       meta主要用于设置网页中的一些元数据，元数据不是给用户看
-           charset 指定网页的字符集
-           name 指定的数据的名称
-           content 指定的数据的内容
+&lt;!-- 创建一个表格 -->
+    &lt;!-- 在table标签中 设置border边框属性 -->
+    &lt;table border=<span class="token string">"1px"</span> >
+        &lt;tr>
+            &lt;td>学号&lt;/td>
+            &lt;td>姓名&lt;/td>
+            &lt;td>年龄&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td>001&lt;/td>
+            &lt;td>gbfdhsj&lt;/td>
+            &lt;!-- 使用rowspan属性合并行单元格 -->
+            &lt;td  rowspan=<span class="token string">"2"</span>>man&lt;/td>
+        &lt;/tr>
+        &lt;tr>
+            &lt;td>001&lt;/td>
+            &lt;td>Kods&lt;/td>
+            
+        &lt;/tr>
+        &lt;tr>
+            &lt;td>001&lt;/td>
+            &lt;!-- 使用colspan属性设置列单元格合并 -->
+            &lt;td colspan=<span class="token string">"2"</span>>Kods&lt;/td>
+        &lt;/tr>
+    &lt;/table>
 
-            keywords 表示网站的关键字，可以同时指定多个关键字，关键字间使用,隔开
-                 
-             description 用于指定网站的描述
-                   
-              网站的描述会显示在搜索引擎的搜索的结果中
 
-               title标签的内容会作为搜索结果的超链接上的文字显示  
-	&lt;meta name="keywords" content="HTML5,前端,CSS3">
-    	&lt;meta name="description" content="这是一个非常不错的网站">
-	&lt;title>这是标题&lt;/title>
-	&lt;meta> 标签支持 HTML 中的全局属性。
-    --></span>
-	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>使用meta标签有http-equiv, name,scheme 属性可选 其对应的content值具体参照文档</p>
-<h2 id="5-实体标签"><a href="#5-实体标签" class="headerlink" title="5.实体标签"></a>5.实体标签</h2><p>​    在 HTML 中，某些字符是预留的。</p>
-<p>​    在 HTML 中不能使用小于号（&lt;）和大于号（&gt;），这是因为浏览器会误认为它们是标签。</p>
-<p>​    如果希望正确地显示预留字符，我们必须在 HTML 源代码中使用字符实体（character entities）。</p>
-<p>使用方法： &amp;需转义的字符;(&amp; ;均是英文符号)</p>
-<p>常用的转义字符：</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220222232554158.png" alt="image-20220222232554158" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220222232554158.png" class="lozad post-image"></p>
+表格可以分为三个部分 thead -- 头部 ； tbody -- 主体 ； tfoot -- 底部 ；
+	在行中使用th来表示表格的首行的单元格 此时用于表示表格的列值名称 th表示的单元格文字默认加粗
 
+&lt;table border=<span class="token string">"1px"</span> width=<span class="token string">"400px"</span> style=<span class="token string">"margin:20px auto;"</span>>
+        &lt;thead>
+            &lt;tr>
+                &lt;th>学校&lt;/th>
+                &lt;th>名字&lt;/th>
+                &lt;th>分数&lt;/th>
+                &lt;th>专业&lt;/th>
+            &lt;/tr>
+        &lt;/thead>
+        &lt;tbody>
+            &lt;tr>
+                &lt;td>惠州学院&lt;/td>
+                &lt;td>hjihu&lt;/td>
+                &lt;td>111&lt;/td>
+                &lt;td>计算机&lt;/td>
+            &lt;/tr>
+            &lt;tr>
+                &lt;td>惠州学院&lt;/td>
+                &lt;td>hjihu&lt;/td>
+                &lt;td>111&lt;/td>
+                &lt;td>计算机&lt;/td>
+            &lt;/tr>
+            &lt;tr>
+                &lt;td>惠州学院&lt;/td>
+                &lt;td>hjihu&lt;/td>
+                &lt;td>111&lt;/td>
+                &lt;td>计算机&lt;/td>
+            &lt;/tr>
+            &lt;tr>
+                &lt;td>惠州学院&lt;/td>
+                &lt;td>hjihu&lt;/td>
+                &lt;td>111&lt;/td>
+                &lt;td>计算机&lt;/td>
+            &lt;/tr>
+        &lt;/tbody>
+    &lt;/table>
+
+<span class="token property">border-spacing</span><span class="token punctuation">:</span> 指定边框之间的距离 此时指两边框间的距离 不是边框重合
+<span class="token property">border-spacing</span><span class="token punctuation">:</span> 0px<span class="token punctuation">;</span> 两边框相邻间隔为0
+<span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token selector">; 设置边框的合并 此时指两边框合并为一条边框 
+
+ table</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 30px auto<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid black<span class="token punctuation">;</span>
+            <span class="token comment">/* 此时在css文件中设置table的边框样式只有外边框 单元格此时没有边框 */</span>
+            <span class="token property">border-spacing</span><span class="token punctuation">:</span> 0px<span class="token punctuation">;</span>
+            <span class="token comment">/* 2.利用border-spacing属性设置边框间的间隔为0px
+                此时的边框为2px
+            */</span>
+            <span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token punctuation">;</span>
+            <span class="token comment">/* 3.设置边框重合 此时边框只有1px*/</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">td</span><span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid black<span class="token punctuation">;</span>
+            <span class="token comment">/* 4.此时给每一个单元格设置外边框 加上table的外边框此时呈现双边框效果 */</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token comment">/* 5.设置单元格中文字居中 */</span>
+            <span class="token comment">/* 单元格中的元素默认垂直居中 */</span>
+            <span class="token comment">/* vertical-align: top; */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">table  tr:nth-child(odd)</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+            <span class="token comment">/* 在写代码时若我们没有使用tbody 浏览器在解析时也会自动加上tbody' */</span>
+            <span class="token comment">/* 设置奇数行背景颜色 */</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">table tr:nth-child(even)</span><span class="token punctuation">&#123;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> aliceblue<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="2-表单"><a href="#2-表单" class="headerlink" title="2.表单"></a>2.表单</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css">在网页中使用 form 标签创建表单
+	在action中值为处理表单收集到的信息发送的服务器地址
+	表单中输入的信息可选input标签 通过选择type类型来设置输入类型
+		text -- 文本
+		password -- 密码
+		radio -- 单选框（单选框需要使用同一组name值来限定）
+		checkbox -- 多选框
+		color -- 颜色选择器
+	表单元素必须指定name属性
+	readonly 将表单项设置为只读，数据会提交
+	disabled 将表单项设置为禁用，数据不会提交
+    autofocus 设置表单项自动获取焦点
+
+autocomplete=<span class="token string">"off"</span> 关闭自动补全
+		
+  &lt;form action=<span class="token string">"target.html"</span>>
+        &lt;div class=<span class="token string">"title"</span>>
+            &lt;h1>用户注册&lt;/h1>
+        &lt;/div>
+        &lt;div class=<span class="token string">"info-input"</span>>
+            &lt;label for=<span class="token string">"username"</span>>姓名&lt;/label>
+            &lt;input type=<span class="token string">"text"</span> id=<span class="token string">"username"</span> name=<span class="token string">"username"</span> placeholder=<span class="token string">"请输入用户名"</span> autocomplete=<span class="token string">"off"</span> value=<span class="token string">"1212"</span> readonly autofocus>
+        &lt;/div>
+        &lt;div class=<span class="token string">"info-input"</span>>
+            &lt;label for=<span class="token string">"password"</span>>密码&lt;/label>
+            &lt;input type=<span class="token string">"password"</span> id=<span class="token string">"password"</span> name=<span class="token string">"password"</span> placeholder=<span class="token string">"请输入密码"</span> value=<span class="token string">"1212"</span> disabled>
+        &lt;/div>
+        &lt;div>
+            &lt;label for=<span class="token string">"sex"</span>>性别&lt;/label>
+            &lt;input type=<span class="token string">"radio"</span> value=<span class="token string">"1"</span> name=<span class="token string">"sex"</span> id=<span class="token string">"sex"</span> checked>男
+            &lt;input type=<span class="token string">"radio"</span> id=<span class="token string">"sex"</span> value=<span class="token string">"2"</span> name=<span class="token string">"sex"</span>>女
+        &lt;/div>
+        &lt;div>
+            &lt;label for=<span class="token string">"major"</span>>专业&lt;/label>
+            &lt;select id=<span class="token string">"major"</span> name=<span class="token string">"major"</span>>
+                &lt;option value=<span class="token string">"1"</span>>计算机&lt;/option>
+                &lt;option value=<span class="token string">"2"</span> selected>数学&lt;/option>
+            &lt;/select>
+        &lt;/div>
+        &lt;div>
+            &lt;label for=<span class="token string">"hobby"</span>>爱好&lt;/label>
+            &lt;input type=<span class="token string">"checkbox"</span> name=<span class="token string">"bobby"</span> id=<span class="token string">"hobby"</span> value=<span class="token string">"1"</span>>篮球
+            &lt;input type=<span class="token string">"checkbox"</span> name=<span class="token string">"bobby"</span> id=<span class="token string">"hobby"</span> value=<span class="token string">"2"</span>>足球
+            &lt;input type=<span class="token string">"checkbox"</span> name=<span class="token string">"bobby"</span> id=<span class="token string">"hobby"</span> value=<span class="token string">"3"</span>>跑步
+        &lt;/div>
+        &lt;input type=<span class="token string">"color"</span> name=<span class="token string">""</span> id=<span class="token string">""</span>>
+        &lt;input type=<span class="token string">"submit"</span> value=<span class="token string">"注册"</span>>
+    &lt;/form><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
   </div>
   <div>
   
   <div class="post-note note-warning copyright" style="margin-top: 42px">
     <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
-    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/02/23/001-%E5%AE%9E%E4%BD%93-meta%E6%A0%87%E7%AD%BE/</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/06/011-%E8%A1%A8%E6%A0%BC-%E8%A1%A8%E5%8D%95/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/06/011-%E8%A1%A8%E6%A0%BC-%E8%A1%A8%E5%8D%95/</a></p>
     <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
   </div>
   
@@ -303,25 +399,13 @@
 </article>
 <div class="nav">
   
-  <div class="nav-item-prev">
-    <a href="/2022/02/23/002-语义化标签/" class="nav-link">
-      <i class="iconfont icon-left nav-prev-icon"></i>
-      <div>
-        <div class="nav-label">上一篇</div>
-        
-        <div class="nav-title">002-语义化标签 </div>
-        
-      </div>
-    </a>
-  </div>
-  
   
   <div class="nav-item-next">
-    <a href="/2021/07/08/计网复习/" class="nav-link">
+    <a href="/2022/03/05/010-背景/" class="nav-link">
       <div>
         <div class="nav-label">下一篇</div>
         
-        <div class="nav-title">计算机网络复习 </div>
+        <div class="nav-title">010-背景-颜色渐变 </div>
         
       </div>
       <i class="iconfont icon-right nav-next-icon"></i>
@@ -366,7 +450,7 @@
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%A1%A8%E6%A0%BC"><span class="toc-text">1.表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%A1%A8%E5%8D%95"><span class="toc-text">2.表单</span></a></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -399,7 +483,7 @@
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%A1%A8%E6%A0%BC"><span class="toc-text">1.表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%A1%A8%E5%8D%95"><span class="toc-text">2.表单</span></a></li></ol>
     </div>
   </article>
   
@@ -465,7 +549,7 @@
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-HTML%E7%BB%93%E6%9E%84"><span class="toc-text">1.HTML结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTML5%E7%9A%84%E6%A0%87%E8%AF%86"><span class="toc-text">2.HTML5的标识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-HTML%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text">3.HTML编码字符集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-meta%E6%A0%87%E7%AD%BE"><span class="toc-text">4.meta标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%AE%9E%E4%BD%93%E6%A0%87%E7%AD%BE"><span class="toc-text">5.实体标签</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%A1%A8%E6%A0%BC"><span class="toc-text">1.表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%A1%A8%E5%8D%95"><span class="toc-text">2.表单</span></a></li></ol>
   </article>
   
   
