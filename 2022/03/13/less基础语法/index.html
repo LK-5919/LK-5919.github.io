@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>less基础语法</title>
+  
+  
+  <meta property="og:title" content="less基础语法">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/13/less%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="less基础语法">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-13">
+  <meta property="og:article:modified_time" content="2022-03-13">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Codeing</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      less基础语法
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-13T06:44:52.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-13</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.4k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="less介绍"><a href="#less介绍" class="headerlink" title="less介绍"></a>less介绍</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token comment">/*
+	less 是一门 css的预处理语言
+		可以看成是css的增强版 用法基本和css一致 在此基础上扩展了一些功能
+		浏览器并不能直接解析less语法 需要使用插件将写好的less文件转换为css文件
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="CSS原生变量与计算函数"><a href="#CSS原生变量与计算函数" class="headerlink" title="CSS原生变量与计算函数"></a>CSS原生变量与计算函数</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+	 <span class="token selector">html</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* css原生也支持变量的设置 */</span>
+            <span class="token comment">/* 设置颜色变量和长度变量 
+                语法 --变量名 在使用时需要使用var(--变量名)读取
+            */</span>
+            <span class="token property">--color</span><span class="token punctuation">:</span>#ff0<span class="token punctuation">;</span>
+            <span class="token property">--length</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">.box1</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">/* calc()计算函数 --- calculation
+            	在函数中可以直接输入计算表达式
+            直接输入表达式时 符号与数值之间使用空格间隔开
+            */</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> <span class="token function">calc</span><span class="token punctuation">(</span>200px*2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">.box2</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">.box3</span><span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 10px solid <span class="token function">var</span><span class="token punctuation">(</span>--color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="less基本语法"><a href="#less基本语法" class="headerlink" title="less基本语法"></a>less基本语法</h2><pre class="line-numbers language-less" data-language="less"><code class="language-less">在less文件中可以使用 <span class="token variable">@import</span> <span class="token string">"XXX.less"</span> 来引入其他的less文件
+	在less中所有的数值都可以直接进行计算 <span class="token operator">+</span> <span class="token operator">-</span> <span class="token operator">*</span> <span class="token operator">/</span>
+    	在使用除法时 需要使用<span class="token punctuation">(</span><span class="token punctuation">)</span>将除法的运算表达式包括起来
+ 在less 文件中 可使用 <span class="token comment">// 符号进行行注释 也可以使用 </span><span class="token comment">/* */</span> 符号进行块注释
+    但是使用 <span class="token comment">// 符号的单行注释不会被解析到 css 文件中，但是 块注释符号会被解析到 css 文件中</span>
+ 
+    <span class="token selector">在less文件中父子元素的样式可以直接嵌套写在一起
+    
+    .box1</span><span class="token punctuation">&#123;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+
+    <span class="token selector">.box2</span><span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #ff0<span class="token punctuation">;</span>
+
+        <span class="token selector">.box4</span><span class="token punctuation">&#123;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token selector">.box3</span><span class="token punctuation">&#123;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+        
+        <span class="token comment">// 这段代码解析成css文件时，可知box1有3个孩子 box2 box3 ，而box2 也有一个孩子 box4 ；</span>
+<span class="token punctuation">&#125;</span>
+
+less中的变量 <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span> 在变量中可以存储一个任意的值；
+	并且可以在需要的时候任意修改其中的值；
+	语法： @变量名
+<span class="token comment">// 定义一个变量名为 a ,值为 200px 的变量；</span>
+	<span class="token variable">@a<span class="token punctuation">:</span></span>200px<span class="token punctuation">;</span>
+几乎所有数值都可以使用变量表示，类名也可以使用变量来表示：
+<span class="token comment">// 定义一个类变量，要表示的类名为 box</span>
+	<span class="token variable">@c<span class="token punctuation">:</span></span> box<span class="token punctuation">;</span>
+
+读取变量值：
+	当直接使用则以 @变量名 的形式使用即可 <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span> <span class="token property">width</span> <span class="token punctuation">:</span> <span class="token variable">@a</span><span class="token punctuation">;</span>
+当变量作为类名使用时或者变量的值只是作为一部分使用时必须以 @<span class="token punctuation">&#123;</span>变量名<span class="token punctuation">&#125;</span> <span class="token selector">的形式使用
+.@&#123;c&#125;</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token variable">@a</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">当变量发生重名时，优先使用比较近的重名变量；
+
+可以先使用变量再定义变量，但不推荐这样使用；
+
+less 4.0 新语法：变量引用
+.widget</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #efefef<span class="token punctuation">;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> $color<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">编译成CSS文件后：
+.widget</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #efefef<span class="token punctuation">;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> #efefef<span class="token punctuation">;</span>
+    <span class="token comment">//在这里使用 $color 引用之前定义的color的值；</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">父元素选择器：使用 &amp; 符号选择当前元素的父元素；
+.demo</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+
+    <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+        <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+        <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
+        <span class="token selector">&amp;:hover</span><span class="token punctuation">&#123;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+            <span class="token comment">// 此时 &amp; 在类demo1中 所以使用 &amp; 父元素选择器选中的是类demo1</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token selector">&amp;:hover</span><span class="token punctuation">&#123;</span>
+        <span class="token property">width</span><span class="token punctuation">:</span> 300px<span class="token punctuation">;</span>
+        <span class="token comment">//在这里使用 &amp; ，此时 &amp; 是demo类的直系儿子 所以此时 &amp; 选中的是 demo类</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 可知 &amp; 选中的是使用该符号虽在层的父元素 ， 而不是祖先元素；</span>
+
+<span class="token selector">:extend() 对当前选择器扩展指定选择器的样式 --- 样式扩展
+
+.p1</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.p2:extend(.p1)</span><span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">编译后的css代码：
+.p2:</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
+    <span class="token comment">// 也就是说使用:extend(要扩展的类) --- 效果是在选中的需要的扩展类基础上进行样式的添加，可以看成是类p2在继承类p1的基础上添加新的样式；</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">.p3</span><span class="token punctuation">&#123;</span>
+    <span class="token mixin-usage function">.p1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span>red<span class="token punctuation">;</span>
+    <span class="token comment">//这里是直接对指定的样式进行引用，这里就相当于将类p1的样式在这里进行了复制</span>
+    <span class="token comment">// 此时类p3 的样式和类p2 一致</span>
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token selector">mixin混合：在使用类选择器的使用在类名后面添加一个()，此时我们就相当于添加了一个mixin混合
+	mixin混合类在解析时不会被单独解析成一个类，而是在引用该mixin混合类的类类上直接添加mixin类的属性；
+
+.p4()</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">.p5</span><span class="token punctuation">&#123;</span>
+    <span class="token mixin-usage function">.p4</span><span class="token punctuation">;</span>
+    <span class="token comment">//这里的引用p4类可以添加括号也可以不添加；效果一致</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">编译成CSS代码后：
+css文件中不会单独存在p4类
+.p5</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> 100px
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">带参数的混合函数：
+.test(<span class="token variable">@W</span>:100px,<span class="token variable">@h</span>:200px,<span class="token variable">@bg-color</span>:red)</span><span class="token punctuation">&#123;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span><span class="token variable">@w</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span><span class="token variable">@h</span><span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span>1px solid <span class="token variable">@bg-color</span><span class="token punctuation">;</span>
+    <span class="token comment">//此时设置了一个可以传入三个参数的test混合类，传入参数时未声明时需要按照顺序传入参数</span>
+    <span class="token comment">//若未传入参数则使用默认值；</span>
+    <span class="token comment">//注意该混合类在解析成css时也不会单独存在；</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">.p6</span><span class="token punctuation">&#123;</span>
+    <span class="token mixin-usage function">.test</span><span class="token punctuation">(</span>200px<span class="token punctuation">,</span>300px<span class="token punctuation">,</span>#bfa<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//此时p6类引用test混合类，并依次传入三个参数 三个值将依次对应width height color；</span>
+    .<span class="token function">test</span><span class="token punctuation">(</span>300px<span class="token punctuation">)</span>
+    <span class="token comment">//此时只传入一个参数 对应width 其他两个参数使用默认值；</span>
+    .<span class="token function">test</span><span class="token punctuation">(</span><span class="token variable">@bg-color<span class="token punctuation">:</span></span>red<span class="token punctuation">,</span><span class="token variable">@h<span class="token punctuation">:</span></span>100px<span class="token punctuation">,</span><span class="token variable">@w<span class="token punctuation">:</span></span>200px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//此时指定混合函数传入的三个参数，依次对应color，height，width 此时不用按照顺序传入参数也可；</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">average() ---- 颜色平均函数 该函数用来求输入的两个颜色数值的平均数
+span</span><span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">average</span><span class="token punctuation">(</span>red<span class="token punctuation">,</span>blue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">编译成CSS代码后
+span</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> #800080
+<span class="token punctuation">&#125;</span>
+
+<span class="token selector">darken() ---- 颜色深度改变函数 该函数用改变输入颜色的深浅
+body:hover</span><span class="token punctuation">&#123;</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">darken</span><span class="token punctuation">(</span>#bfa<span class="token punctuation">,</span>50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token selector">编译成CSS代码后
+body:hover</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> #2a0
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/13/less%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/13/less%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/12/平移-旋转-缩放/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">平移-旋转-缩放 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E4%BB%8B%E7%BB%8D"><span class="toc-text">less介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8E%9F%E7%94%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%87%BD%E6%95%B0"><span class="toc-text">CSS原生变量与计算函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">less基本语法</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>18</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>4</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E4%BB%8B%E7%BB%8D"><span class="toc-text">less介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8E%9F%E7%94%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%87%BD%E6%95%B0"><span class="toc-text">CSS原生变量与计算函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">less基本语法</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E4%BB%8B%E7%BB%8D"><span class="toc-text">less介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8E%9F%E7%94%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%87%BD%E6%95%B0"><span class="toc-text">CSS原生变量与计算函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#less%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">less基本语法</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-13</div>
+        <a href="/2022/03/13/less基础语法/"><div class="recent-posts-item-content">less基础语法</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-12</div>
+        <a href="/2022/03/12/平移-旋转-缩放/"><div class="recent-posts-item-content">平移-旋转-缩放</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-11</div>
+        <a href="/2022/03/11/动画/"><div class="recent-posts-item-content">过渡与动画</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-10</div>
+        <a href="/2022/03/10/小米网站首页练习/"><div class="recent-posts-item-content">小米网站首页练习</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Codeing </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
