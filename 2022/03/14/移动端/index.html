@@ -8,24 +8,24 @@
   <meta name="theme-color" content="#fff" id="theme-color">
   <meta name="description" content="_NULL0的个人博客">
   <link rel="icon" href="/img/blog.png">
-  <title>过渡与动画</title>
+  <title>像素-视口-移动端</title>
   
   
-  <meta property="og:title" content="过渡与动画">
+  <meta property="og:title" content="像素-视口-移动端">
   
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/11/%E5%8A%A8%E7%94%BB/index.html">
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/14/%E7%A7%BB%E5%8A%A8%E7%AB%AF/index.html">
   
   
   <meta property="og:img" content="/img/touxiang.png">
   
   
-  <meta property="og:img" content="动画效果">
+  <meta property="og:img" content="像素-视口-移动端">
   
   
   <meta property="og:type" content="article">
-  <meta property="og:article:published_time" content="2022-03-11">
-  <meta property="og:article:modified_time" content="2022-03-12">
+  <meta property="og:article:published_time" content="2022-03-14">
+  <meta property="og:article:modified_time" content="2022-03-14">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -201,13 +201,13 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      过渡与动画
+      像素-视口-移动端
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2022-03-11T08:14:53.000Z">
+    <time datetime="2022-03-14T09:48:59.000Z">
       <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
-      <span>2022-03-11</span>
+      <span>2022-03-14</span>
     </time>
     
     <span class="dot"></span>
@@ -217,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>1.2k 字</span>
+    <span>1.4k 字</span>
     
   </div>
   
@@ -233,154 +233,78 @@
   
   </header>
   <div id="section" class="post-content">
-    <h2 id="过渡"><a href="#过渡" class="headerlink" title="过渡"></a>过渡</h2><pre class="line-numbers language-CSS" data-language="CSS"><code class="language-CSS">通过过渡指定一个属性发生变化时的切换方式；
+    <h2 id="像素"><a href="#像素" class="headerlink" title="像素"></a>像素</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">前端开发中像素分成两种，CSS像素和物理像素；
 
-transition-property : 属性指定要执行的过渡属性（大部分属性都支持过渡效果，注意过渡时必须是从一个有效数值向另外一个有效数值进行过渡，若属性值是 auto 则过渡无法生效）;
-	transition-property : height,width,all; 多个属性值使用逗号隔开，all 关键字则指定所有可计算的属性；
+	物理像素 --- 屏幕中一个个的发光小点，分辨率就是指横向和纵向上屏幕的发光小点个数；
 
-transition-duration ： 指定过渡效果的持续时间 单位 ： s 和 ms ；
+	CSS像素 --- 在编写网页时，我们使用的就是CSS像素，浏览器在解析网页时需要把CSS像素转换成物理像素来显示；
+		一个CSS像素最终由几个物理像素显示由浏览器决定：
+			默认情况下PC端网页的一个CSS像素等于一个物理像素；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="视口（viewport）"><a href="#视口（viewport）" class="headerlink" title="视口（viewport）"></a>视口（viewport）</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">视口 --- 屏幕中用来显示网页的区域
+		可以通过查看视口的大小来确定CSS像素和物理像素的比值；
 
-transition-timing-function ：过渡的时序函数 --- 指定过渡的执行速度方式；
-	可选值：
-		ease 默认值 --- 慢速开始 先加速后再减速
-		linear 匀速运动
-		ease-in 加速运动
-		ease-out 减速运动
-		ease-in-out 先加速后减速
-		cubic-bezier() 来指定时序函数  
-		steps() 分布执行过渡效果 --- 可以设置两个值（步数，end&#x2F;start）
-			end --- 在时间结束时执行过渡（默认值）
-			start --- 在时间开始时执行过渡
-	即使指定不一样的过渡时序函数执行时间都是按transition-duration指定
+	默认情况下，在不同的屏幕中，单位像素是不同的，像素越小屏幕会越清晰；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="移动端"><a href="#移动端" class="headerlink" title="移动端"></a>移动端</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">移动端默认的视口大小是980px（CSS像素），默认情况是移动端的像素比是 980/（移动设备宽度）
+	在编写移动页面时，要确保有一个比较合理的像素比：
+		设备像素比：一个设备的物理像素与逻辑像素之比
+		2个物理像素 ：1css像素 或者  3个物理像素 ：1css像素 
 
-transition-delay ： 过渡效果的延迟，等待一段时间后再执行过渡，单位 ： s ms 
+可以通过设置meta标签来设置视口大小，每一款移动设备在设计时都会有一个最佳的像素比 ---- 完美视口
 
+将网页的视口设置为完美视口，写入如下代码：
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+	width：该属性被用来控制视窗的宽度，可以将width设置为320这样确切的像素数，也可以设为device-width这样的关键字，表示设备的实际宽度，一般为了自适应布局，普遍的做法是将width设置为device-width。
 
- .demo&#123;
-           width: 700px;
-           height: 700px;
-           background-color: grey;
-           overflow: hidden;
-        &#125;
-        .demo1&#123;
-            width: 100px;
-            height: 100px;
-            background-color: #bfa;
-            &#x2F;* 设定demo1开始的位置 *&#x2F;
-            margin-left: 0;
-            &#x2F;* 设置demo1过渡的属性 --- margin-left *&#x2F;
-            transition-property: margin-left;
-            &#x2F;* 设置demo1的过渡持续效果 *&#x2F;
-            transition-duration: 2s;
-            &#x2F;* 设置demo1的过渡时序函数 --- 默认值*&#x2F;
-            transition-timing-function: ease;
-        &#125;
-        .demo:hover div&#123;
-            margin-left: 600px;
-        &#125;
-        .demo2&#123;
-            width: 100px;
-            height: 100px;
-            margin-top: 200px;
-            background-color: #bfa;
-            &#x2F;* 设定demo1开始的位置 *&#x2F;
-            margin-left: 0;
-            &#x2F;* 设置demo1过渡的属性 --- margin-left *&#x2F;
-            transition-property: margin-left;
-            &#x2F;* 设置demo1的过渡持续效果 *&#x2F;
-            transition-duration: 2s;
-            &#x2F;* 设置demo1的过渡时序函数 --- 使用曲线定义*&#x2F;
-            transition-timing-function: cubic-bezier(0,1.65,1,-0.77);
-            &#x2F;* 设置demo2延迟两秒再开始过渡 *&#x2F;
-            transition-delay: 2s;
-        &#125;
-        .demo3&#123;
-            width: 100px;
-            height: 100px;
-            margin-top: 200px;
-            background-color: #bfa;
-            &#x2F;* 设定demo1开始的位置 *&#x2F;
-            margin-left: 0;
-            &#x2F;* 设置demo1过渡的属性 --- margin-left *&#x2F;
-            transition-property: margin-left;
-            &#x2F;* 设置demo1的过渡持续效果 *&#x2F;
-            transition-duration: 2s;
-            &#x2F;* 设置demo1的过渡时序函数 --- steps*&#x2F;
-            transition-timing-function: steps(3,end);
-            &#x2F;* 指定过渡的时序为步骤的话 过渡效果会将整个默认过程均分为几个步骤 只展现那几步的状态
-            *&#x2F;
+	height：该属性被用来控制视窗的高度，可以将height设置为640这样确切的像素数，也可以设为device-height这样的关键字，表示设备的实际高度，一般不会设置视窗的高度，这样内容超出的话采用滚动方式浏览。
+
+	initial-scale：该属性用于指定页面的初始缩放比例，可以配置0.0～10的数字，initial-scale=1表示不进行缩放，视窗刚好等于理想视窗，当大于1时表示将视窗进行放大，小于1时表示缩小。这里只表示初始视窗缩放值，用户也可以自己进行缩放，例如双指拖动手势缩放或者双击手势放大。
+
+	maximum-scale：该属性表示用户能够手动放大的最大比例，可以配置0.0～10的数字。
+
+	minimum-scale：该属性类似maximum-scale，用来指定页面缩小的最小比例。通常情况下，不会定义该属性的值，页面太小将难以浏览。
+
+	user-scalable：该属性表示是否允许用户手动进行缩放，可配置no或者yes。当配置成no时，用户将不能通过手势操作的方式对页面进行缩放。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="vw适配"><a href="#vw适配" class="headerlink" title="vw适配"></a>vw适配</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">不同设备的完美视口大小不一样，不同设备视口和像素比不同，所以同样的375个像素在不同设备下意义不同；
+
+所以在移动端开发时，不能再使用px来进行布局；
+
+移动端开发使用 vw -- 视口宽度（viewport width）来进行布局；
+	100vw = 一个视口的宽度
+	1 vw = 1% 视口宽度
+	vw 永远相对于视口宽度进行计算
+
+设计图的宽度一般都为 750px 或者 1125px （因为早期iPhone6的宽度为375px，所以一般会让CSS像素是设备像素的2到3倍）
+
+现在大部分移动web页面采用更加完善的rem或者vw加flex的方案来进行适配。
+
+	Rem适配方案是当下流行并且兼容性最好的移动端适配解决方案，它支持大部分的移动端系统和机型，Rem实际上是一个字体单位，即rem（font size of the root element）是指相对于根元素的字体大小的单位，简单的说它就是一个相对单位。看到rem大家一定会想起em单位，em（font size of the element）是指相对于父元素的字体大小的单位。它们之间其实很相似，只不过一个计算的规则是依赖根元素一个是依赖父元素计算。 所以Rem适配方案的适配原理就是：将我们之前写px的单位换成rem单位，然后根据屏幕大小动态设置根元素<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>的font-size大小，那么只要跟元素的font-size改变，对应的元素的大小就会改变，从而达到在不同屏幕下的适配的目的。
+    
+           html&#123;
+            /* 
+                网页中字体大小最小是12px，不能设置一个比12像素还小的字体
+                    如果我们设置了一个小于12px的字体，则字体自动设置为12px
+				
+        		这里以设计图宽度为750px为例，则此时有100vw = 750px；
+        		换算：
+                0.1333333vw = 1px
+
+                5.3333vw = 40px  将根元素里的rem增大40倍
+      
+            */
+            font-size: 5.3333vw;
+        	这里设置根元素的字体大小为 5.3333vw ，也就是 40px ；后续布局中使用的1rem也就等于40px；
+        	所以后续使用rem布局时，元素的宽度需要除于40 才能得到正确的布局比例vw --- 1rem/40 = 1px；
         &#125;
 
-transition 属性可以同时设置过渡的相关属性，只要求持续时间要写在延迟时间之前，其他属性顺序随便；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">动画：动画和过渡类似，都可实现一些动态的效果；
-	两者不同的是过渡需要在某个属性发生变化时才触发执行，而动画可以自动触发执行；
+        
+参考文章：https://zhuanlan.zhihu.com/p/114562780<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-animation-name : 要对当前元素生效的关键帧名字；
-animation-duration ：动画执行的时间；
-animation-delay ： 动画执行的延迟时间；
-animation-timing-function ：动画执行的时序函数；
-animation-iteration-count ：动画的执行次数；
-	可选值：次数（具体数值）；  infinite（无限执行）；
-animation-direction ：指定动画的执行方向；
-	可选值：normal --- 默认值 从from 到 to 关键帧执行 每次都是这样；
-			reversal --- 从 to 到 from 关键帧执行 每次都是这样；
-			alternate --- 从 from 到 to 执行关键帧 重复执行时反向执行上一次的动画；
-			alternate-reverse --- 从 to 到 from 运行 重复执行动画时反向执行；
-animation-play-state ： 设置动画的执行状态；
-	可选值： running --- 默认值 动画执行； paused --- 动画暂停；
-animation-fill-mode ： 动画的填充模式；
-	可选值：none --- 默认值 动画执行完毕后元素回到原位置；
-			forwards --- 动画执行完毕元素停在结束的位置；
-			backwards --- 动画延时等待时，元素就会处于开始位置；
-			both --- forwards 和 backwards 结合
-
-.demo</span><span class="token punctuation">&#123;</span>
-            <span class="token property">width</span><span class="token punctuation">:</span> 700px<span class="token punctuation">;</span>
-            <span class="token property">height</span><span class="token punctuation">:</span> 700px<span class="token punctuation">;</span>
-            <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-         <span class="token comment">/* 设置关键帧 */</span>
-         <span class="token atrule"><span class="token rule">@keyframes</span> demo1-move</span><span class="token punctuation">&#123;</span>
-                <span class="token comment">/* from表示动画开始的位置和状态 */</span>
-                <span class="token selector">from</span><span class="token punctuation">&#123;</span>
-                    <span class="token property">margin-left</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
-                    <span class="token property">background-color</span><span class="token punctuation">:</span> aqua<span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span>
-                <span class="token comment">/*  to 表示动画结束的位置 也可以用100% 表示 */</span>
-                <span class="token selector">to</span><span class="token punctuation">&#123;</span>
-                    <span class="token property">background-color</span><span class="token punctuation">:</span> orange<span class="token punctuation">;</span>
-                    <span class="token property">margin-left</span><span class="token punctuation">:</span> 600px<span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token selector">.demo1</span><span class="token punctuation">&#123;</span>
-            <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
-            <span class="token property">height</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
-            <span class="token property">background-color</span><span class="token punctuation">:</span> skyblue<span class="token punctuation">;</span>
-            <span class="token comment">/* 使用刚设置的关键帧 */</span>
-            <span class="token property">animation-name</span><span class="token punctuation">:</span> demo1-move<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的执行时长 */</span>
-            <span class="token property">animation-duration</span><span class="token punctuation">:</span> 3s<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的执行次数 迭代次数*/</span>
-            <span class="token property">animation-iteration-count</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的执行时序函数 */</span>
-            <span class="token property">animation-timing-function</span><span class="token punctuation">:</span> ease<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的执行方向 交替反向执行*/</span>
-            <span class="token property">animation-direction</span><span class="token punctuation">:</span> alternate<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的启动延时 */</span>
-            <span class="token property">animation-delay</span><span class="token punctuation">:</span> 1s<span class="token punctuation">;</span>
-            <span class="token comment">/* 设置动画的执行状态 */</span>
-            <span class="token comment">/* animation-play-state: paused; */</span>
-            <span class="token comment">/* 设置动画的执行填充  执行完以后停在执行结束的位置 */</span>
-            <span class="token property">animation-fill-mode</span><span class="token punctuation">:</span> both<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-
-animation 属性：简写形式 除了执行时长必须要写在延时启动时间之前 其他属性设置顺序随意；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
   </div>
   <div>
   
   <div class="post-note note-warning copyright" style="margin-top: 42px">
     <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
-    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/11/%E5%8A%A8%E7%94%BB/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/11/%E5%8A%A8%E7%94%BB/</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/14/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/14/%E7%A7%BB%E5%8A%A8%E7%AB%AF/</a></p>
     <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
   </div>
   
@@ -388,25 +312,13 @@ animation 属性：简写形式 除了执行时长必须要写在延时启动时
 </article>
 <div class="nav">
   
-  <div class="nav-item-prev">
-    <a href="/2022/03/12/平移-旋转-缩放/" class="nav-link">
-      <i class="iconfont icon-left nav-prev-icon"></i>
-      <div>
-        <div class="nav-label">上一篇</div>
-        
-        <div class="nav-title">平移-旋转-缩放 </div>
-        
-      </div>
-    </a>
-  </div>
-  
   
   <div class="nav-item-next">
-    <a href="/2022/03/10/小米网站首页练习/" class="nav-link">
+    <a href="/2022/03/14/flex布局/" class="nav-link">
       <div>
         <div class="nav-label">下一篇</div>
         
-        <div class="nav-title">小米网站首页练习 </div>
+        <div class="nav-title">flex布局 </div>
         
       </div>
       <i class="iconfont icon-right nav-next-icon"></i>
@@ -451,7 +363,7 @@ animation 属性：简写形式 除了执行时长必须要写在延时启动时
 
 <div class="card card-content toc-card" id="mobiletoc">
   <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1"><span class="toc-text">过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="toc-text">动画</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0"><span class="toc-text">像素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%8F%A3%EF%BC%88viewport%EF%BC%89"><span class="toc-text">视口（viewport）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF"><span class="toc-text">移动端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vw%E9%80%82%E9%85%8D"><span class="toc-text">vw适配</span></a></li></ol>
 </div></main>
           <aside class="left-column">
             
@@ -484,7 +396,7 @@ animation 属性：简写形式 除了执行时长必须要写在延时启动时
   <article class="display-when-two-columns spacer">
     <div class="card card-content toc-card">
       <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1"><span class="toc-text">过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="toc-text">动画</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0"><span class="toc-text">像素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%8F%A3%EF%BC%88viewport%EF%BC%89"><span class="toc-text">视口（viewport）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF"><span class="toc-text">移动端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vw%E9%80%82%E9%85%8D"><span class="toc-text">vw适配</span></a></li></ol>
     </div>
   </article>
   
@@ -550,7 +462,7 @@ animation 属性：简写形式 除了执行时长必须要写在延时启动时
   
   <article class="card card-content toc-card">
     <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%B8%A1"><span class="toc-text">过渡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="toc-text">动画</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%83%8F%E7%B4%A0"><span class="toc-text">像素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E5%8F%A3%EF%BC%88viewport%EF%BC%89"><span class="toc-text">视口（viewport）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E7%AB%AF"><span class="toc-text">移动端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vw%E9%80%82%E9%85%8D"><span class="toc-text">vw适配</span></a></li></ol>
   </article>
   
   
