@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-03-14">
-  <meta property="og:article:modified_time" content="2022-03-14">
+  <meta property="og:article:modified_time" content="2022-03-15">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -217,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>2k 字</span>
+    <span>2.6k 字</span>
     
   </div>
   
@@ -272,8 +272,8 @@ Flex --- 弹性盒、伸缩盒
      <span class="token comment">/* flex-flow:  wrap 和 direction 的简写属性 */</span>
             <span class="token comment">/* flex-flow: row wrap; */</span>
     
-    <span class="token selector">justify-content
-                    - 如何分配主轴上的空白空间（主轴上的元素如何排列对齐）
+    justify-content
+                    - 设置浏览器如何沿着主轴上的弹性元素之间和周围分配空间
                     - 可选值：
                         flex-start 元素沿着主轴起边排列
                         flex-end 元素沿着主轴终边排列
@@ -283,6 +283,39 @@ Flex --- 弹性盒、伸缩盒
                         space-evenly 空白分布到元素的单侧
     
     
+<span class="token comment">/* Positional alignment */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>     <span class="token comment">/* 居中排列 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> start<span class="token punctuation">;</span>      <span class="token comment">/* Pack items from the start */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> end<span class="token punctuation">;</span>        <span class="token comment">/* Pack items from the end */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> flex-start<span class="token punctuation">;</span> <span class="token comment">/* 从行首起始位置开始排列 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> flex-end<span class="token punctuation">;</span>   <span class="token comment">/* 从行尾位置开始排列 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>       <span class="token comment">/* Pack items from the left */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>      <span class="token comment">/* Pack items from the right */</span>
+
+<span class="token comment">/* Baseline alignment */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> first baseline<span class="token punctuation">;</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> last baseline<span class="token punctuation">;</span>
+
+<span class="token comment">/* Distributed alignment */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> space-between<span class="token punctuation">;</span>  <span class="token comment">/* 均匀排列每个元素
+                                   首个元素放置于起点，末尾元素放置于终点 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> space-around<span class="token punctuation">;</span>  <span class="token comment">/* 均匀排列每个元素
+                                   每个元素周围分配相同的空间 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> space-evenly<span class="token punctuation">;</span>  <span class="token comment">/* 均匀排列每个元素
+                                   每个元素之间的间隔相等 */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> stretch<span class="token punctuation">;</span>       <span class="token comment">/* 均匀排列每个元素
+                                   'auto'-sized 的元素会被拉伸以适应容器的大小 */</span>
+
+<span class="token comment">/* Overflow alignment */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> safe center<span class="token punctuation">;</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> unsafe center<span class="token punctuation">;</span>
+
+<span class="token comment">/* Global values */</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
+<span class="token property">justify-content</span><span class="token punctuation">:</span> unset<span class="token selector">;
+        
     ul</span><span class="token punctuation">&#123;</span>
             <span class="token property">width</span><span class="token punctuation">:</span> 800px<span class="token punctuation">;</span>
             <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
@@ -325,9 +358,48 @@ Flex --- 弹性盒、伸缩盒
             <span class="token property">height</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
             <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span>
+        
+        
+       <span class="token property">align-content</span> <span class="token punctuation">:</span> 设置了浏览器如何沿着弹性布局的辅轴在内容项之间和周围分配空间。
+		
+<span class="token comment">/* 基本位置对齐 */</span>
+<span class="token comment">/*align-content不采用左右值 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>     <span class="token comment">/* 将项目放置在中点 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> start<span class="token punctuation">;</span>      <span class="token comment">/* 最先放置项目 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> end<span class="token punctuation">;</span>        <span class="token comment">/* 最后放置项目 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> flex-start<span class="token punctuation">;</span> <span class="token comment">/* 从起始点开始放置flex元素 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> flex-end<span class="token punctuation">;</span>   <span class="token comment">/* 从终止点开始放置flex元素 */</span>
+
+<span class="token comment">/* 默认对齐 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> normal<span class="token punctuation">;</span>
+
+<span class="token comment">/*基线对齐*/</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> first baseline<span class="token punctuation">;</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> last baseline<span class="token punctuation">;</span>
+
+<span class="token comment">/* 分布式对齐 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> space-between<span class="token punctuation">;</span> <span class="token comment">/* 均匀分布项目
+                                 第一项与起始点齐平，
+                                 最后一项与终止点齐平 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> space-around<span class="token punctuation">;</span>  <span class="token comment">/* 均匀分布项目
+                                 项目在两端有一半大小的空间*/</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> space-evenly<span class="token punctuation">;</span>  <span class="token comment">/* 均匀分布项目
+                                 项目周围有相等的空间 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> stretch<span class="token punctuation">;</span>       <span class="token comment">/* 均匀分布项目
+                                 拉伸‘自动’-大小的项目以充满容器 */</span>
+
+<span class="token comment">/* 溢出对齐 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> safe center<span class="token punctuation">;</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> unsafe center<span class="token punctuation">;</span>
+
+<span class="token comment">/* 全局属性 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span> <span class="token comment">/* 继承 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>  <span class="token comment">/* 初始值 */</span>
+<span class="token property">align-content</span><span class="token punctuation">:</span> unset<span class="token punctuation">;</span> <span class="token comment">/* 未设置 */</span>
 
     </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>htmL</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>htmL</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="弹性元素的属性"><a href="#弹性元素的属性" class="headerlink" title="弹性元素的属性"></a>弹性元素的属性</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
     <span class="token selector">弹性元素的属性：
@@ -379,7 +451,7 @@ Flex --- 弹性盒、伸缩盒
             <span class="token comment">/* flex-shrink: 1; */</span>
         <span class="token punctuation">&#125;</span>
         
-        <span class="token selector">align-items: 
+        <span class="token property">align-items</span><span class="token punctuation">:</span> 
                 - 元素在辅轴上如何对齐
                 - 元素间的关系
                     - 可选值：
@@ -388,6 +460,32 @@ Flex --- 弹性盒、伸缩盒
                         flex-end 沿着辅轴的终边对齐
                         center 居中对齐
                         baseline 基线对齐
+        
+        
+<span class="token comment">/* Basic keywords */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> normal<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> stretch<span class="token punctuation">;</span>
+
+<span class="token comment">/* Positional alignment */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span> <span class="token comment">/* Pack items around the center */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> start<span class="token punctuation">;</span> <span class="token comment">/* Pack items from the start */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> end<span class="token punctuation">;</span> <span class="token comment">/* Pack items from the end */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> flex-start<span class="token punctuation">;</span> <span class="token comment">/* Pack flex items from the start */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> flex-end<span class="token punctuation">;</span> <span class="token comment">/* Pack flex items from the end */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> self-start<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> self-end<span class="token punctuation">;</span>
+
+<span class="token comment">/* Baseline alignment */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> baseline<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> first baseline<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> last baseline<span class="token punctuation">;</span> <span class="token comment">/* Overflow alignment (for positional alignment only) */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> safe center<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> unsafe center<span class="token punctuation">;</span>
+
+<span class="token comment">/* Global values */</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> initial<span class="token punctuation">;</span>
+<span class="token property">align-items</span><span class="token punctuation">:</span> unset<span class="token selector">;
         
         ul</span><span class="token punctuation">&#123;</span>
             <span class="token property">width</span><span class="token punctuation">:</span> 600px<span class="token punctuation">;</span>
@@ -483,7 +581,7 @@ Flex --- 弹性盒、伸缩盒
             <span class="token property">order</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
         <span class="token punctuation">&#125;</span>
     </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
   </div>
   <div>
   
@@ -572,7 +670,7 @@ Flex --- 弹性盒、伸缩盒
 <p class="author-description">_NULL0的个人博客</p>
 <div class="author-message">
   <a class="author-posts-count" href="/archives">
-    <span>20</span>
+    <span>21</span>
     <span>文章</span>
   </a>
   <a class="author-categories-count" href="/categories">
@@ -606,7 +704,7 @@ Flex --- 弹性盒、伸缩盒
       <a href="/categories/HTML-CSS学习">
         <div class="categories-list-item">
           HTML-CSS学习
-          <span class="categories-list-item-badge">17</span>
+          <span class="categories-list-item-badge">18</span>
         </div>
       </a>
     
@@ -669,6 +767,11 @@ Flex --- 弹性盒、伸缩盒
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/媒体查询/"><div class="recent-posts-item-content">媒体查询</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-03-14</div>
         <a href="/2022/03/14/移动端/"><div class="recent-posts-item-content">像素-视口-移动端</div></a>
       </div>
@@ -681,11 +784,6 @@ Flex --- 弹性盒、伸缩盒
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-03-13</div>
         <a href="/2022/03/13/less基础语法/"><div class="recent-posts-item-content">less基础语法</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-12</div>
-        <a href="/2022/03/12/平移-旋转-缩放/"><div class="recent-posts-item-content">平移-旋转-缩放</div></a>
       </div>
     
   </div>
