@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>JS-数据类型与转换</title>
+  
+  
+  <meta property="og:title" content="JS-数据类型与转换">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/16/JS-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%BD%AC%E6%8D%A2/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="JS-数据类型与转换">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-16">
+  <meta property="og:article:modified_time" content="2022-03-18">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Codeing</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      JS-数据类型与转换
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-16T07:17:51.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-16</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/JavaScript基础/" class="post-meta-link">JavaScript基础</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>2.1k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">JavaScript中常用的信息输出方法：
+	<span class="token number">1.</span> <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"这是一条提示语句！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token operator">--</span><span class="token operator">--</span> 该方法在执行时将在浏览器弹出一个提示框；
+
+	<span class="token number">2.</span>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是一条提示语句！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token operator">--</span><span class="token operator">--</span> 该方法在执行时将在浏览器的控制台输出信息；
+
+	<span class="token number">3.</span>document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"这是一条插入body标签的信息"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">--</span><span class="token operator">--</span> 该方法在执行的时候将在网页的body标签中输出信息；
+			该方法默认将信息插入到body标签的开头；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="JavaScript编写原则"><a href="#JavaScript编写原则" class="headerlink" title="JavaScript编写原则"></a>JavaScript编写原则</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token number">1.</span> 内部代码 <span class="token operator">--</span><span class="token operator">--</span> JavaScript代码要求写在<span class="token operator">&lt;</span>script<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>标签体内；
+
+<span class="token number">2.</span> 外部代码 <span class="token operator">--</span><span class="token operator">--</span> 将<span class="token constant">JS</span>代码写在其他的js文件中，之后通过<span class="token operator">&lt;</span>script src<span class="token operator">=</span><span class="token string">"../index.js"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>引入外部js文件；
+	用于引入外部js文件的script标签体内书写的代码不再进行解析；
+   
+<span class="token number">3.</span> 简单业务可直接写在html的标签中，但是耦合性太高，日常开发不推荐使用；<span class="token operator">--</span><span class="token operator">-</span> 在按钮与超链接中的使用：
+		<span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"alert("</span>我是点击按钮的提示信息！<span class="token string">")"</span><span class="token operator">></span>按钮<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">></span>
+		<span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string">"javascript: alert("</span>点击超链接的提示信息！<span class="token string">")"</span><span class="token operator">></span>我是一个超链接<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">></span>
+
+<span class="token number">4.</span> <span class="token constant">JS</span>代码中严格区分大小写；
+
+<span class="token number">5.</span> <span class="token constant">JS</span>中每一条语句结束使用 <span class="token punctuation">;</span> 结尾，若未使用时浏览器在解析时会自动添加上，但这会消耗一定的浏览器性能。而且自动添加时可能会添加错地方；
+
+<span class="token number">6.</span> <span class="token constant">JS</span>中会忽略多个空格和换行；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="变量与标识符"><a href="#变量与标识符" class="headerlink" title="变量与标识符"></a>变量与标识符</h2><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">字面量 --- 不可改变的值 如 1,2，3 ....  字面量是可以直接使用的，但在实际开发中我们不会直接使用字面量；
+
+变量 --- 变量可以用来保存字面量，而且变量的值是可以随便改变的，更加方便使用，可以使用变量对字面量进行描述；
+
+		声明变量 --- var a;  &#x2F;&#x2F; 声明了一个名字为 a 的变量；
+		变量赋值 --- a &#x3D; 123; &#x2F;&#x2F; 将变量 a 的值设置为 123 --- number类型；
+		声明变量并赋值 --- var b &#x3D; 123; &#x2F;&#x2F; 声明一个变量名为 b 并直接赋值为 123 --- number类型；
+
+标识符 --- JS中所有可以自主命名的都称为标识符（为方便开发给变量取得名字）
+			变量名 函数名 属性名 都属于标识符；
+            命名标识符是需要遵循的规则：
+            	（1）标识符中可以含有字母，数字，_ ,$;
+				(2)标识符不能以数字开头；
+                  (3)标识符不能是ES中关键字或者是保留字；
+                （4）标识符一般采用驼峰命名法 --- 首字母小写，其余单词的仅首字母大写；
+		JS底层中保存标识符实际采用Unicode编码，所以理论上使用中文命名变量也是可行的，但是不推荐使用；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">JS中共有6中数据类型： String，Number，Boolean，Undefined， NULL，Object；
+	其中前五种属于基本数据类型；
+    Object属于引用数据类型；
+    
+    1.String --- 字符串
+		使用引号引起来的数据，可以使用单引号或者双引号，但是不能两者混合使用（一边单引号一边双引号）；
+        在字符串中使用 \  作为转义字符
+        	\&#39;表示 &#39; , \&quot; 表示 &quot; , \n 表示换行， \t 制表符(Tab缩进) 
+     
+    2.Number --- 数值（整数，浮点数）
+		Number.MAX_VALUE --- 表示Number类型能表示ed最大值；
+		Number.MIN_VALUE --- 表示Number能表示的大于0的最小正数
+		Infinity --- 表示正无穷；
+		-Infinity --- 表示负无穷；
+		NaN --- 一个特殊的数值 ---Not a Number
+        
+可以使用 运算符 typeof 来检查变量的数据类型 ---- typeof NaN 返回 number；
+	若使用两个字符串进行相乘时，返回的是一个NaN
+    	如：var a &#x3D; &quot;abc&quot; * &quot;def&quot;  -- 此时 console.log(a) 控制台打印NaN
+        
+        JS中整数的运算基本可以保证精确度（不溢出的话），但是浮点数的计算不能保证很高的精确度（因为所有的数值在计算中计算时都会转换成二进制进行计算，但是有些小数使用二进制是永远不能精确表示的 例如 0.1 就不能使用二进制精确表示）
+
+      3.Boolean --- 布尔值
+			布尔值只有 true 和false 两个值，true -- 真，false -- 假
+        
+       4.NULL --- 空值
+			NULL类型只有一个值 --- null --- 表示一个空的对象
+			使用 typeof null --- 返回 object 原因如下：
+    1995年JavaScript语言的第一版，所有值都设计成32位，其中最低的3位用来表述数据类型，object对应的值是000。当时，只设计了五种数据类型（对象、整数、浮点数、字符串和布尔值）,完全没考虑null，只把它当作object的一种特殊值，32位全部为0。 这是typeof null返回object的根本原因。
+               
+       5.Undefined -- 未定义
+       		该类型只有一个 --- undefined ；
+            使用 typeod undefined -- 返回undefined<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换"></a>强制类型转换</h2><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">强制类型转换 --- 指将一个数据类型强制转换为其他的数据类型，这里主要讲String，Number，Boolean三种基本数据类型的转换；<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="转换成String类型"><a href="#转换成String类型" class="headerlink" title="转换成String类型"></a>转换成String类型</h3><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">方法一：调用基本数据类型的toString()方法，该方法将返回一个string类型的结果，不影响原变量；
+	Number类型：  var a &#x3D; 123;
+				var b &#x3D; a.toString();
+				console.log(b);
+				console.log(typeof b);
+			控制台输出字符串 &quot;123&quot; 类型为string；
+            
+     Boolean类型： var a &#x3D; true;
+				var b &#x3D; a.toString();
+				console.log(b);
+				console.log(typeof b);
+			控制台输出字符串 &quot;true&quot; 类型为string；
+            
+      null和undefined这两个基本数据类型身上没有 toString() 方法，调用将导致报错；
+      
+方法二：调用String() 方法，并将需要转换的的数据作为参数传入；
+		String()传入Number，Boolean这两个基本数据类型是，其实就是调用这两者身上的toString()方法；
+        
+        String()传入null和undefined时，直接返回字符串 &quot;null&quot; &quot;undefined&quot;
+			var a &#x3D; null;
+			var b &#x3D; String(a);
+			console.log(b);
+			console.log(typeof b);
+		控制台输出 字符串 :&quot;null&quot; 和 string<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="转换成Number类型"><a href="#转换成Number类型" class="headerlink" title="转换成Number类型"></a>转换成Number类型</h3><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">方法一：使用Number函数 --- 将要转换的数据传入
+		String类型： 如果是纯数字的字符串，则转换结果是数字
+        			如果字符串中包含其他非数字内容，转换结果是NaN
+                    如果字符串是一个空串或者是全是空格的字符串，转换结果是 0 
+		var a &#x3D; &quot;123&quot;;
+		a &#x3D; Number(a);
+		console.log(a);
+		console.log(typeof a);
+	控制台输出 数值 123, 为number类型；
+
+		var a &#x3D; &quot;123sddfe&quot;;
+        a &#x3D; Number(a);
+		console.log(a);
+		console.log(typeof a);
+	控制台输出 NaN ，为number类型；
+    
+    	var a &#x3D; &#39;&#39;;
+		a &#x3D; Number(a);
+		console.log(a);
+		console.log(typeod a);
+	控制台输出 数值 0，为number类型；
+    
+方法二：parseInt() --- 把一个字符串转换为一个整数；
+		parseFloat() --- 把一个字符串转换为一个浮点数；
+
+		parseInt() ,parseFloat() 方法均是在遇到字母时停止转换，返回一个NaN值
+        
+        var a &#x3D; &quot;123dfhgdsh&quot;;
+		a &#x3D; parseInt(a);
+		console.log(a);
+	控制台输出 数值 123；
+    	
+    	var a &#x3D; &quot;d2323bsdhfgb&quot;
+        a &#x3D; parseInt(a);
+		console.log(a);
+	控制台输出 NaN --parseInt()在执行时依次解析每一个字符，一旦遇到非数字以外的字符将停止继续解析，解析后若没有数值将返回NaN值；
+    
+    parseFloat() --- 解析时遇到第一次小数点时不会停止解析，若遇到数数字和小数点外的字符则停止解析，或者是第二次遇到小数点就停止解析，若解析后没有数值则返回NaN；
+
+		var a &#x3D;&quot;.41564efdwe&quot;
+        a &#x3D; parseFloat(a);
+		console.log(a);
+	控制台输出浮点数 0.41564；
+    
+    	var a &#x3D; &quot;..4234sfdf32423&quot;
+        a &#x3D; parseFloat(a);
+		console.log(a);
+	控制点输出 NaN ；
+    
+    
+    如果parseInt()和parseFloat()中穿入的是非字符串是，它会将传入的参数先转换成字符串之后转进行转换成number类型；
+		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="转换成Boolean类型"><a href="#转换成Boolean类型" class="headerlink" title="转换成Boolean类型"></a>转换成Boolean类型</h3><pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">使用Boolean()方法将其他的数据类型转换成Boolean类型；
+		数字 ---&gt; Boolean  ， 除了 0 和 NaN ，其他数据都是转换成true；
+        字符串 ---&gt; Boolean ， 除了 空串，其他的字符串都是转换成true；
+        null 和 undefined 都会转换成 false；
+        object 数据类型也会转换成true；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="其他进制的数字"><a href="#其他进制的数字" class="headerlink" title="其他进制的数字"></a>其他进制的数字</h2><p>在js中，16进制数字需要以0x开头，8进制数字以0开头，2进制数字需要以0b开头；</p>
+<p>​        可以在parseInt()中传递第二个参数，用来指定数字的进制</p>
+<p>​        var a = parseInt(0xff,16);</p>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/16/JS-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%BD%AC%E6%8D%A2/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/16/JS-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%BD%AC%E6%8D%A2/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  <div class="nav-item-prev">
+    <a href="/2022/03/18/运算符/" class="nav-link">
+      <i class="iconfont icon-left nav-prev-icon"></i>
+      <div>
+        <div class="nav-label">上一篇</div>
+        
+        <div class="nav-title">运算符 </div>
+        
+      </div>
+    </a>
+  </div>
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/15/媒体查询/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">媒体查询 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript%E7%BC%96%E5%86%99%E5%8E%9F%E5%88%99"><span class="toc-text">JavaScript编写原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-text">变量与标识符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90String%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成String类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Number%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Number类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Boolean%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Boolean类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%BF%9B%E5%88%B6%E7%9A%84%E6%95%B0%E5%AD%97"><span class="toc-text">其他进制的数字</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>23</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>5</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript%E7%BC%96%E5%86%99%E5%8E%9F%E5%88%99"><span class="toc-text">JavaScript编写原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-text">变量与标识符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90String%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成String类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Number%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Number类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Boolean%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Boolean类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%BF%9B%E5%88%B6%E7%9A%84%E6%95%B0%E5%AD%97"><span class="toc-text">其他进制的数字</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-text">Hello World</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript%E7%BC%96%E5%86%99%E5%8E%9F%E5%88%99"><span class="toc-text">JavaScript编写原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-text">变量与标识符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90String%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成String类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Number%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Number类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90Boolean%E7%B1%BB%E5%9E%8B"><span class="toc-text">转换成Boolean类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%BF%9B%E5%88%B6%E7%9A%84%E6%95%B0%E5%AD%97"><span class="toc-text">其他进制的数字</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-18</div>
+        <a href="/2022/03/18/运算符/"><div class="recent-posts-item-content">运算符</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-16</div>
+        <a href="/2022/03/16/JS-数据类型与转换/"><div class="recent-posts-item-content">JS-数据类型与转换</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-15</div>
+        <a href="/2022/03/15/媒体查询/"><div class="recent-posts-item-content">媒体查询</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-14</div>
+        <a href="/2022/03/14/移动端/"><div class="recent-posts-item-content">像素-视口-移动端</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Codeing </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
