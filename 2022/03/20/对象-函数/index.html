@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>对象-函数</title>
+  
+  
+  <meta property="og:title" content="对象-函数">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/20/%E5%AF%B9%E8%B1%A1-%E5%87%BD%E6%95%B0/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="对象-函数-作用域-提前声明">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-20">
+  <meta property="og:article:modified_time" content="2022-03-20">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Codeing</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      对象-函数
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-20T07:08:19.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-20</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/JavaScript基础/" class="post-meta-link">JavaScript基础</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>3k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">重温<span class="token constant">JS</span>的五种基本数据类型：
+	<span class="token number">1.</span>String；
+    <span class="token number">2.</span>Number； <span class="token operator">--</span><span class="token operator">-</span> <span class="token number">NaN</span>也属于Number类型；
+	<span class="token number">3.</span>Boolean；
+    <span class="token number">4.</span>undefined；
+    <span class="token number">5.</span><span class="token constant">NULL</span>； <span class="token operator">--</span><span class="token operator">-</span> <span class="token keyword">typeof</span> <span class="token keyword">null</span> 输出object，<span class="token keyword">null</span>为object的衍生；
+    
+    基本数据类型都是单一的值，值和值之间没有联系；
+    对象属于一种复合数据类型，在对象中可以保存多个不同数据类型的属性；
+    
+    对象的分类：
+    	<span class="token number">1.</span>内建对象：由<span class="token constant">ES</span>标准定义的对象，在任何<span class="token constant">ES</span>的实现中都可以使用，比如 Math，String，Number，Boolean，Function，Object等；
+        <span class="token number">2.</span>宿主对象：由<span class="token constant">JS</span>的运行环境提供的对象，目前主要指浏览器提供的对象，比如<span class="token constant">BOM</span>，<span class="token constant">DOM</span>；
+        <span class="token number">3.</span>自定义对象：由开发人员自己创建的对象；
+        
+     创建对象：
+     	使用 <span class="token keyword">new</span> 关键字调用对象的构造函数
+		<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		
+		在对象中保存的值称为属性，向对象添加属性，语法：对象<span class="token punctuation">.</span>属性名 <span class="token operator">=</span> 属性值<span class="token punctuation">;</span>
+		obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"LK"</span><span class="token punctuation">;</span>
+
+		读取对象中的属性值，语法：对象<span class="token punctuation">.</span>属性名
+		console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		如果读取对象中没有的属性值，不会报错而是返回<span class="token keyword">undefined</span>；
+        
+        修改对象的属性值，语法：对象<span class="token punctuation">.</span>属性名 <span class="token operator">=</span> 新的属性值；
+        obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"ZK"</span><span class="token punctuation">;</span>
+		
+		删除对象的属性，语法：<span class="token keyword">delete</span> 对象<span class="token punctuation">.</span>属性值<span class="token punctuation">;</span>
+		<span class="token keyword">delete</span> obj<span class="token punctuation">.</span>name<span class="token punctuation">;</span>
+
+	属性名：对象的属性名不强制要求遵守标识符的规范；
+    	如果要是用特殊的属性名，需要使用另一种方式读取属性值：
+        	语法：对象<span class="token punctuation">[</span><span class="token string">"属性名"</span><span class="token punctuation">]</span>
+	属性值：对象的属性值可以是任何类型的数据类型，<span class="token number">5</span>种基本数据类型，对象，函数等
+    	<span class="token keyword">in</span> 运算符：可以通过该运算符检查一个对象中是否含有指定的属性，返回值为Boolean；
+		console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"name"</span> <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="基本数据类型与引用数据类型"><a href="#基本数据类型与引用数据类型" class="headerlink" title="基本数据类型与引用数据类型"></a>基本数据类型与引用数据类型</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">在新建基本数据类型的变量时，都是直接在内存的栈中开辟内存空间存放数据；
+	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">123</span><span class="token punctuation">;</span> <span class="token comment">//此时程序在栈顶开辟一个内存区域存放变量名 a 和变量值 123，此时栈顶指针上移一位；</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span> a<span class="token punctuation">;</span> <span class="token comment">//此时程序在栈顶开辟一个内存区域存放变量名 b 和变量值 123，此时栈顶指针上移一位；</span>
+	a <span class="token operator">=</span> <span class="token number">456</span><span class="token punctuation">;</span> <span class="token comment">//在程序的内存区域中寻找变量a的存放地址，并修改其变量值为 456；</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a = "</span><span class="token operator">+</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 a = 456；</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b = "</span><span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 b = 123;</span>
+	可知内存中存放的基本数据类型变量都是单独存放的，值与值之间不会影响；
+ 
+在新建引用型变量 <span class="token operator">--</span> 对象时，会在内存的栈区存放对象名和对象的堆内存地址，在堆内存中存放对象的数据信息；
+	<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//创建一个名为 obj 的对象，在栈顶申请内存空间存放对象名和该对象的堆内存地址，此时obj已经申请了堆内存空间，但还未存放信息；</span>
+	obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"LK"</span><span class="token punctuation">;</span> <span class="token comment">//给obj新建属性name，值为 LK，数据信息将存储在obj的堆内存区域；</span>
+	<span class="token keyword">var</span> obj2 <span class="token operator">=</span> obj<span class="token punctuation">;</span> <span class="token comment">//新建一个obj2 对象，在栈内存区域申请空间存放对象名 obj2 和它的堆内存地址，此时obj2的堆内存地址和obj的堆内存地址相同，也就是这两个对象的堆内存指针指向同一块内存区域；</span>
+	obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"ZK"</span><span class="token punctuation">;</span> <span class="token comment">//修改obj的name属性值；</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj2<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	均输出 <span class="token constant">ZK</span> ；<span class="token comment">//可知对象如果保存的是同一个对象的地址引用，则通过一个对象修改属性值时，另一个也会受到影响；</span>
+    
+    		<span class="token comment">/*
+			 * 当比较两个基本数据类型的值时，就是比较值。
+			 * 而比较两个引用数据类型时，它是比较的对象的内存地址，
+			 * 		如果两个对象是一摸一样的，但是地址不同，它也会返回false
+			 */</span>
+    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="对象字面量"><a href="#对象字面量" class="headerlink" title="对象字面量"></a>对象字面量</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">在日常开发中，使用对象字面量创建一个对象比较常用；
+	<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//创建一个名为 obj 的空对象；</span>
+
+			<span class="token comment">/*
+			 * 使用对象字面量，可以在创建对象时，直接指定对象中的属性
+			 * 语法：&#123;属性名:属性值,属性名:属性值....&#125;
+			 * 	对象字面量的属性名可以加引号也可以不加，建议不加,
+			 * 	如果要使用一些特殊的名字，则必须加引号
+			 * 
+			 * 属性名和属性值是一组一组的名值对结构，
+			 * 	名和值之间使用:连接，多个名值对之间使用,隔开
+			 * 	如果一个属性之后没有其他的属性了，就不要写,
+			 */</span>
+			<span class="token keyword">var</span> obj2 <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+				
+				name<span class="token operator">:</span><span class="token string">"猪八戒"</span><span class="token punctuation">,</span>
+				age<span class="token operator">:</span><span class="token number">13</span><span class="token punctuation">,</span>
+				gender<span class="token operator">:</span><span class="token string">"男"</span><span class="token punctuation">,</span>
+				test<span class="token operator">:</span><span class="token punctuation">&#123;</span>name<span class="token operator">:</span><span class="token string">"沙僧"</span><span class="token punctuation">&#125;</span>
+				
+			<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="枚举对象中的属性"><a href="#枚举对象中的属性" class="headerlink" title="枚举对象中的属性"></a>枚举对象中的属性</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">枚举对象中的属性 <span class="token operator">--</span> 遍历对象中的属性；
+	使用 <span class="token keyword">for</span> <span class="token operator">...</span> <span class="token keyword">in</span> 语句
+		语法<span class="token operator">:</span>
+			<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> 变量 <span class="token keyword">in</span> 对象名<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                要执行的语句；
+                <span class="token operator">...</span>
+            <span class="token punctuation">&#125;</span>
+                
+            <span class="token operator">*</span> <span class="token keyword">for</span><span class="token operator">...</span><span class="token keyword">in</span>语句 对象中有几个属性，循环体就会执行几次
+			 <span class="token operator">*</span> 	每次执行时，会将对象中的一个属性名赋值给变量
+			 <span class="token operator">*</span><span class="token operator">/</span>
+			
+			<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> n <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"属性名:"</span><span class="token operator">+</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"属性值:"</span><span class="token operator">+</span>obj<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">			<span class="token comment">/*
+			 * 函数 function
+			 * 	- 函数也是一个对象
+			 * 	- 函数中可以封装一些功能（代码），在需要时可以执行这些功能（代码）
+			 * 	- 函数中可以保存一些代码在需要的时候调用
+			 * 	- 使用typeof检查一个函数对象时，会返回function
+			 */</span>
+创建函数：
+	方法<span class="token number">1</span>，使用构造函数来创建一个函数对象（开发中基本不使用）
+    	<span class="token comment">//将要封装的代码以字符串的形式传递给构造函数；</span>
+    	<span class="token keyword">var</span> func <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token string">"console.log('创建一个名为func的函数！')"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	方法<span class="token number">2</span>，使用函数声明来创建一个函数
+    	语法：
+        	<span class="token keyword">function</span> <span class="token function">函数名</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span>形参<span class="token number">1</span>，形参<span class="token number">2</span>，<span class="token operator">...</span><span class="token punctuation">]</span></span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                语句<span class="token punctuation">;</span>
+                <span class="token operator">...</span>
+            <span class="token punctuation">&#125;</span>
+         
+      方法<span class="token number">3</span>，使用函数表达式来创建一个函数
+      	<span class="token keyword">var</span> <span class="token function-variable function">函数名</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span>形参<span class="token number">1</span>，形参<span class="token number">2</span><span class="token punctuation">,</span><span class="token operator">...</span><span class="token punctuation">]</span></span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            语句；
+            <span class="token operator">...</span>
+        <span class="token punctuation">&#125;</span>
+            
+ 调用函数：
+ 	<span class="token function">函数名</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">可以在函数的</span><span class="token punctuation">(</span><span class="token punctuation">)</span>中来指定一个或多个形参（形式参数），多个形参之间使用<span class="token punctuation">,</span>隔开，声明形参就相当于在函数内部声明了对应的变量，但是并不赋值；
+		<span class="token comment">/*
+		 * 在调用函数时，可以在()中指定实参（实际参数）
+		 * 	实参将会赋值给函数中对应的形参
+		 */</span>
+		<span class="token comment">/*
+		 * 调用函数时解析器不会检查实参的类型,
+		 * 	所以要注意，是否有可能会接收到非法的参数，如果有可能则需要对参数进行类型的检查
+		 * 函数的实参可以是任意的数据类型
+		 */</span>
+		<span class="token comment">/*
+		 * 调用函数时，解析器也不会检查实参的数量
+		 * 	多余实参不会被赋值
+		 * 如果实参的数量少于形参的数量，则没有对应实参的形参将是undefined
+		 * 
+		 */</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="函数的返回值"><a href="#函数的返回值" class="headerlink" title="函数的返回值"></a>函数的返回值</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span> 可以使用 <span class="token keyword">return</span> 来设置函数的返回值
+<span class="token operator">*</span> 	语法：
+<span class="token operator">*</span> 		<span class="token keyword">return</span> 值
+<span class="token operator">*</span> 
+<span class="token operator">*</span> 	<span class="token keyword">return</span>后的值将会会作为函数的执行结果返回，
+<span class="token operator">*</span> 		可以定义一个变量，来接收该结果
+<span class="token operator">*</span> 
+<span class="token operator">*</span>  在函数中<span class="token keyword">return</span>后的语句都不会执行
+<span class="token operator">*</span> 
+<span class="token operator">*</span> 	如果<span class="token keyword">return</span>语句后不跟任何值就相当于返回一个<span class="token keyword">undefined</span>，
+<span class="token operator">*</span> 	如果函数中不写<span class="token keyword">return</span>，则也会返回<span class="token keyword">undefined</span>
+<span class="token operator">*</span> 
+<span class="token operator">*</span> 	<span class="token keyword">return</span>后可以跟任意类型的值
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="立即执行函数"><a href="#立即执行函数" class="headerlink" title="立即执行函数"></a>立即执行函数</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">/*
+ * 立即执行函数
+ * 	函数定义完，立即被调用，这种函数叫做立即执行函数
+ * 	立即执行函数往往只会执行一次
+ */</span>
+<span class="token comment">/*(function()&#123;
+	alert("我是一个匿名函数~~~");
+&#125;)();*/</span>
+
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span>b</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"a = "</span><span class="token operator">+</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"b = "</span><span class="token operator">+</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">,</span><span class="token number">456</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+输出 a <span class="token operator">=</span> <span class="token number">123</span><span class="token punctuation">;</span>
+	b <span class="token operator">=</span> <span class="token number">456</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="对象中的函数"><a href="#对象中的函数" class="headerlink" title="对象中的函数"></a>对象中的函数</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//对象的属性值可以是任何的数据类型，也可以是个函数</span>
+obj<span class="token punctuation">.</span><span class="token function-variable function">sayName</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+			<span class="token comment">/*
+			 * 函数也可以称为对象的属性，
+			 * 	如果一个函数作为一个对象的属性保存，
+			 * 	那么我们称这个函数时这个对象的方法
+			 * 	调用这个函数就说调用对象的方法（method）
+			 * 
+			 * 但是它只是名称上的区别没有其他的区别
+			 * 
+			 */</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="作用域（scope）"><a href="#作用域（scope）" class="headerlink" title="作用域（scope）"></a>作用域（scope）</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">			<span class="token comment">/*
+			 * 作用域
+			 * 	- 作用域指一个变量的作用的范围
+			 * 	- 在JS中一共有两种作用域：
+			 * 		1.全局作用域
+			 * 			- 直接编写在script标签中的JS代码，都在全局作用域
+			 * 			- 全局作用域在页面打开时创建，在页面关闭时销毁
+			 * 			- 在全局作用域中有一个全局对象window，
+			 * 				它代表的是一个浏览器的窗口，它由浏览器创建我们可以直接使用
+			 * 			- 在全局作用域中：
+			 * 				创建的变量都会作为window对象的属性保存
+			 * 				创建的函数都会作为window对象的方法保存
+			 * 			- 全局作用域中的变量都是全局变量，
+			 * 				在页面的任意的部分都可以访问的到
+			 * 
+			 * 		2.函数作用域
+			 * 
+			 */</span>
+
+<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">123</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 123 ；</span>
+
+<span class="token keyword">function</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+window<span class="token punctuation">.</span><span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 hello；</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="变量的提前声明"><a href="#变量的提前声明" class="headerlink" title="变量的提前声明"></a>变量的提前声明</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">			<span class="token comment">/*
+			 * 变量的声明提前
+			 * 	- 使用var关键字声明的变量，会在所有的代码执行之前被声明（但是不会赋值），
+			 * 		但是如果声明变量时不适用var关键字，则变量不会被声明提前
+			 * 
+			 * 函数的声明提前
+			 * 	- 使用函数声明形式创建的函数 function 函数()&#123;&#125;
+			 * 		它会在所有的代码执行之前就被创建，所以我们可以在函数声明前来调用函数
+			 * 	   使用函数表达式创建的函数，不会被声明提前，所以不能在声明前调用	
+			 */</span>
+
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">123</span><span class="token punctuation">;</span>
+	输出 <span class="token keyword">undefined</span> ； 此时 a已经被提前声明，但是为赋值，所以为<span class="token keyword">undefined</span>；
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span>
+
+<span class="token operator">&lt;</span>script<span class="token operator">></span>
+    <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 "我是一个fun函数" ；因为fun() 已经被完全声明， 声明fun()的所有代码已经被全部执行；</span>
+	<span class="token function">fun2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 报错 Uncaught TypeError: fun2 is not a function</span>
+	<span class="token comment">//函数声明，会被提前创建</span>
+	<span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"我是一个fun函数"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+	<span class="token comment">//函数表达式，不会被提前创建</span>
+			<span class="token keyword">var</span> <span class="token function-variable function">fun2</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"我是fun2函数"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="函数的作用域"><a href="#函数的作用域" class="headerlink" title="函数的作用域"></a>函数的作用域</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">			<span class="token comment">/*
+			 * 函数作用域	
+			 * 	- 调用函数时创建函数作用域，函数执行完毕以后，函数作用域销毁
+			 * 	- 每调用一次函数就会创建一个新的函数作用域，他们之间是互相独立的
+			 * 	- 在函数作用域中可以访问到全局作用域的变量
+			 * 		在全局作用域中无法访问到函数作用域的变量
+			 * 	- 当在函数作用域操作一个变量时，它会先在自身作用域中寻找，如果有就直接使用(如果在函数中需要使用同名的全局变量，可以使用window.变量名获取)；
+			 * 		如果没有则向上一级作用域中寻找，直到找到全局作用域，
+			 * 		如果全局作用域中依然没有找到，则会报错ReferenceError
+			 * 	- 在函数中要访问全局变量可以使用window对象
+			 */</span>
+
+			<span class="token comment">/*
+			 * 在函数作用域也有声明提前的特性，
+			 * 	使用var关键字声明的变量，会在函数中所有的代码执行之前被声明
+			 * 	函数声明也会在函数中所有的代码执行之前执行（函数中的函数）
+			 */</span>
+
+<span class="token operator">*</span> 在函数中，不适用<span class="token keyword">var</span>声明的变量都会成为全局变量
+<span class="token keyword">function</span> <span class="token function">fun5</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				<span class="token comment">//d没有使用var关键字，则会设置为全局变量</span>
+				d <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+			<span class="token function">fun5</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">//在全局输出c</span>
+			console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"d = "</span><span class="token operator">+</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span>
+输出 d <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+
+<span class="token operator">*</span> 定义形参就相当于在函数作用域中声明了变量
+<span class="token keyword">var</span> e <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">;</span>
+<span class="token keyword">function</span> <span class="token function">fun6</span><span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+				<span class="token function">alert</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">&#125;</span>
+<span class="token function">fun6</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token comment">//输出 undefined； 定义函数时定义了形参相当于声明了函数作用域中的变量e，所以在调用函数时不会往函数外的全局作用域寻找变量e；调用时未传入参数则输出undefined；</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/20/%E5%AF%B9%E8%B1%A1-%E5%87%BD%E6%95%B0/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/20/%E5%AF%B9%E8%B1%A1-%E5%87%BD%E6%95%B0/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/19/流程控制-循环/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">流程控制语法 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型与引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">对象字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-text">枚举对象中的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">函数的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-text">立即执行函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-text">对象中的函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%88scope%EF%BC%89"><span class="toc-text">作用域（scope）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%8F%90%E5%89%8D%E5%A3%B0%E6%98%8E"><span class="toc-text">变量的提前声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">函数的作用域</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>25</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>5</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型与引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">对象字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-text">枚举对象中的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">函数的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-text">立即执行函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-text">对象中的函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%88scope%EF%BC%89"><span class="toc-text">作用域（scope）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%8F%90%E5%89%8D%E5%A3%B0%E6%98%8E"><span class="toc-text">变量的提前声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">函数的作用域</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">4</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-text">对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">基本数据类型与引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="toc-text">对象字面量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-text">枚举对象中的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">函数的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数的返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0"><span class="toc-text">立即执行函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-text">对象中的函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F%EF%BC%88scope%EF%BC%89"><span class="toc-text">作用域（scope）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E6%8F%90%E5%89%8D%E5%A3%B0%E6%98%8E"><span class="toc-text">变量的提前声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">函数的作用域</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-20</div>
+        <a href="/2022/03/20/对象-函数/"><div class="recent-posts-item-content">对象-函数</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-19</div>
+        <a href="/2022/03/19/流程控制-循环/"><div class="recent-posts-item-content">流程控制语法</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-18</div>
+        <a href="/2022/03/18/运算符/"><div class="recent-posts-item-content">运算符</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-16</div>
+        <a href="/2022/03/16/JS-数据类型与转换/"><div class="recent-posts-item-content">JS-数据类型与转换</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Codeing </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
