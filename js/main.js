@@ -1,4 +1,4 @@
-console.log('hexo-theme-stellar:\n' + stellar.github);
+// console.log('hexo-theme-stellar:\n' + stellar.github);
 // utils
 const util = {
 
