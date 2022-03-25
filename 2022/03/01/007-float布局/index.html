@@ -1,239 +1,88 @@
 <!DOCTYPE html>
-<html  lang="zh-CN" >
+<html lang='zh-CN'>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#fff" id="theme-color">
-  <meta name="description" content="_NULL0的个人博客">
-  <link rel="icon" href="/img/blog.png">
-  <title>007-float布局</title>
+  <meta name="generator" content="Hexo 5.3.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  <title>007-float布局 - Hexo</title>
+
+  
+    <meta name="description" content="float布局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="007-float布局">
+<meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="float布局">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-01T07:34:05.000Z">
+<meta property="article:modified_time" content="2022-03-03T06:09:49.159Z">
+<meta property="article:author" content="_NULL0">
+<meta property="article:tag" content="WEB前端">
+<meta name="twitter:card" content="summary">
   
   
-  <meta property="og:title" content="007-float布局">
+
+  <!-- feed -->
   
+
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/index.html">
-  
-  
-  <meta property="og:img" content="/img/touxiang.png">
-  
-  
-  <meta property="og:img" content="float布局">
-  
-  
-  <meta property="og:type" content="article">
-  <meta property="og:article:published_time" content="2022-03-01">
-  <meta property="og:article:modified_time" content="2022-03-03">
-  <meta property="og:article:author" content="NULL0">
-  
-  
-  <meta property="og:article:tag" content="WEB前端">
-  
-  
-  
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-    var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-      }
-    };
-    setDarkmode();
-  </script>
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  </script>
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
-  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
-  
-  
-  
-  
+    
 <link rel="stylesheet" href="/css/main.css">
 
   
-  
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
 
   
-  
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
 
   
-  
-<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
-
-  
-  
-  
-  
-  
-  
-  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
-  
-  
-  
-<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
-
-  
-  
-  
-<meta name="generator" content="Hexo 5.3.0"></head>
-
+</head>
 
 <body>
-  <div class="wrapper">
-    
-    <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
-      
-      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
-      
-      <span class="navbar-logo-dsc">Codeing</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-    <a href="/" class="navbar-menu-item">
-    
-    首页
-    
-    </a>
-    
-    <a href="/archives" class="navbar-menu-item">
-    
-    归档
-    
-    </a>
-    
-    <a href="/tags" class="navbar-menu-item">
-    
-    标签
-    
-    </a>
-    
-    <a href="/categories" class="navbar-menu-item">
-    
-    分类
-    
-    </a>
-    
-    <a href="/links" class="navbar-menu-item">
-    
-    友链
-    
-    </a>
-    
-    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
-    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
-  </div>
-</nav>
-    
-    <div id="local-search" style="display: none;">
-      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
-      <div id="search-content"></div>
-    </div>
-    
-    <div class="section-wrap">
-      <div class="container">
-        <div class="columns">
-          <main class="main-column">
-<article class="card card-content">
-  <header>
-    <h1 class="post-title">
-      007-float布局
-    </h1>
-  </header>
-  <div class="post-meta post-show-meta">
-    <time datetime="2022-03-01T07:34:05.000Z">
-      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
-      <span>2022-03-01</span>
-    </time>
-    
-    <span class="dot"></span>
-    
-    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
-    
-    
-    
-    <span class="dot"></span>
-    <span>1.9k 字</span>
-    
-  </div>
   
-  <div class="post-meta post-show-meta" style="margin-top: -10px;">
-    <div style="display: flex; align-items: center;">
-      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+
+<header class="header">
+
+<div class="logo-wrap"><a class="title" href="/"><div class="main"><img no-lazy height="32px" src="/img/blog.png"/ onerror="javascript:this.classList.add('error');this.src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/notes/">笔记</a><a class="nav-item" href="/more/">更多</a></nav></header>
+
+<div class="widgets">
+
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol></div></div></div>
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
       
+
       
-        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
-      
-    </div>
-  </div>
-  
-  </header>
-  <div id="section" class="post-content">
-    <h2 id="1-浮动布局（Float）"><a href="#1-浮动布局（Float）" class="headerlink" title="1.浮动布局（Float）"></a>1.浮动布局（Float）</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">浮动： 使用 float 属性设置 默认值为none； left 元素向左移动； right 元素向右移动；
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/HTML-CSS%E5%AD%A6%E4%B9%A0/">HTML-CSS学习</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-03-01T07:34:05.000Z">2022-03-01</time></div></div>
+
+<article class='content md post'>
+<h1 class="article-title"><span>007-float布局</span></h1>
+<h2 id="1-浮动布局（Float）"><a href="#1-浮动布局（Float）" class="headerlink" title="1.浮动布局（Float）"></a>1.浮动布局（Float）</h2><pre class="line-numbers language-css" data-language="css"><code class="language-css"><span class="token selector">浮动： 使用 float 属性设置 默认值为none； left 元素向左移动； right 元素向右移动；
 	PS：一旦元素开启了float属性 此元素将脱离文档流 水平布局的等式便不再强制成立
 		不占用文档流的元素浮动后 还在文档流的元素将自动补上
 
@@ -451,343 +300,174 @@ PS：这里将字符串元素转换成table类型 是因为block不能将父子�
 
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-  </div>
-  <div>
-  
-  <div class="post-note note-warning copyright" style="margin-top: 42px">
-    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
-    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/01/007-float%E5%B8%83%E5%B1%80/</a></p>
-    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
-  </div>
-  
-  </div>
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
 </article>
-<div class="nav">
-  
-  <div class="nav-item-prev">
-    <a href="/2022/03/01/008-position布局/" class="nav-link">
-      <i class="iconfont icon-left nav-prev-icon"></i>
-      <div>
-        <div class="nav-label">上一篇</div>
-        
-        <div class="nav-title">008-position布局 </div>
-        
-      </div>
-    </a>
-  </div>
-  
-  
-  <div class="nav-item-next">
-    <a href="/2022/02/27/006-文档流-盒模型/" class="nav-link">
-      <div>
-        <div class="nav-label">下一篇</div>
-        
-        <div class="nav-title">006-文档流-盒模型 </div>
-        
-      </div>
-      <i class="iconfont icon-right nav-next-icon"></i>
-    </a>
-  </div>
-  
+
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/02/27/006-%E6%96%87%E6%A1%A3%E6%B5%81-%E7%9B%92%E6%A8%A1%E5%9E%8B/">006-文档流-盒模型<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/03/01/008-position%E5%B8%83%E5%B1%80/">008-position布局<span class="note">较新</span></a></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/">@_NULL0</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
 </div>
 
-<div class="card card-content comment-card" style="margin-top: 16px;">
-  <div class="comment-card-title">评论</div>
-  
-  <div id="vcomments"></div>
-  
-  <script>
-    loadScript("//unpkg.com/valine/dist/Valine.min.js");
-    var oldLoadVa = window.onload;
-    window.onload = function () {
-      oldLoadVa && oldLoadVa();
-      new Valine({
-        el: '#vcomments',
-        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
-        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
-        placeholder: 'Just go go',
-        path: window.location.pathname,
-        avatar: 'mp',
-        meta: ["nick","mail","link"],
-        pageSize: '10',
-        lang: '',
-        visitor: 'false',
-        highlight: true,
-        recordIP: false,
-        
-        
-        
-        enableQQ: 'false',
-        requiredFields: [],
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
       });
-    };
-  </script>
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
 
-</div>
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
 
-<div class="card card-content toc-card" id="mobiletoc">
-  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
-</div></main>
-          <aside class="left-column">
-            
-            <div class="card card-author">
-              
-<img src="/img/touxiang.png" class="author-img">
-
-<p class="author-name">NULL0</p>
-<p class="author-description">_NULL0的个人博客</p>
-<div class="author-message">
-  <a class="author-posts-count" href="/archives">
-    <span>30</span>
-    <span>文章</span>
-  </a>
-  <a class="author-categories-count" href="/categories">
-    <span>5</span>
-    <span>分类</span>
-  </a>
-  <a class="author-tags-count" href="/tags">
-    <span>3</span>
-    <span>标签</span>
-  </a>
-</div>
-
-            </div>
-            
-            <div class="sticky-tablet">
-  
-  
-  <article class="display-when-two-columns spacer">
-    <div class="card card-content toc-card">
-      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
-    </div>
-  </article>
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
-  <div class="categories-list">
-    
-      <a href="/categories/HTML-CSS学习">
-        <div class="categories-list-item">
-          HTML-CSS学习
-          <span class="categories-list-item-badge">18</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Hexo环境搭建">
-        <div class="categories-list-item">
-          Hexo环境搭建
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Hexo文章测试">
-        <div class="categories-list-item">
-          Hexo文章测试
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/计算机网络复习">
-        <div class="categories-list-item">
-          计算机网络复习
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/JavaScript基础">
-        <div class="categories-list-item">
-          JavaScript基础
-          <span class="categories-list-item-badge">9</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
-  <div class="tags-list">
-    
-    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
-    
-    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
-    
-    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-          </aside>
-          <aside class="right-column">
-            <div class="sticky-widescreen">
-  
-  
-  <article class="card card-content toc-card">
-    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%EF%BC%88Float%EF%BC%89"><span class="toc-text">1.浮动布局（Float）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%AE%E5%8A%A8%E5%B8%83%E5%B1%80%E4%B8%8E%E6%96%87%E5%AD%97"><span class="toc-text">2.浮动布局与文字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">3.高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-BFC%EF%BC%88%E5%9D%97%E7%BA%A7%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%8E%AF%E5%A2%83%EF%BC%89%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98"><span class="toc-text">4.BFC（块级格式化环境）解决高度塌陷问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-clear"><span class="toc-text">5.clear</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-clearfix%E8%A7%A3%E5%86%B3%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-text">6.clearfix解决高度塌陷</span></a></li></ol>
-  </article>
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-24</div>
-        <a href="/2022/03/24/事件对象/"><div class="recent-posts-item-content">事件对象-鼠标事件</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-23</div>
-        <a href="/2022/03/23/DOM-查询与修改/"><div class="recent-posts-item-content">DOM-查询与修改</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-22</div>
-        <a href="/2022/03/22/String-正则表达式/"><div class="recent-posts-item-content">String-正则表达式</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-21</div>
-        <a href="/2022/03/21/数组-Date-Math/"><div class="recent-posts-item-content">数组-Date-Math</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-          </aside>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>Copyright ©
-          
-          2021 -
-          
-          2022
-        </span>
-        &nbsp;
-        <a href="/" class="footer-link">Codeing </a>
-      </div>
-    </div>
-
-    
-    <div class="footer-dsc">
-      
-      Powered by
-      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
-      
-      
-      <span>&nbsp;|&nbsp;</span>
-      
-      
-      Theme -
-      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
-        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
-      
-    </div>
-    
-    
-    
-    
-      <div class="footer-dsc">
-        
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-        
-        
-        <span>&nbsp;|&nbsp;</span>
-        
-        
-        本站总访客数<span id="busuanzi_value_site_uv"></span>次
-        
-      </div>
-      
-    
-</footer>
-  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
-  <i class="iconfont icon-arrowleft button-icon"></i>
-</a>
-<a role="button" id="menubutton" class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a>
-
-  
-  
-  
-  <script>
-  var addImgLayout = function () {
-    var img = document.querySelectorAll('.post-content img');
-    var i;
-    for (i = 0; i < img.length; i++) {
-      var wrapper = document.createElement('a');
-      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
-      wrapper.setAttribute('aria-label', 'illustration');
-      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
-      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
-      wrapper.dataset.nolink = true;
-      img[i].before(wrapper);
-      wrapper.append(img[i]);
-      var divWrap = document.createElement('div');
-      divWrap.classList.add('gallery');
-      wrapper.before(divWrap);
-      divWrap.append(wrapper);
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
     }
-    baguetteBox.run('.gallery');
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@6/swiper-bundle.min.css","js":"https://unpkg.com/swiper@6/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
   }
 </script>
-<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
-  
-  
-  
-<script src="/js/main.js"></script>
+
+<!-- required -->
 
   
-  <script>loadScript("/js/lib/busuanzi.min.js")</script>
-  
-  
-  <script>
-    var addLazyload = function () {
-      var observer = lozad('.lozad', {
-        load: function (el) {
-          el.srcset = el.getAttribute('data-src');
-        },
-        loaded: function (el) {
-          el.classList.add('loaded');
-        }
-      });
-      observer.observe();
-    }
-  </script>
-  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
-  
-  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
 </body>
-
 </html>

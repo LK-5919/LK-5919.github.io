@@ -1,735 +1,277 @@
 <!DOCTYPE html>
-<html  lang="zh-CN" >
+<html lang='zh-CN'>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#fff" id="theme-color">
-  <meta name="description" content="_NULL0的个人博客">
-  <link rel="icon" href="/img/blog.png">
-  <title>标签</title>
+  <meta name="generator" content="Hexo 5.3.0">
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,follow">
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  <title>标签：Hexo - Hexo</title>
+
+  
+    <meta name="description" content="_NULL0的个人博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/tags/Hexo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="_NULL0的个人博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="_NULL0">
+<meta name="twitter:card" content="summary">
   
   
-  <meta property="og:title" content="标签">
+
+  <!-- feed -->
   
+
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/tags/Hexo/index.html">
-  
-  
-  <meta property="og:img" content="/img/touxiang.png">
-  
-  
-  <meta property="og:img" content="_NULL0的个人博客">
-  
-  
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-    var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-      }
-    };
-    setDarkmode();
-  </script>
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  </script>
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
-  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
-  
-  
-  
-  
+    
 <link rel="stylesheet" href="/css/main.css">
 
   
-  
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
 
   
-  
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
 
   
-  
-  
-  
-  
-  
-  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
-  
-  
-  
-<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
-
-  
-  
-  
-<meta name="generator" content="Hexo 5.3.0"></head>
-
+</head>
 
 <body>
-  <div class="wrapper">
-    
-    <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
-      
-      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
-      
-      <span class="navbar-logo-dsc">Codeing</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-    <a href="/" class="navbar-menu-item">
-    
-    首页
-    
-    </a>
-    
-    <a href="/archives" class="navbar-menu-item">
-    
-    归档
-    
-    </a>
-    
-    <a href="/tags" class="navbar-menu-item">
-    
-    标签
-    
-    </a>
-    
-    <a href="/categories" class="navbar-menu-item">
-    
-    分类
-    
-    </a>
-    
-    <a href="/links" class="navbar-menu-item">
-    
-    友链
-    
-    </a>
-    
-    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
-    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
-  </div>
-</nav>
-    
-    <div id="local-search" style="display: none;">
-      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
-      <div id="search-content"></div>
-    </div>
-    
-    <div class="section-wrap">
-      <div class="container">
-        <div class="columns">
-          <main class="main-column">
-<div class="card card-content tag-page-card">
-  <div class="tags-page-title">标签&nbsp-&nbspHexo</div>
-</div>
-<div class="archive-timeline">
   
-  
-    
-      <div class="archive-timeline-tag"><span>2021</span></div>
-      
-    
-    <div class="archive-timeline-item">
-      <div class="archive-timeline-post">
-        <div class="card card-content">
-          <div class="archive-timeline-post-date">2021-02-21</div>
-          <div class="archive-timeline-post-content"><a href="/2021/02/21/Hexo环境搭建/" class="archive-timeline-post-item">Hexo环境搭建</a></div>
-        </div>
-      </div>
-    </div>
-  
-    
-    <div class="archive-timeline-item">
-      <div class="archive-timeline-post">
-        <div class="card card-content">
-          <div class="archive-timeline-post-date">2021-02-20</div>
-          <div class="archive-timeline-post-content"><a href="/2021/02/20/hello-world/" class="archive-timeline-post-item">Hello Hexo</a></div>
-        </div>
-      </div>
-    </div>
-  
-</div></main>
-          <aside class="left-column">
-            
-            <div class="card card-author">
-              
-<img src="/img/touxiang.png" class="author-img">
 
-<p class="author-name">NULL0</p>
-<p class="author-description">_NULL0的个人博客</p>
-<div class="author-message">
-  <a class="author-posts-count" href="/archives">
-    <span>30</span>
-    <span>文章</span>
-  </a>
-  <a class="author-categories-count" href="/categories">
-    <span>5</span>
-    <span>分类</span>
-  </a>
-  <a class="author-tags-count" href="/tags">
-    <span>3</span>
-    <span>标签</span>
-  </a>
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout=''>
+    
+
+
+<header class="header">
+
+<div class="logo-wrap"><a class="title" href="/"><div class="main"><img no-lazy height="32px" src="/img/blog.png"/ onerror="javascript:this.classList.add('error');this.src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></div></a></div>
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/notes/">笔记</a><a class="nav-item" href="/more/">更多</a></nav></header>
+
+<div class="widgets">
+<div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Stellar 入门指南</span></div><div class="widget-body fs14"><p>欢迎使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/">Stellar</a> 主题，下面是您的入门指南，祝您使用愉快！<br><br><br><strong>第一步</strong><br>创建 <code>blog/_config.stellar.yml</code> 文件，在此文件中填写需要自定义的主题配置。<br><br><br><strong>第二步</strong><br>创建 <code>blog/source/_data/widgets.yml</code> 文件，此文件中填写需要自定义的侧边栏组件，例如 <code>welcome</code> 组件。<br><br><br>如果有任何疑问，请先查阅<a target="_blank" rel="noopener" href="https://xaoxuu.com/wiki/stellar/">文档</a>，如果文档中没有提供，请提 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/issues/">issue</a> 向开发中询问。</p>
+</div></div>
+
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/03/24/%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1/"><div class="cap"><time>2022-03-25</time><span>JavaScript基础</span></div><span class="title">事件对象-鼠标事件</span></a><div class="line"></div><a class="more-item" href="/2022/03/23/DOM-%E6%9F%A5%E8%AF%A2%E4%B8%8E%E4%BF%AE%E6%94%B9/"><div class="cap"><time>2022-03-24</time><span>JavaScript基础</span></div><span class="title">DOM-查询与修改</span></a><div class="line"></div><a class="more-item" href="/2022/03/22/String-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><div class="cap"><time>2022-03-22</time><span>JavaScript基础</span></div><span class="title">String-正则表达式</span></a><div class="line"></div><a class="more-item" href="/2022/03/21/%E6%95%B0%E7%BB%84-Date-Math/"><div class="cap"><time>2022-03-22</time><span>JavaScript基础</span></div><span class="title">数组-Date-Math</span></a><div class="line"></div><a class="more-item" href="/2022/03/21/this-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-%E5%8E%9F%E5%9E%8B%E5%AF%B9%E8%B1%A1-%E5%8E%9F%E5%9E%8B/"><div class="cap"><time>2022-03-21</time><span>JavaScript基础</span></div><span class="title">this-构造函数-原型对象-原型</span></a></div></div>
 </div>
 
-            </div>
-            
-            <div class="sticky-tablet">
-  
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
-  <div class="categories-list">
-    
-      <a href="/categories/HTML-CSS学习">
-        <div class="categories-list-item">
-          HTML-CSS学习
-          <span class="categories-list-item-badge">18</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Hexo环境搭建">
-        <div class="categories-list-item">
-          Hexo环境搭建
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Hexo文章测试">
-        <div class="categories-list-item">
-          Hexo文章测试
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/计算机网络复习">
-        <div class="categories-list-item">
-          计算机网络复习
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/JavaScript基础">
-        <div class="categories-list-item">
-          JavaScript基础
-          <span class="categories-list-item-badge">9</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
-  <div class="tags-list">
-    
-    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
-    
-    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
-    
-    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-  <article class="card card-content widescreen-archive archive-widget">
-    <div class="archive-card">
-  <div class="archive-card-header"><i class="iconfont icon-wodebaobiao" style="padding-right: 2px;"></i>归档</div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a href="/archives/2022" class="archive-card-list-item">
-              2022
-              <span class="archive-card-list-item-badge">27</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a href="/archives/2021" class="archive-card-list-item">
-          2021
-          <span class="archive-card-list-item-badge">3</span>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-</div>
-          </aside>
-          <aside class="right-column">
-            <div class="sticky-widescreen">
-  
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-24</div>
-        <a href="/2022/03/24/事件对象/"><div class="recent-posts-item-content">事件对象-鼠标事件</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-23</div>
-        <a href="/2022/03/23/DOM-查询与修改/"><div class="recent-posts-item-content">DOM-查询与修改</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-22</div>
-        <a href="/2022/03/22/String-正则表达式/"><div class="recent-posts-item-content">String-正则表达式</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-21</div>
-        <a href="/2022/03/21/数组-Date-Math/"><div class="recent-posts-item-content">数组-Date-Math</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-  <article class="card card-content">
-    <div class="archive-card">
-  <div class="archive-card-header"><i class="iconfont icon-wodebaobiao" style="padding-right: 2px;"></i>归档</div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a href="/archives/2022" class="archive-card-list-item">
-              2022
-              <span class="archive-card-list-item-badge">27</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a href="/archives/2021" class="archive-card-list-item">
-          2021
-          <span class="archive-card-list-item-badge">3</span>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-</div>
-          </aside>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>Copyright ©
-          
-          2021 -
-          
-          2022
-        </span>
-        &nbsp;
-        <a href="/" class="footer-link">Codeing </a>
-      </div>
-    </div>
 
-    
-    <div class="footer-dsc">
+    </aside>
+    <div class='l_main list'>
       
-      Powered by
-      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+  
+
+<header class="header mobile-only">
+
+<div class="logo-wrap"><a class="title" href="/"><div class="main"><img no-lazy height="32px" src="/img/blog.png"/ onerror="javascript:this.classList.add('error');this.src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/image/2659360.svg';"></div></a></div>
+</header>
+
+
+
       
-      
-      <span>&nbsp;|&nbsp;</span>
-      
-      
-      Theme -
-      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
-        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
-      
-    </div>
-    
-    
-    
-    
-      <div class="footer-dsc">
-        
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-        
-        
-        <span>&nbsp;|&nbsp;</span>
-        
-        
-        本站总访客数<span id="busuanzi_value_site_uv"></span>次
-        
-      </div>
-      
-    
-</footer>
-  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
-  <i class="iconfont icon-arrowleft button-icon"></i>
-</a>
-<a role="button" id="menubutton" class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a>
 
   
-  
-  
-  
-  
-<script src="/js/main.js"></script>
 
+
+  <div class='nav-wrap'>
+  <nav class='sub post cap'>
+    
+      <a href='/'>近期发布</a>
+    
+    
+      
+        <a href='/categories'>分类</a>
+      
+    
+    
+      
+        <a class='active' href='/tags'>标签：Hexo</a>
+      
+    
+    
+      
+        <a href='/archives'>归档</a>
+      
+    
+  </nav>
+</div>
+
+  <div class="post-list post"><a class="post-card post " href="/2021/02/21/Hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><article class="md">
+<h2 class="post-title">Hexo环境搭建</h2><div class="excerpt"><p>Hexo环境搭建（转载）</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-02-21T03:24:55.000Z">2021-02-21</time></span><span class="cap breadcrumb">Hexo环境搭建</span><div>
+</article></a><a class="post-card post " href="/2021/02/20/hello-world/"><article class="md">
+<h2 class="post-title">Hello Hexo</h2><div class="excerpt"><p>这是我的第一篇Hexo博客</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-02-20T14:43:56.406Z">2021-02-20</time></span><span class="cap breadcrumb">Hexo文章测试</span><div>
+</article></a></div>
   
-  <script>loadScript("/js/lib/busuanzi.min.js")</script>
-  
-  
-  <script>
-    var addLazyload = function () {
-      var observer = lozad('.lozad', {
-        load: function (el) {
-          el.srcset = el.getAttribute('data-src');
-        },
-        loaded: function (el) {
-          el.classList.add('loaded');
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/">@_NULL0</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
         }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
       });
-      observer.observe();
-    }
-  </script>
-  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
-  
-  
-</body>
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
 
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@6/swiper-bundle.min.css","js":"https://unpkg.com/swiper@6/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
 </html>
