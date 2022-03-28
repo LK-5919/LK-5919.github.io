@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>原型-原型链</title>
+  
+  
+  <meta property="og:title" content="原型-原型链">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/28/%E5%8E%9F%E5%9E%8B-%E5%8E%9F%E5%9E%8B%E9%93%BE/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="原型 - 原型链 - instanceof">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-03-28">
+  <meta property="og:article:modified_time" content="2022-03-29">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      原型-原型链
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-03-28T03:56:58.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-03-28</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/JavaScript基础/" class="post-meta-link">JavaScript基础</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>3k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token number">1.</span> <span class="token function">函数的prototype属性</span><span class="token punctuation">(</span>图<span class="token punctuation">)</span>
+  <span class="token operator">*</span> 每个函数都有一个prototype属性<span class="token punctuation">,</span> <span class="token function">它默认指向一个Object实例空对象</span><span class="token punctuation">(</span>可称其为当前函数的原型对象，这里的空对象并不等与<span class="token keyword">null</span>，而是说在初始时我们还没有在其身上定义自己的方法和属性，初始时该对象身上已经有了默认隐含的constructor，其指回函数本身<span class="token punctuation">)</span>
+  <span class="token operator">*</span> 原型对象中有一个属性constructor<span class="token punctuation">,</span> 它指向函数对象
+<span class="token number">2.</span> <span class="token function">给原型对象添加属性</span><span class="token punctuation">(</span>一般都是方法<span class="token punctuation">)</span>
+  <span class="token operator">*</span> 作用<span class="token operator">:</span> <span class="token function">函数的所有实例对象自动拥有原型中的属性</span><span class="token punctuation">(</span>方法<span class="token punctuation">)</span>
+<span class="token operator">--</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328202329724.png" alt="image-20220328202329724" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328202329724.png" class="lozad post-image"></p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328204714034.png" alt="image-20220328204714034" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328204714034.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//声明一个构造函数</span>
+<span class="token keyword">function</span> <span class="token function">Fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是Fun构造函数！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//查看当前构造函数的原型对象</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Fun<span class="token punctuation">.</span>prototye<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+在这里打印Fun的原型对象时发现此时已经存在了下面代码语句执行后的属性 --- 给Fun原型对象添加
+test()方法，在这里以我目前的找到的有两种解释：
+
+	1.声明提前，因为此时Fun函数对象已经存在，所以下面的语句 Fun.prototype.test = function
+	会被提前执行，也就是说在执行到打印原型对象时，原型对象身上已经有了test(并且知道此时test是方法)，但是此时还没有执行赋值语句，此时打印出test为undefined；
+	
+	2.浏览器显示的最终结果；
+	
+	我倾向第一种解释；
+*/</span>
+<span class="token comment">//通过构造函数身上的prototype属性给它的原型对象身上添加属性</span>
+<span class="token class-name">Fun</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">test</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"test()"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//添加给原型对象的方法可以通过实例对象访问到</span>
+<span class="token keyword">var</span> fun <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 这是Fun构造函数！</span>
+fun<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 test()</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328211430301.png" alt="image-20220328211430301" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328211430301.png" class="lozad post-image"></p>
+<h3 id="给window添加方法或属性的声明提前"><a href="#给window添加方法或属性的声明提前" class="headerlink" title="给window添加方法或属性的声明提前"></a>给window添加方法或属性的声明提前</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>aLK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ window<span class="token punctuation">.</span><span class="token function-variable function">aLK</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是自定义的window方法"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>aLK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+从下图可知在还没有执行
+	window.aLK = function ()&#123;
+        console.log("这是自定义的window方法");
+    &#125;
+ 这一代码时，window身上已经有了aLK这一属性，而且知道aLK是方法，所以可知此时给全局变量添加属性或方法将会提前声明，但是不会赋值；
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328211800315.png" alt="image-20220328211800315" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328211800315.png" class="lozad post-image"></p>
+<h2 id="显示原型与隐式原型"><a href="#显示原型与隐式原型" class="headerlink" title="显示原型与隐式原型"></a>显示原型与隐式原型</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token number">1.</span> 每个函数<span class="token keyword">function</span><span class="token function">都有一个prototype，即显式原型</span><span class="token punctuation">(</span>属性<span class="token punctuation">)</span>
+		其实每个函数都有显式原型属性和隐式原型属性；
+<span class="token number">2.</span> <span class="token function">每个实例对象都有一个__proto__，可称为隐式原型</span><span class="token punctuation">(</span>属性<span class="token punctuation">)</span>
+		实例对象只有隐式原型属性；
+<span class="token number">3.</span> 实例对象的隐式原型的值为其对应构造函数的显式原型的值
+<span class="token number">4.</span> <span class="token function">内存结构</span><span class="token punctuation">(</span>图<span class="token punctuation">)</span>
+<span class="token number">5.</span> 总结<span class="token operator">:</span>
+  <span class="token operator">*</span> 函数的prototype属性<span class="token operator">:</span> 在定义函数时自动添加的<span class="token punctuation">,</span> 默认值是一个空Object对象
+  <span class="token operator">*</span> 实例对象的__proto__属性<span class="token operator">:</span> 创建对象时自动添加的<span class="token punctuation">,</span> 默认值为构造函数的prototype属性值
+  <span class="token operator">*</span> 程序员能直接操作显式原型<span class="token punctuation">,</span> <span class="token function">但不能直接操作隐式原型</span><span class="token punctuation">(</span><span class="token constant">ES6</span>之前<span class="token punctuation">)</span>
+<span class="token operator">--</span><span class="token operator">></span>
+
+<span class="token comment">//定义构造函数</span>
+  <span class="token keyword">function</span> <span class="token function">Fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>   <span class="token comment">// 内部语句: this.prototype = &#123;&#125;</span>
+
+  <span class="token punctuation">&#125;</span>
+  
+<span class="token keyword">var</span> fun <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 内部语句: this.__proto__ = Fun.prototype</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fun<span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 undefined  -- 实例对象身上没有prototype属性；</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fun<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//输出 &#123;constructor: ƒ&#125;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fun</span><span class="token punctuation">.</span>prototype <span class="token operator">===</span> fun<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 true</span>
+
+<span class="token comment">/*
+	可知构造函数的显示原型prototype的值 === 其实例对象的隐式原型__proto__ 的值；
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328213135500.png" alt="image-20220328213135500" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328213135500.png" class="lozad post-image"></p>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token number">1.</span> 原型链
+  <span class="token operator">*</span> 访问一个对象的属性时，
+    <span class="token operator">*</span> 先在自身属性中查找，找到返回
+    <span class="token operator">*</span> 如果没有<span class="token punctuation">,</span> 再沿着__proto__这条链向上查找<span class="token punctuation">,</span> 找到返回
+    <span class="token operator">*</span> 如果最终没找到<span class="token punctuation">,</span> 返回<span class="token keyword">undefined</span>
+  <span class="token operator">*</span> 别名<span class="token operator">:</span> 隐式原型链
+  <span class="token operator">*</span> 作用<span class="token operator">:</span> <span class="token function">查找对象的属性</span><span class="token punctuation">(</span>方法<span class="token punctuation">)</span>
+<span class="token number">2.</span> 构造函数<span class="token operator">/</span>原型<span class="token operator">/</span>实体对象的关系
+<span class="token number">3.</span> 构造函数<span class="token operator">/</span>原型<span class="token operator">/</span>实体对象的关系<span class="token number">2</span>
+<span class="token operator">--</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328222254488.png" alt="image-20220328222254488" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328222254488.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">图解：
+<span class="token comment">//定义一个Fn构造函数</span>
+<span class="token keyword">function</span> <span class="token function">Fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function-variable function">test1</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是Fn构造函数里的test1方法！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+以下解释的地址值只是为了方便表示
+
+	在执行这一代码块时浏览器已经完成的工作：
+	
+		Object对象为浏览器的全局对象，在网页加载分配内存区域时，浏览器自动在堆空间0x345创建Object的原型对象（其身上包含toString()和hasOwnProperty()等方法，其中该原型对象的隐式原型__proto__值为null）；
+		并在堆空间0x456创造Object构造函数对象（它的显式原型对象prototype值为堆地址0x345，指向Object原型对象），之后再栈空间分配内存空间存分全局变量Object，其对应的数据值为堆地址0x456；
+		
+	开始执行这一代码块：
+	
+	浏览器先根据已存在的Object构造函数在堆内存0x234创建一个Object实例对象，这个Object的实例对象身上的隐式原型__proto__值为0x345，指向Object原型对象；
+	轴浏览器在堆内存区域划分一块地址为0x123的内存空间存放Fn构造函数对象，该构造函数的显式原型prototype值为堆地址0x234（此时之前创造的Object实例成为Fn构造函数的原型对象），之后浏览器在栈空间分配一块内存存放变量名Fn，Fn对应的数据值中存放堆地址0x123；
+*/</span>
+
+<span class="token comment">//给Fn的原型对象身上添加方法</span>
+<span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">test2</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"我是Fn原型对象身上的test2函数"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+	此时在堆内存0x234创建方法test2；
+*/</span>
+
+<span class="token comment">//创建Fn实例对象fn</span>
+<span class="token keyword">var</span> fn <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Fn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+	现在堆内存0x567创建Fn的实例对象fn，将其隐式原型__proto__值设置为0x234，之后在fn实例对象中创建test1()方法；
+	最后在栈空间分配内存存分全局变量fn，fn中的数据值为堆地址0x567；
+*/</span>
+
+以上就是这几句代码所执行时浏览器在内存操作的步骤；
+跟着实例对象的隐式原型__proto__所追溯的关系链成为隐式原型链（原型链），原型链在Object的原型对象处结束；
+
+堆内存区域的Object构造函数也属于函数，只要是函数就有隐式原型__proto__<span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 ƒ () &#123; [native code] &#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328215718156.png" alt="image-20220328215718156" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328215718156.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token comment">// true  Fn构造函数的显式原型默认为空的Object实例对象；</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype <span class="token operator">===</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//false Fn构造函数的显式原型初始时默认的Object空对象实例是指其内部还没有我们自定义的方法和属性，并不是指真的为null；</span>
+
+<span class="token comment">/*
+  1. 函数的显式原型指向的对象默认是空Object实例对象(但Object不满足)
+   */</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Function</span><span class="token punctuation">.</span>prototype <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token comment">// true  Function构造函数的显式原型也是Object的一个实例（既然是实例，那Function构造函数的显式原型（Function.prototype）也有它的隐式原型__proto__，它的值指向Object原型对象；）</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span> <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 false  Object的构造函数的显式原型prototype指向Object原型对象，而不是Object实例，所以返回false；</span>
+
+ <span class="token comment">/*
+  2. 所有函数都是Function的实例(包含Function)
+  */</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype <span class="token operator">===</span> Fn<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//false  </span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//true  函数的显式原型都是指向Object实例（除了Object构造函数以外）；</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Fn<span class="token punctuation">.</span>__proto__ <span class="token operator">===</span> <span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//true  见下面的长注释</span>
+
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Fn <span class="token keyword">instanceof</span> <span class="token class-name">Function</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//true  见下面的长注释</span>
+
+<span class="token comment">/*
+	Fn构造函数的显式原型prototype指向的是Object实例（Fn.prototype），Fn构造函数的隐式原型__proto__指向的是Function.prototype(因为Fn构造函数算是Function构造函数的一个实例，所以实例的隐式原型等于其构造函数的显式原型)
+*/</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span>__proto__ <span class="token operator">===</span> <span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//true  Object构造函数也是Function构造函数的一个实例；</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Function<span class="token punctuation">.</span>__proto__<span class="token operator">===</span> <span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">)</span> <span class="token comment">//true  Function构造函数的显示原型和隐式原型都指向同一个对象（Function.prototype），说明 Function = new Function() </span>
+
+<span class="token comment">/*
+  3. Object的原型对象是原型链尽头
+   */</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出Object原型对象</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// null</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出Object原型对象</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//null</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__ <span class="token operator">===</span> <span class="token class-name">Fn</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// true 两者都是Object原型对象；</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 Object原型对象</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>fn<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">.</span>__proto__<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//null</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328225254613.png" alt="image-20220328225254613" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220328225254613.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">总结：
+	<span class="token number">1.</span>所有的函数的显式原型prototype都指向一个Object实例（除了Object构造函数以外，Object构造函数的显式原型prototype指向Object原型，其他构造函数的显式原型的隐式原型才指向Object原型）；
+    
+    <span class="token number">2.</span><span class="token class-name">所有函数的隐式原型__proto__都是向Function</span><span class="token punctuation">.</span><span class="token function">prototype</span><span class="token punctuation">(</span>因为所有的函数都是Function构造函数的一个实例，实例的隐式原型等于其构造函数的显式原型<span class="token punctuation">)</span><span class="token function">，并且Function构造函数的显式原型等于其隐式原型；即：Function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+	<span class="token number">3.</span>Object原型是原型链的尽头；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="原型链的属性问题"><a href="#原型链的属性问题" class="headerlink" title="原型链的属性问题"></a>原型链的属性问题</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token number">1.</span> 读取对象的属性值时<span class="token operator">:</span> 会自动到原型链中查找
+<span class="token number">2.</span> 设置对象的属性值时<span class="token operator">:</span> 不会查找原型链<span class="token punctuation">,</span> 如果当前对象中没有此属性<span class="token punctuation">,</span> 直接添加此属性并设置其值
+<span class="token number">3.</span> 方法一般定义在原型中<span class="token punctuation">,</span> 属性一般通过构造函数定义在对象本身上
+<span class="token operator">--</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="instanceof原理"><a href="#instanceof原理" class="headerlink" title="instanceof原理"></a>instanceof原理</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token operator">&lt;</span><span class="token operator">!</span><span class="token operator">--</span>
+<span class="token number">1.</span> <span class="token keyword">instanceof</span>是如何判断的<span class="token operator">?</span>
+  <span class="token operator">*</span> 表达式<span class="token operator">:</span> <span class="token constant">A</span> <span class="token keyword">instanceof</span> <span class="token class-name">B</span>
+  <span class="token operator">*</span> 如果<span class="token constant">B</span>函数的显式原型对象在<span class="token constant">A</span>对象的原型链上<span class="token punctuation">,</span> 返回<span class="token boolean">true</span><span class="token punctuation">,</span> 否则返回<span class="token boolean">false</span>
+<span class="token number">2.</span> Function是通过<span class="token keyword">new</span>自己产生的实例
+<span class="token operator">--</span><span class="token operator">></span>
+
+<span class="token comment">/*
+  案例1
+   */</span>
+  <span class="token keyword">function</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  <span class="token punctuation">&#125;</span>  <span class="token comment">//定义一个Foo构造函数；</span>
+  <span class="token keyword">var</span> f1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span>   <span class="token comment">//创建一个Foo实例对象f1</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>f1 <span class="token keyword">instanceof</span> <span class="token class-name">Foo</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>f1 <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+
+  <span class="token comment">/*
+  案例2
+   */</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object <span class="token keyword">instanceof</span> <span class="token class-name">Function</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+<span class="token comment">/*
+	A:Object , Object.__proto__ --->  Object原型
+	B:Function , Function.prototype ---> Object原型
+		故Object构造函数是Function构造函数的一个实例
+*/</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+<span class="token comment">/*
+	A:Object, Object.__proto__  ---> Function.prototype , 
+		Function.prototype.__proto__ ---> Object原型
+	B:Object, Object.prototype ---> Object原型
+		故Object是Object的一个实例；
+*/</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Function <span class="token keyword">instanceof</span> <span class="token class-name">Function</span><span class="token punctuation">)</span> <span class="token comment">// true </span>
+<span class="token comment">/*
+	A:Function, Function.__proto__ ---> Function.prototype ,
+		Function.prototype.__proto__ ---> Object原型
+	B:Function, Function.prototype ---> Object原型
+		故Function是 Function 的实例（Function.prptotype === Function.__proto__）
+*/</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Function <span class="token keyword">instanceof</span> <span class="token class-name">Object</span><span class="token punctuation">)</span> <span class="token comment">// true</span>
+<span class="token comment">/*
+	A:Function, Function.__ptoto__  ---> Function.prototype
+		Function.prototype.__ptoto__ ---> Object原型
+	B:Object, Object.prototype ---> Object原型
+		故Function构造函数是Object的一个实例
+*/</span>
+
+  <span class="token keyword">function</span> <span class="token function">Foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object <span class="token keyword">instanceof</span>  <span class="token class-name">Foo</span><span class="token punctuation">)</span> <span class="token comment">// false</span>
+<span class="token comment">/*
+	A:Object ,Object.__proto__ ---> Function.prototype
+		Function.prototype.__proto___ ---> Object原型对象
+	B:Foo, Foo.prototype ---> 这个类的原型对象
+		两者没有交集，所以Object构造函数不是Foo的一个实例；
+*/</span>
+
+总结：
+	<span class="token constant">A</span> <span class="token keyword">instanceof</span> <span class="token class-name">B</span> <span class="token class-name">中，A的隐式原型若存在，则可以一直沿着A的隐式原型链往下走，若在A的隐式原型链上出现了B的显式原型B</span><span class="token punctuation">.</span>prototype，则可称<span class="token constant">A</span>是<span class="token constant">B</span>的一个实例，否则<span class="token constant">A</span>不是<span class="token constant">B</span>的一个实例；（<span class="token constant">B</span>只能沿着显式原型走一次）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"> <span class="token comment">/*
+  测试题1
+   */</span>
+<span class="token comment">//声明创造一个A构造函数</span>
+  <span class="token keyword">function</span> <span class="token constant">A</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+  <span class="token punctuation">&#125;</span>
+<span class="token comment">//给A的原型对象身上添加属性</span>
+  <span class="token class-name">A</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>n <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token comment">//创建A的实例对象b</span>
+  <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">//修改A的prototype指向，指向一个新的原型对象</span>
+  <span class="token class-name">A</span><span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    n<span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    m<span class="token operator">:</span> <span class="token number">3</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token comment">//再创建一个A的实例c</span>
+  <span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>n<span class="token punctuation">,</span> b<span class="token punctuation">.</span>m<span class="token punctuation">,</span> c<span class="token punctuation">.</span>n<span class="token punctuation">,</span> c<span class="token punctuation">.</span>m<span class="token punctuation">)</span>  <span class="token comment">// 输出 1 undefined 2 3</span>
+<span class="token comment">/*
+	在创建A的实例对象b时，内部执行 this.__proto__ = A.prototype , 所以此时b的隐式原型对象等于A的显式原型对象；
+	后面修改A.prototype时，即为将A的显式原型对象更改为&#123;n:2,m:3&#125;这一新对象，但是不会影响已经实例化的b的隐式原型对象；
+	最后再创建A的实例c时，内部执行 this.__proto__ = A.prototype ,即c.__proto__ = &#123;n:2,m:3&#125; 
+*/</span>
+
+<span class="token comment">/*
+   测试题2
+   */</span>
+  <span class="token keyword">function</span> <span class="token constant">F</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+  <span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">a</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'a()'</span><span class="token punctuation">)</span>  <span class="token comment">//Object.prototype  --> Object原型</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token class-name">Function</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">a</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'b()'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+ <span class="token keyword">var</span> f <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">F</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  f<span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// a() 实例对象按他的隐式原型链查找（f实例->f实例的原型对象->Object原型）</span>
+  f<span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">//执行报错</span>
+  <span class="token constant">F</span><span class="token punctuation">.</span><span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">//a()  此时将构造函数看成对象，也按它的隐式原型链查找（F->Function.prototype->Object原型）</span>
+  <span class="token constant">F</span><span class="token punctuation">.</span><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">//b()  （F->Function.prototype）</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/28/%E5%8E%9F%E5%9E%8B-%E5%8E%9F%E5%9E%8B%E9%93%BE/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/28/%E5%8E%9F%E5%9E%8B-%E5%8E%9F%E5%9E%8B%E9%93%BE/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/03/27/JS进阶-基础总结/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">JS进阶-基础总结 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B"><span class="toc-text">原型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99window%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E6%88%96%E5%B1%9E%E6%80%A7%E7%9A%84%E5%A3%B0%E6%98%8E%E6%8F%90%E5%89%8D"><span class="toc-text">给window添加方法或属性的声明提前</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%8E%9F%E5%9E%8B%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%8E%9F%E5%9E%8B"><span class="toc-text">显示原型与隐式原型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B1%9E%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">原型链的属性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#instanceof%E5%8E%9F%E7%90%86"><span class="toc-text">instanceof原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">面试题</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>33</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>5</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B"><span class="toc-text">原型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99window%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E6%88%96%E5%B1%9E%E6%80%A7%E7%9A%84%E5%A3%B0%E6%98%8E%E6%8F%90%E5%89%8D"><span class="toc-text">给window添加方法或属性的声明提前</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%8E%9F%E5%9E%8B%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%8E%9F%E5%9E%8B"><span class="toc-text">显示原型与隐式原型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B1%9E%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">原型链的属性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#instanceof%E5%8E%9F%E7%90%86"><span class="toc-text">instanceof原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">面试题</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">12</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B"><span class="toc-text">原型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99window%E6%B7%BB%E5%8A%A0%E6%96%B9%E6%B3%95%E6%88%96%E5%B1%9E%E6%80%A7%E7%9A%84%E5%A3%B0%E6%98%8E%E6%8F%90%E5%89%8D"><span class="toc-text">给window添加方法或属性的声明提前</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%8E%9F%E5%9E%8B%E4%B8%8E%E9%9A%90%E5%BC%8F%E5%8E%9F%E5%9E%8B"><span class="toc-text">显示原型与隐式原型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E5%B1%9E%E6%80%A7%E9%97%AE%E9%A2%98"><span class="toc-text">原型链的属性问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#instanceof%E5%8E%9F%E7%90%86"><span class="toc-text">instanceof原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="toc-text">面试题</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-28</div>
+        <a href="/2022/03/28/原型-原型链/"><div class="recent-posts-item-content">原型-原型链</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-27</div>
+        <a href="/2022/03/27/JS进阶-基础总结/"><div class="recent-posts-item-content">JS进阶-基础总结</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-25</div>
+        <a href="/2022/03/25/BOM-定时器-JSON/"><div class="recent-posts-item-content">BOM-定时器-JSON</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-24</div>
+        <a href="/2022/03/24/事件对象/"><div class="recent-posts-item-content">事件对象-鼠标事件</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
