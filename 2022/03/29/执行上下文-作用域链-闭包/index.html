@@ -217,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>5k 字</span>
+    <span>5.9k 字</span>
     
   </div>
   
@@ -683,6 +683,70 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
 */</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220330152035933.png" alt="image-20220330152035933" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220330152035933.png" class="lozad post-image"></p>
 <p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220330152306655.png" alt="image-20220330152306655" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220330152306655.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token parameter">n<span class="token punctuation">,</span>o</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+      <span class="token function-variable function">fun</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">m</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token function">fun</span><span class="token punctuation">(</span>m<span class="token punctuation">,</span>n<span class="token punctuation">)</span>  <span class="token comment">//产生闭包 访问了外部的参数m</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token comment">/*
+    首先调用fun函数返回的是一个对象&#123;&#125;，对象中有一个方法fun，该方法会返回调用全局函数fun后的值；
+
+    在全局函数fun中，返回的对象中的方法fun访问了全局函数的形参n，从而产生了闭包；
+
+    执行 var a = fun(0)：
+         首先调用全局函数fun，传入参数 0 ，此时fun函数需要的两个参数： n = 0； o = undefined；
+          在函数内部输出 参数 o ，为undefined；
+          返回对象&#123;
+                    fun:function(m)&#123;
+                      return fun(m,n);
+                    &#125;
+                &#125;
+                在执行该返回值定义时，就产生了闭包，因为该返回对象中的方法fun中，返回fun调用访问了全局函数fun的参数n
+                （返回值中的参数m在这里不属于外部变量，m与返回值在同一个函数作用域中）；
+          全局变量 a 引用返回的对象，该对象中包含闭包（对象中的方法fun），此时闭包中的n值为0；
+    
+    执行变量a中的方法（因为此时a指向一个对象）fun，并传入参数 1 ；
+          执行fun(1)方法, 即执行 function(1)&#123;
+                              return fun(1,n);  
+                            &#125;
+                此时在该函数内部又调用全局函数fun，传入的两个参数为： n = 1 ，o = 0（这里的0时闭包中n的值）
+                            打印输出o，为 0 ；
+                             返回对象&#123;
+                                      fun:function(m)&#123;
+                                        return fun(m,n);
+                                      &#125;
+                                  &#125;
+                              在执行该返回值定义时，有产生了新的闭包（内部函数返回值访问了外部的函数的参数n，此时n为1），
+                              但是语句 a.fun(1) 只是调用对象方法，没有使用变量来引用返回的闭包函数地址，所以当这一语句执行完毕时
+                              fun函数执行上下文环境销毁，内部闭包函数成为垃圾对象也一同被销毁；
+      
+      后面的 a.fun(2)  a.fun(3) 语句均和 a.fun(1) 语句一样 输出0（闭包中的n） ，这些语句执行完存在的都是同一个闭包，而且闭包引用的内部变量n值从未改变；
+
+
+  */</span>
+
+  <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>  <span class="token comment">//输出 undefined 返回fun函数</span>
+  a<span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment">// 0</span>
+  a<span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token comment">// 0 </span>
+  a<span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>  <span class="token comment">// 0</span>
+
+  <span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token comment">//undefined,0,1,2</span>
+  b<span class="token punctuation">.</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 3</span>
+  <span class="token comment">/*
+      执行 var b = fun(0) 输出 undefined 并返回一个对象，对象中包含的方法fun是闭包函数（引用外部变量 n = 0）
+          执行返回的对象中的方法fun，传入参数1，输出 0（当前执行环境中的闭包中的引用变量n），之后返回对象，对象中包含的方法fun又是一个新的闭包（引用外部变量 n = 1）
+              执行返回的对象中的方法fun，传入参数2，输出 1 （当前执行环境中的闭包的引用变量n），之后返回对象，对象中包含的方法fun又是一个新的闭包（引用我外部变量 n = 2）
+                  执行返回的对象中的方法fun，传入参数3，输出 2 （当前执行环境中的闭包的引用变量n），之后返回对象，对象中包含的方法fun又是一个新的闭包（引用我外部变量 3 = 2）
+  
+      在这里由于返回了对象又立即调用对象中的方法，而调用方法又会返回新的对象从而导致之前返回的对象成为垃圾对象，产生的闭包也随着一起销毁；
+  */</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
   </div>
   <div>
@@ -696,6 +760,18 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
   </div>
 </article>
 <div class="nav">
+  
+  <div class="nav-item-prev">
+    <a href="/2022/03/30/对象创建模式-继承模式/" class="nav-link">
+      <i class="iconfont icon-left nav-prev-icon"></i>
+      <div>
+        <div class="nav-label">上一篇</div>
+        
+        <div class="nav-title">对象创建模式-继承模式 </div>
+        
+      </div>
+    </a>
+  </div>
   
   
   <div class="nav-item-next">
@@ -760,7 +836,7 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
 <p class="author-description">_NULL0的个人博客</p>
 <div class="author-message">
   <a class="author-posts-count" href="/archives">
-    <span>34</span>
+    <span>35</span>
     <span>文章</span>
   </a>
   <a class="author-categories-count" href="/categories">
@@ -801,7 +877,7 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
       <a href="/categories/JavaScript基础">
         <div class="categories-list-item">
           JavaScript基础
-          <span class="categories-list-item-badge">13</span>
+          <span class="categories-list-item-badge">14</span>
         </div>
       </a>
     
@@ -864,6 +940,11 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-30</div>
+        <a href="/2022/03/30/对象创建模式-继承模式/"><div class="recent-posts-item-content">对象创建模式-继承模式</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-03-29</div>
         <a href="/2022/03/29/执行上下文-作用域链-闭包/"><div class="recent-posts-item-content">执行上下文-作用域链-闭包</div></a>
       </div>
@@ -876,11 +957,6 @@ myModule<span class="token punctuation">.</span>js<span class="token operator">:
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-03-27</div>
         <a href="/2022/03/27/JS进阶-基础总结/"><div class="recent-posts-item-content">JS进阶-基础总结</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-03-25</div>
-        <a href="/2022/03/25/BOM-定时器-JSON/"><div class="recent-posts-item-content">BOM-定时器-JSON</div></a>
       </div>
     
   </div>
