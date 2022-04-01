@@ -8,29 +8,19 @@
   <meta name="theme-color" content="#fff" id="theme-color">
   <meta name="description" content="_NULL0的个人博客">
   <link rel="icon" href="/img/blog.png">
-  <title>媒体查询</title>
+  <title>分类</title>
   
   
-  <meta property="og:title" content="媒体查询">
+  <meta property="og:title" content="分类">
   
   
-  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/15/%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2/index.html">
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/categories/ES6%E8%AF%AD%E6%B3%95/index.html">
   
   
   <meta property="og:img" content="/img/touxiang.png">
   
   
-  <meta property="og:img" content="响应式布局-媒体查询">
-  
-  
-  <meta property="og:type" content="article">
-  <meta property="og:article:published_time" content="2022-03-15">
-  <meta property="og:article:modified_time" content="2022-03-15">
-  <meta property="og:article:author" content="NULL0">
-  
-  
-  <meta property="og:article:tag" content="WEB前端">
-  
+  <meta property="og:img" content="_NULL0的个人博客">
   
   
   
@@ -120,10 +110,6 @@
 
   
   
-<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
-
-  
-  
   
   
   
@@ -198,152 +184,29 @@
       <div class="container">
         <div class="columns">
           <main class="main-column">
-<article class="card card-content">
-  <header>
-    <h1 class="post-title">
-      媒体查询
-    </h1>
-  </header>
-  <div class="post-meta post-show-meta">
-    <time datetime="2022-03-15T03:00:44.000Z">
-      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
-      <span>2022-03-15</span>
-    </time>
-    
-    <span class="dot"></span>
-    
-    <a href="/categories/HTML-CSS学习/" class="post-meta-link">HTML-CSS学习</a>
-    
-    
-    
-    <span class="dot"></span>
-    <span>358 字</span>
-    
-  </div>
+<div class="card card-content category-page-card">
+  <div class="categories-page-title">分类&nbsp-&nbspES6语法</div>
+</div>
+<div class="archive-timeline">
   
-  <div class="post-meta post-show-meta" style="margin-top: -10px;">
-    <div style="display: flex; align-items: center;">
-      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
-      
-      
-        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
-      
+  
+  
+  <div class="archive-timeline-tag"><span>2022</span></div>
+  
+  
+  <div class="archive-timeline-item">
+    <div class="archive-timeline-post">
+      <div class="card card-content">
+        <div class="archive-timeline-post-date">2022-04-01</div>
+        <div class="archive-timeline-post-content">
+          <a href="/2022/04/01/let-const-箭头函数/" class="archive-timeline-post-item">let-const-解构赋值-箭头函数</a>
+        </div>
+      </div>
     </div>
   </div>
   
-  </header>
-  <div id="section" class="post-content">
-    <h2 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">响应式布局 --- 网页根据浏览设备会窗口的大小呈现出不同的效果
-		使用响应式布局是一个页面适用于所有设备
-		通过媒体查询 -- 可以为不同的设备，或者设备的不同状态来分别设置样式<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h2 id="媒体查询"><a href="#媒体查询" class="headerlink" title="媒体查询"></a>媒体查询</h2><pre class="line-numbers language-html" data-language="html"><code class="language-html">语法： @media 查询规则&#123;&#125;
-		媒体类型：all -- 所有设备
-				print -- 打印设备（只有页面在打印时样式才呈现出来）
-				screen -- 带屏幕的设备
-				speech -- 屏幕阅读器
-		可以使用 , 连接多个媒体类型 表示一个 或 的关系
-	也可以在媒体类型前添加一个 only 表示只有 （为了兼容一些老版本浏览器）
-
-		媒体特性：width -- 视口宽度
-				height -- 视口高度
-				min-width -- 视口的最小宽度（当视口的宽度大于这个宽度时生效）
-				max-width -- 视口的最大宽度（当视口的宽度小于这个宽度时生效）
-
-		断点 --- 样式切换到额分界点 --- 网页样式发生变化的点
-		常用断点：
-				小于768 -- 超小屏幕 -- max-width = 768px
-				大于768 -- 小屏幕 -- min-width = 768px
-				大于992 -- 中型屏幕 -- min-width = 992px
-				大于1200 -- 大屏幕 -- min-width = 1200px
-
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
- <span class="token atrule"><span class="token rule">@media</span> <span class="token keyword">only</span> screen <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">min-width</span><span class="token punctuation">:</span> 500px<span class="token punctuation">)</span> <span class="token keyword">and</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span>700px<span class="token punctuation">)</span></span><span class="token punctuation">&#123;</span>
-     <span class="token comment">/*
-     	当视口的宽度大于500px且视口的宽度小于700px时 body的样式如下：
-     */</span>
-             <span class="token selector">body</span><span class="token punctuation">&#123;</span>
-                <span class="token property">background-color</span><span class="token punctuation">:</span> #bfa<span class="token punctuation">;</span>
-             <span class="token punctuation">&#125;</span>
-         <span class="token punctuation">&#125;</span>
-  </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-  </div>
-  <div>
-  
-  <div class="post-note note-warning copyright" style="margin-top: 42px">
-    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
-    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/15/%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/03/15/%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2/</a></p>
-    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
-  </div>
-  
-  </div>
-</article>
-<div class="nav">
-  
-  <div class="nav-item-prev">
-    <a href="/2022/03/16/JS-数据类型与转换/" class="nav-link">
-      <i class="iconfont icon-left nav-prev-icon"></i>
-      <div>
-        <div class="nav-label">上一篇</div>
-        
-        <div class="nav-title">JS-数据类型与转换 </div>
-        
-      </div>
-    </a>
-  </div>
-  
-  
-  <div class="nav-item-next">
-    <a href="/2022/03/14/移动端/" class="nav-link">
-      <div>
-        <div class="nav-label">下一篇</div>
-        
-        <div class="nav-title">像素-视口-移动端 </div>
-        
-      </div>
-      <i class="iconfont icon-right nav-next-icon"></i>
-    </a>
-  </div>
-  
 </div>
-
-<div class="card card-content comment-card" style="margin-top: 16px;">
-  <div class="comment-card-title">评论</div>
-  
-  <div id="vcomments"></div>
-  
-  <script>
-    loadScript("//unpkg.com/valine/dist/Valine.min.js");
-    var oldLoadVa = window.onload;
-    window.onload = function () {
-      oldLoadVa && oldLoadVa();
-      new Valine({
-        el: '#vcomments',
-        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
-        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
-        placeholder: 'Just go go',
-        path: window.location.pathname,
-        avatar: 'mp',
-        meta: ["nick","mail","link"],
-        pageSize: '10',
-        lang: '',
-        visitor: 'false',
-        highlight: true,
-        recordIP: false,
-        
-        
-        
-        enableQQ: 'false',
-        requiredFields: [],
-      });
-    };
-  </script>
-
-</div>
-
-<div class="card card-content toc-card" id="mobiletoc">
-  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80"><span class="toc-text">响应式布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2"><span class="toc-text">媒体查询</span></a></li></ol>
-</div></main>
+</main>
           <aside class="left-column">
             
             <div class="card card-author">
@@ -371,13 +234,6 @@
             
             <div class="sticky-tablet">
   
-  
-  <article class="display-when-two-columns spacer">
-    <div class="card card-content toc-card">
-      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80"><span class="toc-text">响应式布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2"><span class="toc-text">媒体查询</span></a></li></ol>
-    </div>
-  </article>
   
   
   <article class="card card-content categories-widget">
@@ -447,16 +303,185 @@
   </article>
   
   
+  <article class="card card-content widescreen-archive archive-widget">
+    <div class="archive-card">
+  <div class="archive-card-header"><i class="iconfont icon-wodebaobiao" style="padding-right: 2px;"></i>归档</div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a href="/archives/2022" class="archive-card-list-item">
+              2022
+              <span class="archive-card-list-item-badge">34</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a href="/archives/2021" class="archive-card-list-item">
+          2021
+          <span class="archive-card-list-item-badge">3</span>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
 </div>
           </aside>
           <aside class="right-column">
             <div class="sticky-widescreen">
   
-  
-  <article class="card card-content toc-card">
-    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E5%B8%83%E5%B1%80"><span class="toc-text">响应式布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%9F%A5%E8%AF%A2"><span class="toc-text">媒体查询</span></a></li></ol>
-  </article>
   
   
   <article class="card card-content">
@@ -488,6 +513,180 @@
 </div>
   </article>
   
+  
+  <article class="card card-content">
+    <div class="archive-card">
+  <div class="archive-card-header"><i class="iconfont icon-wodebaobiao" style="padding-right: 2px;"></i>归档</div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a href="/archives/2022" class="archive-card-list-item">
+              2022
+              <span class="archive-card-list-item-badge">34</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a href="/archives/2021" class="archive-card-list-item">
+          2021
+          <span class="archive-card-list-item-badge">3</span>
+      </a>
+    
+  </div>
+</div>
+  </article>
   
 </div>
           </aside>
@@ -562,29 +761,6 @@
 
   
   
-  
-  <script>
-  var addImgLayout = function () {
-    var img = document.querySelectorAll('.post-content img');
-    var i;
-    for (i = 0; i < img.length; i++) {
-      var wrapper = document.createElement('a');
-      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
-      wrapper.setAttribute('aria-label', 'illustration');
-      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
-      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
-      wrapper.dataset.nolink = true;
-      img[i].before(wrapper);
-      wrapper.append(img[i]);
-      var divWrap = document.createElement('div');
-      divWrap.classList.add('gallery');
-      wrapper.before(divWrap);
-      divWrap.append(wrapper);
-    }
-    baguetteBox.run('.gallery');
-  }
-</script>
-<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
   
   
   
