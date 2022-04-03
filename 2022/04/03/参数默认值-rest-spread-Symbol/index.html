@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>参数默认值-rest-spread-Symbol</title>
+  
+  
+  <meta property="og:title" content="参数默认值-rest-spread-Symbol">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/03/%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-rest-spread-Symbol/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="参数默认值-rest参数-Spread扩展符-Symbol">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-04-03">
+  <meta property="og:article:modified_time" content="2022-04-03">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      参数默认值-rest-spread-Symbol
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-03T07:17:15.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-04-03</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/ES6语法/" class="post-meta-link">ES6语法</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>2.6k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="参数默认值"><a href="#参数默认值" class="headerlink" title="参数默认值"></a>参数默认值</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token constant">ES6</span> 语法中允许在定义函数时给函数参数赋初值
+	规则：形参初始值（具有默认初始值的参数）一般位置靠后
+    	可以与解构赋值一起使用
+        
+<span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token parameter">a <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> b <span class="token operator">=</span> <span class="token number">2</span></span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 3</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 7</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">fun</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 11</span>
+
+<span class="token keyword">function</span> <span class="token function">userInfo</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>name<span class="token operator">=</span><span class="token string">"Lk"</span><span class="token punctuation">,</span>sex<span class="token operator">=</span><span class="token string">"man"</span><span class="token punctuation">,</span>age<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">userInfo</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 Lk man 12 ；</span>
+<span class="token function">userInfo</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>name<span class="token operator">:</span><span class="token string">"ZK"</span><span class="token punctuation">,</span>sex<span class="token operator">:</span><span class="token string">"female"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 ZK female 12；</span>
+
+<span class="token keyword">function</span> <span class="token function">mutation</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">&#123;</span>commit<span class="token punctuation">&#125;</span></span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>connmit<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">mutation</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>commit<span class="token operator">:</span><span class="token string">"解构赋值，vuex"</span><span class="token punctuation">,</span>name<span class="token operator">:</span><span class="token string">"LK"</span><span class="token punctuation">,</span>count<span class="token operator">:</span><span class="token number">12</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// "解构赋值，vuex"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="rest参数"><a href="#rest参数" class="headerlink" title="rest参数"></a>rest参数</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js">在<span class="token constant">ES6</span>中引入rest参数来获取函数的实参，用来代替 arguments<span class="token punctuation">;</span>
+
+<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> Rest 参数接受函数的多余参数，组成一个数组，放在形参的最后<span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> <span class="token operator">...</span>theArgs</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> Rest参数和arguments对象的区别：
+		rest参数只包括那些没有给出名称的参数，arguments包含所有参数
+		arguments 对象不是真正的数组，而rest 参数是数组实例，可以直接应用sort<span class="token punctuation">,</span> map<span class="token punctuation">,</span> forEach<span class="token punctuation">,</span> pop等方法
+		arguments <span class="token function">对象拥有一些自己额外的功能</span>
+        
+ <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token function">Rest参数可以被结构</span><span class="token punctuation">(</span>通俗一点，将rest参数的数据解析后一一对应<span class="token punctuation">)</span>不要忘记参数用<span class="token punctuation">[</span><span class="token punctuation">]</span>括起来，因为它是数组
+        
+<span class="token keyword">function</span> <span class="token function">f</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span><span class="token punctuation">[</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>  
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b <span class="token operator">+</span> c<span class="token punctuation">;</span>  
+<span class="token punctuation">&#125;</span>  
+  
+<span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>          <span class="token comment">//NaN 因为只传递一个值，其实需要三个值  </span>
+<span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>    <span class="token comment">// 6  </span>
+<span class="token function">f</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token comment">// 6 (第四值没有与之对应的变量名)</span>
+    
+rest <span class="token function">参数之后不能再有其他参数</span><span class="token punctuation">(</span>即，只能是最后一个参数<span class="token punctuation">)</span>，否则会报错<span class="token operator">!</span><span class="token operator">!</span>
+    
+<span class="token constant">ES5</span> 获取实参：
+<span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// argument包含所有的参数放入一个伪数组</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403153538655.png" alt="image-20220403153538655" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403153538655.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">在<span class="token constant">ES6</span> 中获取实参  arr这一名字是自定义的
+<span class="token keyword">function</span> <span class="token function">fun2</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>arr</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">fun2</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">fun2</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403154504181.png" alt="image-20220403154504181" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403154504181.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">fun3</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span>b<span class="token punctuation">,</span><span class="token operator">...</span>args</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token operator">+</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token function">fun3</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 3   (2) [3, 4]  --- rest封装  多余  的参数放入数组，是真正的数组</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="spread扩展运算符"><a href="#spread扩展运算符" class="headerlink" title="spread扩展运算符"></a>spread扩展运算符</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token constant">ES6</span> 中 使用 <span class="token operator">...</span> 扩展运算符将数组展开，转换成逗号分隔的参数序列
+
+
+<span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">...</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 1 2 3</span>
+
+<span class="token comment">//1.数组合并</span>
+<span class="token keyword">function</span> <span class="token function">concat</span><span class="token punctuation">(</span><span class="token parameter">arr1<span class="token punctuation">,</span>arr2</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token operator">...</span>arr1<span class="token punctuation">,</span><span class="token operator">...</span>arr2<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 数组 (6) [1, 2, 3, 4, 5, 6]</span>
+
+<span class="token comment">//2.数组克隆</span>
+<span class="token keyword">const</span> arr1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> arr2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>arr1<span class="token punctuation">]</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 Array(3) [1,2,3]</span>
+
+<span class="token comment">//3.将伪数组转换成真正的数组</span>
+<span class="token operator">&lt;</span>body<span class="token operator">></span>
+    <span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+	<span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+	<span class="token operator">&lt;</span>div<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">></span>
+ <span class="token keyword">const</span> divs <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">const</span> divArr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span>divs<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>divArr<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// arguments</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js">	在<span class="token constant">ES5</span>中对象的属性名其实都是字符串，很容易造成对象中属性名冲突；为了保证每一个属性名的名字都是独一无二的，从根本上防止属性名的冲突，在<span class="token constant">ES6</span>中引入Symbol；
+	<span class="token constant">ES6</span>中引入一种全新的原始数据类型 <span class="token operator">--</span><span class="token operator">-</span> Symbol，表示独一无二的值，它属于<span class="token constant">JS</span>语言的数据类型之一；
+	<span class="token function">Symbol值可以通过Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数生成，对象的属性名现在可以有两种类型，一种就是原来的字符串，另一种就是新增的Symbol类型，凡是属性名是Symbol类型的，它就是独一无二的，可以保证不会与其他属性名产生冲突。
+    
+<span class="token keyword">let</span> s <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 创建一个Symbol类型的变量</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 'symbol'</span>
+
+注意 ：使用Symbol函数不能使用 <span class="token keyword">new</span> 关键字，否则会报错，因为生成的Symbol是一个原始类型的值，不是对象，因此也不能给symbol类型的变量添加属性，它是一种类似与字符串的数据类型；
+
+	<span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数可以接受一个字符串作为参数，表示对当前Symbol变量的描述；主要是为了在控制台显式或者在转为字符串时易于区分；
+    
+<span class="token keyword">let</span> s1 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">"LK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s2 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">"zk"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 Symbol(LK)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//输出 Symbol(zk)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s1<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//Symbol(LK)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s2<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//Symbol(zk)</span>
+
+<span class="token function">如果Symbol的参数是一个对象，就会调用对象身上的toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法将其转换为字符串，然后才生成一个Symbol值；
+
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span><span class="token string">"obj"</span><span class="token punctuation">,</span>
+    <span class="token comment">//自定义一个对象身上的同toString()方法，在Symbol函数传入对象时就会调用这个值，在控制台打印即可知道</span>
+    <span class="token function-variable function">toString</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token string">"obj"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> sym <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sym<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 Symbol(obj)</span>
+
+<span class="token keyword">const</span> obj2 <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span><span class="token string">"ZK"</span>
+    <span class="token comment">//不重写对象身上的toString方法</span>
+    <span class="token comment">//Object原型身上的toString()默认输出[[object Object]]</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> sym2 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>obj2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sym2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//Symbol([object Object])</span>
+
+注意：Symbol函数的参数只是表示对当前Symbol值的一种描述，因此相同参数的Symbol函数的返回值不相等；
+
+<span class="token keyword">let</span> s1 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s2 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s1 <span class="token operator">===</span> s2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// false</span>
+<span class="token keyword">let</span> s3 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">"ZK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s4 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">"ZK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s3 <span class="token operator">===</span> s4<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//false </span>
+
+使用Symbol函数返回的值不能与其他类型的值运算，会报错；
+<span class="token keyword">let</span> sym <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'My symbol'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token string">"your symbol is "</span> <span class="token operator">+</span> sym
+<span class="token comment">// TypeError: can't convert symbol to string</span>
+<span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">your symbol is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>sym<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span>
+<span class="token comment">// TypeError: can't convert symbol to string</span>
+
+Symbol值可以显式转换成字符串和布尔值，但是不能转换成数值；
+
+<span class="token keyword">let</span> sym <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'My symbol'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">String</span><span class="token punctuation">(</span>sym<span class="token punctuation">)</span> <span class="token comment">// 'Symbol(My symbol)'</span>
+sym<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 'Symbol(My symbol)'</span>
+
+<span class="token keyword">let</span> sym <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Boolean</span><span class="token punctuation">(</span>sym<span class="token punctuation">)</span> <span class="token comment">// true</span>
+<span class="token operator">!</span>sym  <span class="token comment">// false</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>sym<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// ...</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">Number</span><span class="token punctuation">(</span>sym<span class="token punctuation">)</span> <span class="token comment">// TypeError</span>
+sym <span class="token operator">+</span> <span class="token number">2</span> <span class="token comment">// TypeError</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="Symbol-prototype-description"><a href="#Symbol-prototype-description" class="headerlink" title="Symbol.prototype.description"></a>Symbol.prototype.description</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">在创建一个Symbol的时候，可以添加一个描述；
+
+<span class="token keyword">const</span> sym <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">"lk"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 此时 lk 就是 sym 的描述</span>
+
+可以通过<span class="token constant">ES2019</span>提供的一个实例属性 description，直接返回Symbol 的描述
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>sym<span class="token punctuation">.</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 lk</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="使用Symbol作为对象的属性名"><a href="#使用Symbol作为对象的属性名" class="headerlink" title="使用Symbol作为对象的属性名"></a>使用Symbol作为对象的属性名</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">每一个Symbol的值都是独一无二的，可以用Symbol值来作为标识符，用作对象的属性名，保证不会出现一样的同名属性名；
+
+<span class="token keyword">let</span> mySymbol <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 第一种写法</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+a<span class="token punctuation">[</span>mySymbol<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'Hello!'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 第二种写法</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token punctuation">[</span>mySymbol<span class="token punctuation">]</span><span class="token operator">:</span> <span class="token string">'Hello!'</span>  <span class="token comment">//在对象中使用Symbol值需要使用[]包括起来</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 第三种写法</span>
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+Object<span class="token punctuation">.</span><span class="token function">defineProperty</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> mySymbol<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span> value<span class="token operator">:</span> <span class="token string">'Hello!'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 以上写法都得到同样结果</span>
+a<span class="token punctuation">[</span>mySymbol<span class="token punctuation">]</span> <span class="token comment">// "Hello!"</span>
+
+注意，Symbol 值作为对象属性名时，不能用点运算符。因为点运算符后面总是字符串，所以不会读取Symbol作为标识名所指代的那个值，导致a的属性名实际上是一个字符串，而不是一个Symbol 值。
+
+<span class="token keyword">const</span> mySymbol <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> a <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+a<span class="token punctuation">.</span>mySymbol <span class="token operator">=</span> <span class="token string">'Hello!'</span><span class="token punctuation">;</span>
+a<span class="token punctuation">[</span>mySymbol<span class="token punctuation">]</span> <span class="token comment">// undefined</span>
+a<span class="token punctuation">[</span><span class="token string">'mySymbol'</span><span class="token punctuation">]</span> <span class="token comment">// "Hello!"</span>
+
+Symbol 值作为属性名时，该属性还是公开属性，不是私有属性。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="属性名的遍历"><a href="#属性名的遍历" class="headerlink" title="属性名的遍历"></a>属性名的遍历</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">Symbol 作为属性名，遍历对象的时候，该属性不会出现在<span class="token keyword">for</span><span class="token operator">...</span><span class="token keyword">in</span>、<span class="token keyword">for</span><span class="token operator">...</span><span class="token keyword">of</span>循环中，也不会被Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span>、Object<span class="token punctuation">.</span><span class="token function">getOwnPropertyNames</span><span class="token punctuation">(</span><span class="token punctuation">)</span>、<span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">)</span>返回。
+
+但是，它也不是私有属性，有一个Object<span class="token punctuation">.</span><span class="token function">getOwnPropertySymbols</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法，可以获取指定对象的所有 Symbol 属性名。该方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。
+
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s1 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'s1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s2 <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'s2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//给obj对象添加属性</span>
+obj<span class="token punctuation">[</span>s1<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"ZK"</span><span class="token punctuation">;</span>
+obj<span class="token punctuation">[</span>s2<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"lk"</span><span class="token punctuation">;</span>
+obj<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"sndj"</span>
+
+<span class="token keyword">const</span> objSymbol <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">getOwnPropertySymbols</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>objSymbol<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 (2) [Symbol(s1), Symbol(s2)]</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">typeof</span> objSymbol<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出 object</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>objSymbol <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 true</span>
+
+可知Object<span class="token punctuation">.</span>getOwnPropertySymbols这一方法只会将对象中的使用Symbol值作为属性名的属性（无法获取字符串类型的属性名）返回，且封装在一个数组中；
+
+在以前的<span class="token constant">ES5</span>语法中可以使用 <span class="token keyword">for</span><span class="token operator">...</span><span class="token keyword">in</span> 来枚举对象的属性；
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span><span class="token string">"LK"</span><span class="token punctuation">,</span>
+    age<span class="token operator">:</span><span class="token number">12</span><span class="token punctuation">,</span>
+    sex<span class="token operator">:</span><span class="token string">"female"</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token keyword">in</span> obj<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span class="token comment">//依次输出 name age sex</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">getOwnPropertyNames</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 数组 (3) ['name', 'age', 'sex']</span>
+
+但是使用Symbol定义的属性名无法使用 <span class="token keyword">for</span><span class="token operator">...</span><span class="token keyword">in</span> 来枚举属性名
+
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> foo <span class="token operator">=</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+obj<span class="token punctuation">[</span>foo<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token keyword">in</span> obj<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 无输出</span>
+<span class="token punctuation">&#125;</span>
+
+Object<span class="token punctuation">.</span><span class="token function">getOwnPropertyNames</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token comment">// []</span>
+Object<span class="token punctuation">.</span><span class="token function">getOwnPropertySymbols</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span> <span class="token comment">// [Symbol(foo)]</span>
+
+可以知道使用Symbol值作为属性名的也无法使用Object<span class="token punctuation">.</span>getOwnPropertyNames来获取属性名数组；
+
+新的<span class="token constant">API</span>：Reflect<span class="token punctuation">.</span><span class="token function">ownKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法可以返回所有类型的键名，包括常规键名和 Symbol 键名。
+
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'myKey'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+    name<span class="token operator">:</span><span class="token string">"LK"</span><span class="token punctuation">,</span>
+    age<span class="token operator">:</span><span class="token number">12</span>
+<span class="token punctuation">&#125;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>Reflect<span class="token punctuation">.</span><span class="token function">ownKeys</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403221831262.png" alt="image-20220403221831262" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403221831262.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">可以知道，使用Reflect<span class="token punctuation">.</span><span class="token function">ownKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span>可以获取对象的所有属性名（包括字符串类型的属性名和Symbol值类型的属性名）；<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="Symbol-for-与Symbol-keyFor"><a href="#Symbol-for-与Symbol-keyFor" class="headerlink" title="Symbol.for()与Symbol.keyFor()"></a>Symbol.for()与Symbol.keyFor()</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">我们可以使用Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法来反复使用同一个Symbol值；该方法接受一个字符串作为参数（将用于对Symbol值的描述），然后搜索有没有以该字符串作为名称的Symbol值，如果有就返回这个Symbol值，不存在就新建一个以这个字符串为名称的Symbol值，并注册到全局；
+
+<span class="token keyword">let</span> s1 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s2 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s1 <span class="token operator">===</span> s2<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// true</span>
+
+Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token function">与Symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span>这两种写法，都会生成新的 Symbol。它们的区别是，前者会被登记在全局环境中供搜索，后者不会。Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token punctuation">)</span>不会每次调用就返回一个新的 Symbol 类型的值，而是会先检查给定的key是否已经存在，如果不存在才会新建一个值。比如，如果你调用Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">"cat"</span><span class="token punctuation">)</span><span class="token number">30</span> 次，每次都会返回同一个 Symbol <span class="token function">值，但是调用Symbol</span><span class="token punctuation">(</span><span class="token string">"cat"</span><span class="token punctuation">)</span><span class="token number">30</span> 次，会返回 <span class="token number">30</span> 个不同的 Symbol 值。
+注意，Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token punctuation">)</span>为 Symbol 值登记的名字，是全局环境的，不管有没有在全局环境运行。
+
+<span class="token keyword">function</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> s1 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">"LK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> s1<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> s1 <span class="token operator">=</span> <span class="token function">fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> s2 <span class="token operator">=</span> Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">"LK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>s1 <span class="token operator">===</span> s2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span>
+
+上面代码中，Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">'LK'</span><span class="token punctuation">)</span>是函数内部运行的，但是生成的 Symbol 值是登记在全局环境的。所以，第二次运行Symbol<span class="token punctuation">.</span><span class="token function">for</span><span class="token punctuation">(</span><span class="token string">'LK'</span><span class="token punctuation">)</span>可以取到这个 Symbol 值。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="内置的Symbol值"><a href="#内置的Symbol值" class="headerlink" title="内置的Symbol值"></a>内置的Symbol值</h3><p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403231529956.png" alt="image-20220403231529956" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220403231529956.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//定义Person类的hasInstance() 方法，调用instanceof判断是否为该类的一个实例时会自动调用该类的hasInstance()</span>
+    <span class="token keyword">static</span> <span class="token punctuation">[</span>Symbol<span class="token punctuation">.</span>hasInstance<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这个方法会被用来检测是否是Person类实例"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">const</span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person <span class="token keyword">instanceof</span> <span class="token class-name">Person</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 输出 这个方法会被用来检测是否是Person类实例 false\</span>
+
+
+其他的Symbol内置方法参见 https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>es6<span class="token punctuation">.</span>ruanyifeng<span class="token punctuation">.</span>com<span class="token operator">/</span><span class="token operator">?</span>search<span class="token operator">=</span>rest<span class="token operator">&amp;</span>x<span class="token operator">=</span><span class="token number">0</span><span class="token operator">&amp;</span>y<span class="token operator">=</span><span class="token number">0</span>#docs<span class="token operator">/</span>symbol<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/03/%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-rest-spread-Symbol/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/03/%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC-rest-spread-Symbol/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/04/01/let-const-箭头函数/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">let-const-解构赋值-箭头函数 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">参数默认值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rest%E5%8F%82%E6%95%B0"><span class="toc-text">rest参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spread%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">spread扩展运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-prototype-description"><span class="toc-text">Symbol.prototype.description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Symbol%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8D"><span class="toc-text">使用Symbol作为对象的属性名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%90%8D%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">属性名的遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-for-%E4%B8%8ESymbol-keyFor"><span class="toc-text">Symbol.for()与Symbol.keyFor()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E7%9A%84Symbol%E5%80%BC"><span class="toc-text">内置的Symbol值</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>38</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>6</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">参数默认值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rest%E5%8F%82%E6%95%B0"><span class="toc-text">rest参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spread%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">spread扩展运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-prototype-description"><span class="toc-text">Symbol.prototype.description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Symbol%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8D"><span class="toc-text">使用Symbol作为对象的属性名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%90%8D%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">属性名的遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-for-%E4%B8%8ESymbol-keyFor"><span class="toc-text">Symbol.for()与Symbol.keyFor()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E7%9A%84Symbol%E5%80%BC"><span class="toc-text">内置的Symbol值</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-text">参数默认值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rest%E5%8F%82%E6%95%B0"><span class="toc-text">rest参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spread%E6%89%A9%E5%B1%95%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">spread扩展运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-prototype-description"><span class="toc-text">Symbol.prototype.description</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Symbol%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8D"><span class="toc-text">使用Symbol作为对象的属性名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%90%8D%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">属性名的遍历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Symbol-for-%E4%B8%8ESymbol-keyFor"><span class="toc-text">Symbol.for()与Symbol.keyFor()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E7%9A%84Symbol%E5%80%BC"><span class="toc-text">内置的Symbol值</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-03</div>
+        <a href="/2022/04/03/参数默认值-rest-spread-Symbol/"><div class="recent-posts-item-content">参数默认值-rest-spread-Symbol</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-01</div>
+        <a href="/2022/04/01/let-const-箭头函数/"><div class="recent-posts-item-content">let-const-解构赋值-箭头函数</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-31</div>
+        <a href="/2022/03/31/线程机制与事件机制/"><div class="recent-posts-item-content">线程机制与事件机制</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-30</div>
+        <a href="/2022/03/30/对象创建模式-继承模式/"><div class="recent-posts-item-content">对象创建模式-继承模式</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
