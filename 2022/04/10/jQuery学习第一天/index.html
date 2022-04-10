@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>jQuery学习第一天</title>
+  
+  
+  <meta property="og:title" content="jQuery学习第一天">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%B8%80%E5%A4%A9/index.html">
+  
+  
+  <meta property="og:img" content="/img/..">
+  
+  
+  <meta property="og:img" content="介绍-入口函数-基本选择器-层次选择器">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-04-10">
+  <meta property="og:article:modified_time" content="2022-04-11">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<div class="image-wrapper">
+  <img src="/img/.." data-src="/img/.."
+    srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+    class="image lozad"
+    alt="thumbnail"
+  >
+</div>
+
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      jQuery学习第一天
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-10T15:27:20.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-04-10</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/jQuery/" class="post-meta-link">jQuery</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>2.5k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="jQuery介绍"><a href="#jQuery介绍" class="headerlink" title="jQuery介绍"></a>jQuery介绍</h2><p>原生的JS存在一些缺点：</p>
+<p>​    1.不能添加多个入口函数，如果添加了多个后面的会覆盖前面的入口函数；</p>
+<p>​    2.原生JS的API名字太长；</p>
+<p>​    3.原生JS的有些API存在浏览器兼容问题；</p>
+<p>​    4.原生JS容错率较低，前面的代码出现了问题后面的代码就不会执行；</p>
+<p><strong>jQuery是什么</strong>：jQuery其实就是对原生JS的API进行了封装，是一个封装了很多原生JS方法的库；</p>
+<p><strong>jQuery的优势</strong>：</p>
+<p>​    1.可以添加多个入口函数；</p>
+<p>​    2.jQuery的API名字语义化程度高，便以理解和记忆；</p>
+<p>​    3.jQuery代码存在隐式迭代（遍历）和链式编程；</p>
+<p>​    4.jQuery代码容错率较高，前面的代码执行出错后续的代码依旧会执行；</p>
+<h2 id="jQuery版本"><a href="#jQuery版本" class="headerlink" title="jQuery版本"></a>jQuery版本</h2><p>1.x版本 – 兼容性最高，支持IE678，已经停止更新；</p>
+<p>2.x版本 – 不支持IE678，已经停止更新；</p>
+<p>3.x版本 – 不支持IE678，还在更新</p>
+<h2 id="理解-和jQuery"><a href="#理解-和jQuery" class="headerlink" title="理解$和jQuery"></a>理解$和jQuery</h2><p>在引入jQuery文件以后，我们可以在全局作用域（window）上使用$；那么这个$是什么？</p>
+<p>先来查看jQuery文件的结构</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>
+    window<span class="token punctuation">.</span>jQuery <span class="token operator">=</span> window<span class="token punctuation">.</span>$ <span class="token operator">=</span> jQuery<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+上面的代码是jQuery文件的整体结构，可以看出jQuery文件里面是一个匿名自调用函数，而我们在网页中引入这个文件是就会执行一次这个文件（也就是执行了这个匿名自调用函数）；
+
+在这个函数的最后，可以看出执行了给全局window添加了一个$属性和jQuery属性，而他们的值都是jQuery文件中定义的一个函数；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235426436.png" alt="image-20220410235426436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235426436.png" class="lozad post-image"></p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235215104.png" alt="image-20220410235215104" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235215104.png" class="lozad post-image"></p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>jQuery <span class="token operator">===</span> window<span class="token punctuation">.</span>$<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>$<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//'[object Function]'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>既然jQuery是一个函数，那么window.$对应的也是一个函数，所以我们在使用全局$属性是，需要传入参数使用；传入的参数不一样，函数执行的效果也不同；</p>
+<p>​    1.传入一个匿名函数时，将成为一个入口函数 $(function(){})</p>
+<p>​    2传入一个字符串，此时的效果可能是选择器或者创建一个标签：</p>
+<p>​        $(“div”)  — 选择所有的div元素</p>
+<p>​        $(‘<div>我是一个div</div>‘)；   //生成一个div标签；</p>
+<p>​    3.传入一个DOM对象，此时会将DOM对象转换成jQuery对象；</p>
+<p>​        var $jquery对象 = $(DOM对象);</p>
+<h2 id="DOM对象和jQuery对象"><a href="#DOM对象和jQuery对象" class="headerlink" title="DOM对象和jQuery对象"></a>DOM对象和jQuery对象</h2><p>DOM对象 — 使用原生JS获取到的对象；该对象只能调用dom方法或属性；</p>
+<p>jQuery对象 — 使用jQuery选择器获取的对象；该对象只能调用jQuery对象的方法或属性；</p>
+<p>DOM对象就是浏览器中的真实节点（元素节点，文本节点等）；</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001252754.png" alt="image-20220411001252754" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001252754.png" class="lozad post-image"></p>
+<p>jQuery对象其实是一个伪数组（使用index表示key，具有length属性，可遍历），数组里面的value值就是DOM对象；</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001711925.png" alt="image-20220411001711925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001711925.png" class="lozad post-image"></p>
+<p>dom对象转换成jQuery对象 ： var $one = $(one); //这里的one是dom对象，默认使用$开头来表示jQuery对象；</p>
+<p>jQuery对象转换成dom对象：</p>
+<p>​    1.使用数组下标index  var div1 = $divs[0];  //这里表示从jQuery对象中取出第一个dom对象；</p>
+<p>​    2.使用jQuery.get() 方法：var div1 = $divs.get(0); //get()方法需要传入一个index；</p>
+<h2 id="jQuery入口函数"><a href="#jQuery入口函数" class="headerlink" title="jQuery入口函数"></a>jQuery入口函数</h2><p>jQuery入口函数有两种写法：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//注意要先引入jQuery文件</span>
+
+<span class="token comment">//方法1</span>
+<span class="token function">$</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">ready</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//...在这里书写脚本</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//方法2</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//...Code</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">//原生的入口函数</span>
+window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token operator">...</span>code
+<span class="token punctuation">&#125;</span>
+
+一个文件中可以同时存在jQuery入口函数和原生入口函数<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>注意jQuery的入口函数与window.onload()入口函数的区别</strong>：</p>
+<p>​    1.jQuery入口函数可以书写对个，而原生的入口函数只能有一个；</p>
+<p>​    2.jQuery的入口函数执行时机早于原生的入口函数：jQuery入口函数在页面的DOM树加载完成后执行（页面上的DOM元素全部加载完成），而原生的入口函数需要等待页面的所有资源加载完成后才执行（包含DOM树，外部css，js链接图片等）；</p>
+<h2 id="jQuery点击事件"><a href="#jQuery点击事件" class="headerlink" title="jQuery点击事件"></a>jQuery点击事件</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js">jQuery的点击事件是一个函数，需要传入一个回调函数；
+
+<span class="token comment">//首先获取jQuery对象；</span>
+
+<span class="token keyword">var</span> $btn <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//给jQuery对象绑定点击事件，原生的点击事件使用on开头，而jQuery点击事件不需要；</span>
+$btn<span class="token punctuation">.</span><span class="token function">click</span> <span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"触发按钮"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+注意，点击事件里面的<span class="token keyword">this</span>指向当前被触发的对象；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery设置，获取文本内容"><a href="#jQuery设置，获取文本内容" class="headerlink" title="jQuery设置，获取文本内容"></a>jQuery设置，获取文本内容</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">使用text</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 方法来设置<span class="token operator">/</span>获取元素样式
+
+<span class="token comment">//首先获取jQuery对象</span>
+<span class="token keyword">var</span> $getBtn <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btn1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//给jQuery对象绑定点击事件</span>
+$getBtn<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//点击按钮时，输出div的文本，使用text()方法</span>
+    <span class="token comment">//获取id名为box1的标签的文本</span>
+    <span class="token keyword">var</span> text <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//这里的text包含box1及其它的后代的文本</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">注意！！如果这里获取到的jQuery对象中包含多个dom对象，text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法会依次获取这些dom对象的文本；
+
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btn2"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//给id名为box2的标签设置文本</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box2"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"我是设置的文本"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">注意：text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法不传入参数是为获取文本，一旦该方法传入字符串参数，该字符串将成为jQuery对象中所有dom对象的文本（如果原来存在文本也将会被替换），但是传入的字符串参数即使携带有html标签，也不会被解析成网页标签；
+<span class="token function">所以可知text</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法类似原生js中的innerText属性；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery设置，获取元素样式"><a href="#jQuery设置，获取元素样式" class="headerlink" title="jQuery设置，获取元素样式"></a>jQuery设置，获取元素样式</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js">使用 <span class="token function">css</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 方法来设置<span class="token operator">/</span>获取元素样式
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'width'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取id名为div1的元素的宽</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'background-color'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//获取元素的背景</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'border'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//获取元素的边框</span>
+
+注意！ 在ie浏览器中，获取边框的样式需要指定具体的边框（top，right，bottom，left）
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'border-top-width'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+注意！如果jQuery对象中包含多个dom对象，获取样式时，只会获取第一个dom对象的样式；
+
+给jQuery对象设置样式时，有以下两种方法：
+<span class="token number">1.</span>设置单样式  <span class="token function">css</span><span class="token punctuation">(</span>样式名，样式值<span class="token punctuation">)</span><span class="token punctuation">;</span>  样式名使用驼峰命名法或者<span class="token operator">-</span>连接；样式值为不书写px时可以填数值而不是字符串
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'width'</span><span class="token punctuation">,</span><span class="token string">'300px'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'height'</span><span class="token punctuation">,</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'backgroundColor'</span><span class="token punctuation">,</span><span class="token string">'red'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'border'</span><span class="token punctuation">,</span><span class="token string">'10px solid green'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token number">2.</span>设置多样式 <span class="token function">css</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    样式名<span class="token operator">:</span>样式值<span class="token punctuation">;</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+        width<span class="token operator">:</span> <span class="token number">300</span><span class="token punctuation">,</span>
+        <span class="token string">'height'</span><span class="token operator">:</span> <span class="token string">'300px'</span><span class="token punctuation">,</span>
+        <span class="token string">'background-color'</span><span class="token operator">:</span> <span class="token string">'green'</span><span class="token punctuation">,</span>
+        <span class="token string">'border'</span><span class="token operator">:</span> <span class="token string">'10px solid red'</span><span class="token punctuation">,</span>
+        marginTop<span class="token operator">:</span><span class="token number">10</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">这设置样式display时，可以直接调用show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token function">或者hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法，此时方法的返回值是当前设置样式的dom对象；
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//show()方法本质上还是更新display属性为block.</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//hide()方法本质上还是更新display属性为none</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery基本选择器"><a href="#jQuery基本选择器" class="headerlink" title="jQuery基本选择器"></a>jQuery基本选择器</h2><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// 基本选择器   和css里面的选择器是一样的</span>
+   <span class="token comment">//  id选择器            $('#id')</span>
+   <span class="token comment">//  类选择器            $(".类名")</span>
+   <span class="token comment">//  标签选择器          $("标签名")</span>
+   <span class="token comment">//  并集选择器          $('.box,.box2')</span>
+   <span class="token comment">//  交集选择器          $('li.current')</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery层次选择器"><a href="#jQuery层次选择器" class="headerlink" title="jQuery层次选择器"></a>jQuery层次选择器</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>子代选择器</td>
+<td>$(“ul&gt;li”);</td>
+<td align="left">使用&gt;号，获取儿子层级的元素，注意，并不会获取孙子层级的元素</td>
+</tr>
+<tr>
+<td>后代选择器</td>
+<td>$(“ul li”);</td>
+<td align="left">使用空格，代表后代选择器，获取ul下的所有li元素，包括孙子等</td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">获取id为father这个元素的所有子div<span class="token punctuation">.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#father > div'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+获取id为father这个元素的所有子div以及所有子元素p<span class="token punctuation">.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#father>div , #father>p'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+获取id为father这个div的所有后代div<span class="token punctuation">.</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#father div'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+获取id为father这个div的所有后代div<span class="token punctuation">,</span>以及id为father这个div的所有后代span<span class="token punctuation">.</span>
+ console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#fahter div , #father span'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery过滤选择器"><a href="#jQuery过滤选择器" class="headerlink" title="jQuery过滤选择器"></a>jQuery过滤选择器</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:eq（index）</td>
+<td>$(“li:eq(2)”).css(“color”, ”red”);</td>
+<td align="left">获取到的li元素中，选择索引号为2的元素，索引号index从0开始。</td>
+</tr>
+<tr>
+<td>:odd</td>
+<td>$(“li:odd”).css(“color”, ”red”);</td>
+<td align="left">获取到的li元素中，选择索引号为奇数的元素</td>
+</tr>
+<tr>
+<td>:even</td>
+<td>$(“li:even”).css(“color”, ”red”);</td>
+<td align="left">获取到的li元素中，选择索引号为偶数的元素</td>
+</tr>
+</tbody></table>
+<h2 id="jQuery筛选选择器"><a href="#jQuery筛选选择器" class="headerlink" title="jQuery筛选选择器"></a>jQuery筛选选择器</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>用法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>children(selector)</td>
+<td>$(“ul”).children(“li”)</td>
+<td>相当于$(“ul&gt;li”)，子类选择器</td>
+</tr>
+<tr>
+<td>find(selector)</td>
+<td>$(“ul”).find(“li”);</td>
+<td>相当于$(“ul li”),后代选择器</td>
+</tr>
+<tr>
+<td>siblings(selector)</td>
+<td>$(“#first”).siblings(“li”);</td>
+<td>查找兄弟节点，不包括自己本身。</td>
+</tr>
+<tr>
+<td>parent()</td>
+<td>$(“#first”).parent();</td>
+<td>查找父亲</td>
+</tr>
+<tr>
+<td>eq(index)</td>
+<td>$(“li”).eq(2);</td>
+<td>相当于$(“li:eq(2)”),index从0开始</td>
+</tr>
+<tr>
+<td>next()</td>
+<td>$(“li”).next()</td>
+<td>找下一个兄弟</td>
+</tr>
+<tr>
+<td>prev()</td>
+<td>$(“li”).prev()</td>
+<td>找上一次兄弟</td>
+</tr>
+</tbody></table>
+<h2 id="jQuery鼠标事件"><a href="#jQuery鼠标事件" class="headerlink" title="jQuery鼠标事件"></a>jQuery鼠标事件</h2><p>1.不推荐使用：</p>
+<p>​    mouseover()  — 鼠标移入事件，需要传入一个回调函数</p>
+<p>​    mouseleave() — 鼠标离开事件，需要传入一个回调函数</p>
+<p>2.推荐使用：</p>
+<p>​    mouseenter() — 鼠标移入事件，需要传入一个回调函数</p>
+<p>​    mouseout() — 鼠标离开事件，需要传入一个回调函数</p>
+<p>以上鼠标事件方法的区别：mouseover在从目标元素进入目标元素的子元素时依旧会再次触发鼠标移入事件，而mouseenter只要是在目标元素内就只会触发一次，不管是否进入目标元素的子元素；</p>
+<p>mouseleave()和mouseout()和各自对应的鼠标移入方法（mouseover()和mouseenter()）效果一致；</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.wrap>ul>li'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mouseover</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token comment">//console.log(this);//谁触发了鼠标移入事件,那这个this就是谁,this还是一个dom对象.</span>
+      <span class="token comment">// $(this).children('ul').css('display','block');//显示就是更改display属性为block.</span>
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//show()方法本质上还是更新display属性为block.</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//2.给一级菜单li设置鼠标离开事件，二级菜单隐藏。</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.wrap>ul>li'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mouseout</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//hide()方法本质上还是更新display属性为none</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+mouseover  事件在鼠标移动到选取的元素及其子元素上时触发 。
+mouseenter 事件只在鼠标移动到选取的元素上时触发。
+
+<span class="token function">建议使用mouseenter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token function">和mouseout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法来实现自定义鼠标事件
+
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.wrap>ul>li'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mouseenter</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      i<span class="token operator">++</span><span class="token punctuation">;</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//2.给一级菜单li设置鼠标离开事件，二级菜单隐藏。</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.wrap>ul>li'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">mouseleave</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">children</span><span class="token punctuation">(</span><span class="token string">'ul'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="获取当前被触发元素的索引"><a href="#获取当前被触发元素的索引" class="headerlink" title="获取当前被触发元素的索引"></a>获取当前被触发元素的索引</h2><p> var idx = $(this).index();//索引:表示的是这个元素在他兄弟元素间的排行.</p>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%B8%80%E5%A4%A9/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/10/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%B8%80%E5%A4%A9/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/04/10/async函数/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">async函数 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E4%BB%8B%E7%BB%8D"><span class="toc-text">jQuery介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%89%88%E6%9C%AC"><span class="toc-text">jQuery版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%A7%A3-%E5%92%8CjQuery"><span class="toc-text">理解$和jQuery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E5%AF%B9%E8%B1%A1%E5%92%8CjQuery%E5%AF%B9%E8%B1%A1"><span class="toc-text">DOM对象和jQuery对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0"><span class="toc-text">jQuery入口函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="toc-text">jQuery设置，获取文本内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F"><span class="toc-text">jQuery设置，获取元素样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery基本选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery层次选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery过滤选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%AD%9B%E9%80%89%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery筛选选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery鼠标事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E8%A2%AB%E8%A7%A6%E5%8F%91%E5%85%83%E7%B4%A0%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">获取当前被触发元素的索引</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>46</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>7</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E4%BB%8B%E7%BB%8D"><span class="toc-text">jQuery介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%89%88%E6%9C%AC"><span class="toc-text">jQuery版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%A7%A3-%E5%92%8CjQuery"><span class="toc-text">理解$和jQuery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E5%AF%B9%E8%B1%A1%E5%92%8CjQuery%E5%AF%B9%E8%B1%A1"><span class="toc-text">DOM对象和jQuery对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0"><span class="toc-text">jQuery入口函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="toc-text">jQuery设置，获取文本内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F"><span class="toc-text">jQuery设置，获取元素样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery基本选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery层次选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery过滤选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%AD%9B%E9%80%89%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery筛选选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery鼠标事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E8%A2%AB%E8%A7%A6%E5%8F%91%E5%85%83%E7%B4%A0%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">获取当前被触发元素的索引</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E4%BB%8B%E7%BB%8D"><span class="toc-text">jQuery介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%89%88%E6%9C%AC"><span class="toc-text">jQuery版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%A7%A3-%E5%92%8CjQuery"><span class="toc-text">理解$和jQuery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM%E5%AF%B9%E8%B1%A1%E5%92%8CjQuery%E5%AF%B9%E8%B1%A1"><span class="toc-text">DOM对象和jQuery对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%85%A5%E5%8F%A3%E5%87%BD%E6%95%B0"><span class="toc-text">jQuery入口函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery点击事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC%E5%86%85%E5%AE%B9"><span class="toc-text">jQuery设置，获取文本内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%AE%BE%E7%BD%AE%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E6%A0%B7%E5%BC%8F"><span class="toc-text">jQuery设置，获取元素样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%9F%BA%E6%9C%AC%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery基本选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%B1%82%E6%AC%A1%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery层次选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E8%BF%87%E6%BB%A4%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery过滤选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E7%AD%9B%E9%80%89%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">jQuery筛选选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6"><span class="toc-text">jQuery鼠标事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E8%A2%AB%E8%A7%A6%E5%8F%91%E5%85%83%E7%B4%A0%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="toc-text">获取当前被触发元素的索引</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/jQuery学习第一天/"><div class="recent-posts-item-content">jQuery学习第一天</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/async函数/"><div class="recent-posts-item-content">async函数</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/Module语法/"><div class="recent-posts-item-content">Module语法</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-08</div>
+        <a href="/2022/04/08/Class类/"><div class="recent-posts-item-content">Class类</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
