@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>jQuery学习第二天</title>
+  
+  
+  <meta property="og:title" content="jQuery学习第二天">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/12/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%BA%8C%E5%A4%A9/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="class操作-jQuery动画-jQuery节点操作-数据获取">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-04-12">
+  <meta property="og:article:modified_time" content="2022-04-12">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      jQuery学习第二天
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-12T01:29:33.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-04-12</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/jQuery/" class="post-meta-link">jQuery</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.5k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="jQuery操作class"><a href="#jQuery操作class" class="headerlink" title="jQuery操作class"></a>jQuery操作class</h2><p>1.给元素添加类名：addClass(类名)</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#addClass"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//给id名为box1的元素添加black类</span>
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addClass</span><span class="token punctuation">(</span><span class="token string">"black"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">注意方法addClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>中可传入多个类 需要使用空格间隔开；
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addClass</span><span class="token punctuation">(</span><span class="token string">'fontSize30 width200'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2.判断元素是否存在指定类名：hasClass(类名)</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasClass</span><span class="token punctuation">(</span><span class="token string">'fontSize30'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//如果元素存在类名fontSize30返回true，否则返回false；</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>3.给元素移除类名：removeClass(类名)</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#removeClass"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">".box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasClass</span><span class="token punctuation">(</span><span class="token string">"black"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token comment">//移除单个类</span>
+            <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">".box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">removeClass</span><span class="token punctuation">(</span><span class="token string">"black"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token comment">//移除多个类</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">removeClass</span><span class="token punctuation">(</span><span class="token string">'fontSize30 width200'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">注意：使用removeClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>不传入参数时默认移除当前元素的所有类；
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">removeClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>4.给元素切换类（若存在指定类则删除否则添加指定类）：toggleClass()</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#toggleClass"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+       <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">".box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toggleClass</span><span class="token punctuation">(</span><span class="token string">"black"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery动画"><a href="#jQuery动画" class="headerlink" title="jQuery动画"></a>jQuery动画</h2><h3 id="1-显式与隐藏，切换"><a href="#1-显式与隐藏，切换" class="headerlink" title="1.显式与隐藏，切换"></a>1.显式与隐藏，切换</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">1.</span>显示 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>，可传入两个参数
+第一个参数：表示动画的执行时长（毫秒数），也可以是规定的字符串（fast<span class="token operator">:</span><span class="token number">200</span>ms<span class="token punctuation">,</span>normal<span class="token operator">:</span><span class="token number">400</span>ms<span class="token punctuation">,</span>slow<span class="token operator">:</span><span class="token number">600</span>ms），当传入的字符串单词不正确时默认使用normal，如果不传入参数，那就不显示动画效果；
+
+第二个参数：动画执行完毕以后执行的回调函数
+
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//显示但没有动画</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//指定动画执行的时间为2000ms</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token string">"fast"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//指定动画的执行时间为200ms</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token string">"fat"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//单词错误，使用normal值---400ms</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#box1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"显示动画执行完毕！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//指定的显示动画执行完毕以后控制台输出语句</span>
+
+
+<span class="token number">2.</span>隐藏 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token function">，可传入两个参数，同show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致；
+
+<span class="token number">3.</span>切换 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">toggle</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token function">，可传入两个参数，同show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致；（当前状态为show时执行hide方法，否则执行show方法）
+
+注意：显示与隐藏修改的是元素的width，height，opacity（不透明度）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-滑入与滑出，切换"><a href="#2-滑入与滑出，切换" class="headerlink" title="2.滑入与滑出，切换"></a>2.滑入与滑出，切换</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">1.</span>滑入 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">slideDown</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span>
+	参数<span class="token number">1</span>：动画执行的时长 <span class="token operator">--</span> <span class="token function">可以使用数值（ms）或者字符串单词（同show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致）
+     参数<span class="token number">2</span>：动画执行完毕以后的回调函数
+     注意：如果不传入第一个参数默认使用normal（<span class="token number">400</span>ms）
+ 
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slideDown</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//指定动画的滑入执行时常为2000ms</span>
+
+<span class="token number">2.</span>滑出 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">slideUp</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">参数与slideDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slideUp</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+         <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'滑出做完了...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token number">3.</span>滑入滑动切换 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">slideToggle</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">参数与slideDown</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slideToggle</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+注意：滑入与滑出修改的是元素的height；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-动画队列与stop-方法"><a href="#3-动画队列与stop-方法" class="headerlink" title="3.动画队列与stop()方法"></a>3.动画队列与stop()方法</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js">在使用jQuery提供的滑入滑出方法实现鼠标移入显示下拉菜单时可以发现存在以下现象：
+	现象描述：鼠标疯狂快速移入移出下拉菜单后再将鼠标移走到此处的空白处，可以发现此时下拉菜单的滑入滑出动画仍然在执行；
+    原因分析：在给下拉菜单绑定鼠标移入移出事件后，使用鼠标疯狂移入移出下拉菜单就会触发到鼠标事件的
+    回调，而在鼠标事件的回调中需要执行滑入滑出动画（每个滑入滑出事件都具有动画时长，滑入滑出动画执
+    行时都是存放在一个动画队列中），一旦鼠标事件触发，就会往回调队列中按触发顺序添加鼠标回调事件并
+    按添加顺序执行回调事件，在执行回调事件时，又会往动画队列中添加当前的滑入滑出动画事件，在动画队
+    列中也将按添加顺序执行动画；所以在鼠标疯狂移入移出触发回调事件后，就会不断地往动画队列中添加动
+    画事件，此时即使鼠标移到空白处，但是动画队列中事件还没执行完就会产生上述地现象；
+    
+    <span class="token function">解决方案：使用stop</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法 <span class="token operator">--</span><span class="token operator">--</span> 停止动画，该方法可以传入两个参数
+    	第一个参数：是否清除动画队列中当前元素产生的动画（不包括当前正在执行的动画）（<span class="token boolean">true</span><span class="token operator">/</span><span class="token boolean">false</span>）
+		第二个参数：是否跳转到最终效果（当前执行的动画）（<span class="token boolean">true</span><span class="token operator">/</span><span class="token boolean">false</span>）
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'div'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">stop</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//清除当前div添加到动画队列中但还未执行的动画，</span>
+						<span class="token comment">//并直接跳转到当前执行动画的最终效果</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="4-淡入淡出与切换"><a href="#4-淡入淡出与切换" class="headerlink" title="4.淡入淡出与切换"></a>4.淡入淡出与切换</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token number">1.</span>淡入 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">fadeIn</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span>
+	<span class="token function">参数1：动画执行的时长，可传入数值（ms）或者字符串（同show</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法）
+    参数<span class="token number">2</span>：动画执行完后的回调
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fadeIn</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//不给参数相当于给了一个默认的动画时长,mormal400毫秒</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fadeIn</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+         <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'淡入完成了...'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token number">2.</span>淡出 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">fadeOut</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">用法和fadeIn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fadeOut</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token number">3.</span>淡入淡出切换 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">fadeToggle</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">用法和fadaIn</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法一致
+ <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#fadeToggle'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fadeToggle</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+注意：淡入淡出都是设置元素的opacity；
+
+<span class="token number">4.</span>淡入到那里 <span class="token operator">--</span><span class="token operator">-</span> <span class="token function">fadeTo</span><span class="token punctuation">(</span>参数<span class="token number">1</span>，参数<span class="token number">2</span><span class="token punctuation">)</span>
+	参数<span class="token number">1</span>：执行时长
+    参数<span class="token number">2</span>：淡入动画结束时的opacity
+    <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#fadeTo'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fadeTo</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="5-自定义动画"><a href="#5-自定义动画" class="headerlink" title="5.自定义动画"></a>5.自定义动画</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">-</span> 可传入四个参数
+	参数<span class="token number">1</span>：必选，需要传入一个动画属性的对象
+    参数<span class="token number">2</span>：可选，动画执行时长
+    参数<span class="token number">3</span>：可选，easing（表示动画执行的速度，linear（匀速）<span class="token operator">/</span>swing（缓动，默认值））
+    参数<span class="token number">4</span>：可选，动画执行完毕以后的回调函数
+    
+      <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+        left<span class="token operator">:</span><span class="token number">800</span><span class="token punctuation">,</span>
+        width<span class="token operator">:</span><span class="token number">200</span><span class="token punctuation">,</span>
+        height<span class="token operator">:</span><span class="token number">200</span><span class="token punctuation">,</span>
+        opacity<span class="token operator">:</span><span class="token number">0.5</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">2000</span><span class="token punctuation">,</span><span class="token string">'linear'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//既然这里是一个函数,那就可以写任意的代码,那就可以在这里让div1做动画.</span>
+        <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#div1'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+          left<span class="token operator">:</span><span class="token number">400</span><span class="token punctuation">,</span>
+          width<span class="token operator">:</span><span class="token number">300</span><span class="token punctuation">,</span>
+          height<span class="token operator">:</span><span class="token number">300</span><span class="token punctuation">,</span>
+          top<span class="token operator">:</span><span class="token number">150</span><span class="token punctuation">,</span>
+          opacity<span class="token operator">:</span><span class="token number">1</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+动画会在元素原有的css样式的基础上变化到animate传入的动画属性对象；
+可以在当前动画执行完后继续出传入一个自定义的动画回调函数，来完成一系列的动画效果；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="jQuery操作元素节点"><a href="#jQuery操作元素节点" class="headerlink" title="jQuery操作元素节点"></a>jQuery操作元素节点</h2>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/12/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%BA%8C%E5%A4%A9/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/12/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%AC%E4%BA%8C%E5%A4%A9/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/04/10/jQuery学习第一天/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">jQuery学习第一天 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9Cclass"><span class="toc-text">jQuery操作class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%8A%A8%E7%94%BB"><span class="toc-text">jQuery动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%BE%E5%BC%8F%E4%B8%8E%E9%9A%90%E8%97%8F%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">1.显式与隐藏，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%BB%91%E5%85%A5%E4%B8%8E%E6%BB%91%E5%87%BA%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">2.滑入与滑出，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8A%A8%E7%94%BB%E9%98%9F%E5%88%97%E4%B8%8Estop-%E6%96%B9%E6%B3%95"><span class="toc-text">3.动画队列与stop()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B7%A1%E5%85%A5%E6%B7%A1%E5%87%BA%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="toc-text">4.淡入淡出与切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB"><span class="toc-text">5.自定义动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9C%E5%85%83%E7%B4%A0%E8%8A%82%E7%82%B9"><span class="toc-text">jQuery操作元素节点</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>47</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>7</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9Cclass"><span class="toc-text">jQuery操作class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%8A%A8%E7%94%BB"><span class="toc-text">jQuery动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%BE%E5%BC%8F%E4%B8%8E%E9%9A%90%E8%97%8F%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">1.显式与隐藏，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%BB%91%E5%85%A5%E4%B8%8E%E6%BB%91%E5%87%BA%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">2.滑入与滑出，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8A%A8%E7%94%BB%E9%98%9F%E5%88%97%E4%B8%8Estop-%E6%96%B9%E6%B3%95"><span class="toc-text">3.动画队列与stop()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B7%A1%E5%85%A5%E6%B7%A1%E5%87%BA%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="toc-text">4.淡入淡出与切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB"><span class="toc-text">5.自定义动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9C%E5%85%83%E7%B4%A0%E8%8A%82%E7%82%B9"><span class="toc-text">jQuery操作元素节点</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9Cclass"><span class="toc-text">jQuery操作class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E5%8A%A8%E7%94%BB"><span class="toc-text">jQuery动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%BE%E5%BC%8F%E4%B8%8E%E9%9A%90%E8%97%8F%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">1.显式与隐藏，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%BB%91%E5%85%A5%E4%B8%8E%E6%BB%91%E5%87%BA%EF%BC%8C%E5%88%87%E6%8D%A2"><span class="toc-text">2.滑入与滑出，切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%8A%A8%E7%94%BB%E9%98%9F%E5%88%97%E4%B8%8Estop-%E6%96%B9%E6%B3%95"><span class="toc-text">3.动画队列与stop()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B7%A1%E5%85%A5%E6%B7%A1%E5%87%BA%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="toc-text">4.淡入淡出与切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A8%E7%94%BB"><span class="toc-text">5.自定义动画</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery%E6%93%8D%E4%BD%9C%E5%85%83%E7%B4%A0%E8%8A%82%E7%82%B9"><span class="toc-text">jQuery操作元素节点</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-12</div>
+        <a href="/2022/04/12/jQuery学习第二天/"><div class="recent-posts-item-content">jQuery学习第二天</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/jQuery学习第一天/"><div class="recent-posts-item-content">jQuery学习第一天</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/async函数/"><div class="recent-posts-item-content">async函数</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/Module语法/"><div class="recent-posts-item-content">Module语法</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
