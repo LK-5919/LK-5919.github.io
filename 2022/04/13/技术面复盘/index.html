@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>技术面复盘反省</title>
+  
+  
+  <meta property="og:title" content="技术面复盘反省">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/13/%E6%8A%80%E6%9C%AF%E9%9D%A2%E5%A4%8D%E7%9B%98/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="_NULL0的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-04-13">
+  <meta property="og:article:modified_time" content="2022-04-13">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      技术面复盘反省
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-13T12:35:32.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-04-13</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/面试/" class="post-meta-link">面试</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.5k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="css和html，Vue部分"><a href="#css和html，Vue部分" class="headerlink" title="css和html，Vue部分"></a>css和html，Vue部分</h2><h3 id="1-meta标签的使用；"><a href="#1-meta标签的使用；" class="headerlink" title="1.meta标签的使用；"></a>1.meta标签的使用；</h3><p>​    元数据（metadata）；</p>
+<p>​    首先明确meta标签中提供关于HTML文档的元数据；元素据不会在页面显示，但是它里面的元数据对机器是可读的；meta标签常用于规定对页面的描述，关键词，文档作者等；</p>
+<p>​    元数据可用于浏览器（如何显示页面charset，重现加载页面http-equiv=”Refresh”），也可以用于搜索引擎（keyword）等；</p>
+<p>​    <strong>meta的简单使用</strong></p>
+<p>​    1.当meta标签里有http-equiv或name属性时，一定要有content属性对其进行说明；</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>keywords<span class="token punctuation">"</span></span> <span class="token attr-name">content</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>这里的关键字会被搜索引擎所使用<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+http-equiv 属性可以添加一些自定义的或额外添加的http头部内容，例如不想使用js来实现页面的重定向的话可以在http头部内容中添加如下属性来控制：
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Refresh<span class="token punctuation">"</span></span> <span class="token attr-name">content</span> <span class="token attr-value"><span class="token punctuation attr-equals">=</span> <span class="token punctuation">"</span>3;url=http://....<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+content里面的3是指定3秒后跳转到指定页面；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>​    2.name属性是比较常使用的，可以在这里指定浏览器如何解析或者一些浏览器兼容问题；注意：name属性中的值是有规定的，不是自定义的，否则是没有意义的；</p>
+<p>​    <strong>常用的mate标签总结</strong></p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- 页面关键词 keywords --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>keywords<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>your keywords<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- 页面描述内容 description --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>your description<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!-- 定义网页作者 author --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>author<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>author,email address<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+移动端页面布局元数据声明
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+具体详见：https://blog.csdn.net/yc123h/article/details/51356143<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-input-标签的file属性"><a href="#2-input-标签的file属性" class="headerlink" title="2.input 标签的file属性"></a>2.input 标签的file属性</h3><p>​    首先明确input标签是基于Web的表单创建交互式控件，以便接受来自用户的数据；可以通过使用type属性来决定输入的各自类型；</p>
+<p>​    使用type = “file” 可使得用户通过input元素选择一个或多个文件（需要multiple属性）以提交表单的方式上传到服务器。</p>
+<p>​    当使用type = “file” 属性的时候，它有一下几个附加属性：</p>
+<p>​    1.accept：一个或多个唯一文件类型的说明符，描述允许的文件类型，它的值为字符串，定义input应该接受的文件类型；</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>docpicker<span class="token punctuation">"</span></span>
+  <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>​    2.capture：捕获图像或视频数据的源（前提是accept属性中指定的是图片或者视频类型），值 user 表示应该使用前置摄像头和/或麦克风。值 environment 表示应该使用后置摄像头和/或麦克风。</p>
+<p>​    3.files：FileList 对象每个已选择的文件。如果 multiple 属性没有指定，则这个列表只有一个成员。</p>
+<p>​    4.multiple：布尔值，如果出现，则表示用户可以选择多个文件。</p>
+<h3 id="3-盒子模型"><a href="#3-盒子模型" class="headerlink" title="3.盒子模型"></a>3.盒子模型</h3><h3 id="4-水平垂直居中的办法；"><a href="#4-水平垂直居中的办法；" class="headerlink" title="4.水平垂直居中的办法；"></a>4.水平垂直居中的办法；</h3><h3 id="5-v-if-和-v-show-区别"><a href="#5-v-if-和-v-show-区别" class="headerlink" title="5.v-if 和 v-show 区别"></a>5.v-if 和 v-show 区别</h3><h3 id="6-link的hrfe和script的src区别"><a href="#6-link的hrfe和script的src区别" class="headerlink" title="6.link的hrfe和script的src区别"></a>6.link的hrfe和script的src区别</h3><p>​    首先明确src和href都是用来引用外部的资源；这两者的区别如下：</p>
+<p>​    <strong><em>href</em></strong>：全称：Hypertext Reference，超文本引用，它指向一些网络资源，建立和当前元素（a标签）或者说是当前文档（link）的链接关系。在加载它的时候，不会停止对当前文档的处理，浏览器会继续往下执行。</p>
+<p>​    <strong><em>src</em></strong>：全称：source，资源，表示对资源的引用，它指向的内容会嵌入到当前标签（img，iframe，video，audio，script）所在的位置（这种标签称为可替换元素）。src会将它所指向的资源下载到当前文档内，如请求js脚本。当浏览器解析到该元素时，会暂停其他资源的下载和处理，直到将src所指向的资源加载，编译，执行完毕。（所以实际开发中把js脚本写在页面底部比较稳妥）；</p>
+<p>​    总结：href用于表示引用资源与当前元素或文档的关系，src会替换掉当前的标签；遇到href所指向的引用资源时页面会并行加载不停止对当前文档的处理，但是src所指向的资源需要浏览器暂停当前对文档的处理来加载当前src的内容，加载完成后才会继续往下继续对文档的处理；</p>
+<p>​    补充：**<em>可替换元素与非替换元素**</em></p>
+<p>​    可替换元素（replaced element），它所展现的效果不由CSS来控制，这些元素是一种外部对象，他们外观展示的渲染是独立于CSS；可替换元素一般也具有自己的宽度，高度，浏览器会根据元素的标签和属性来决定具体显示的内容。常见的可替换元素，例如<iframe>、<video>、<embed>、<img>等</video></iframe></p>
+<p>​    非替换元素（non-replaced element），它的内容是包含在文档中的元素，它的内容受CSS渲染控制，非替换元素的内容不会超过CSS的模型范围，CSS在渲染时会考虑到非替换元素的内容。常见的非替换元素有<div>,<p>,</p><h1>~<h6>,<table>等；</table></h6></h1></div></p>
+<h3 id="7-animation和transition"><a href="#7-animation和transition" class="headerlink" title="7.animation和transition"></a>7.animation和transition</h3><h3 id="8-image的alt和title属性"><a href="#8-image的alt和title属性" class="headerlink" title="8.image的alt和title属性"></a>8.image的alt和title属性</h3><h3 id="9-token的使用"><a href="#9-token的使用" class="headerlink" title="9.token的使用"></a>9.token的使用</h3><h3 id="10-vue-router中使用的路由跳转（push，go，replace方法的区别）"><a href="#10-vue-router中使用的路由跳转（push，go，replace方法的区别）" class="headerlink" title="10.vue-router中使用的路由跳转（push，go，replace方法的区别）"></a>10.vue-router中使用的路由跳转（push，go，replace方法的区别）</h3><h3 id="11-操作dom节点（querySelector与getElementById的区别）"><a href="#11-操作dom节点（querySelector与getElementById的区别）" class="headerlink" title="11.操作dom节点（querySelector与getElementById的区别）"></a>11.操作dom节点（querySelector与getElementById的区别）</h3><h3 id="12-axios拦截器"><a href="#12-axios拦截器" class="headerlink" title="12.axios拦截器"></a>12.axios拦截器</h3><h3 id="13-CSS选择器的优先级"><a href="#13-CSS选择器的优先级" class="headerlink" title="13.CSS选择器的优先级"></a>13.CSS选择器的优先级</h3><h2 id="js部分"><a href="#js部分" class="headerlink" title="js部分"></a>js部分</h2><h3 id="1-基本数据类型和引用数据类型"><a href="#1-基本数据类型和引用数据类型" class="headerlink" title="1.基本数据类型和引用数据类型"></a>1.基本数据类型和引用数据类型</h3><pre><code>字符串的隐式转换（为什么会进行隐式转换），null + undefined = NaN 
+</code></pre>
+<h3 id="2-ES6的Symbol和BigInt"><a href="#2-ES6的Symbol和BigInt" class="headerlink" title="2.ES6的Symbol和BigInt"></a>2.ES6的Symbol和BigInt</h3><h3 id="3-箭头函数（和普通函数的区别，this，arguments）"><a href="#3-箭头函数（和普通函数的区别，this，arguments）" class="headerlink" title="3.箭头函数（和普通函数的区别，this，arguments）"></a>3.箭头函数（和普通函数的区别，this，arguments）</h3><h3 id="4-异步（Promise的状态为什么不能逆转）"><a href="#4-异步（Promise的状态为什么不能逆转）" class="headerlink" title="4.异步（Promise的状态为什么不能逆转）"></a>4.异步（Promise的状态为什么不能逆转）</h3><h3 id="5-Promise的race-和all-方法"><a href="#5-Promise的race-和all-方法" class="headerlink" title="5.Promise的race()和all()方法"></a>5.Promise的race()和all()方法</h3><h3 id="6-async和await到底是什么"><a href="#6-async和await到底是什么" class="headerlink" title="6.async和await到底是什么"></a>6.async和await到底是什么</h3><h2 id="计网部分"><a href="#计网部分" class="headerlink" title="计网部分"></a>计网部分</h2><h3 id="1-http和https区别（https的s是什么）"><a href="#1-http和https区别（https的s是什么）" class="headerlink" title="1.http和https区别（https的s是什么）"></a>1.http和https区别（https的s是什么）</h3><h3 id="2-GET和POST请求的区别（能干什么）"><a href="#2-GET和POST请求的区别（能干什么）" class="headerlink" title="2.GET和POST请求的区别（能干什么）"></a>2.GET和POST请求的区别（能干什么）</h3><h2 id="Java部分"><a href="#Java部分" class="headerlink" title="Java部分"></a>Java部分</h2><h3 id="1-MVC模式"><a href="#1-MVC模式" class="headerlink" title="1.MVC模式"></a>1.MVC模式</h3><h3 id="2-java中的class（类）和对象，接口的区别"><a href="#2-java中的class（类）和对象，接口的区别" class="headerlink" title="2.java中的class（类）和对象，接口的区别"></a>2.java中的class（类）和对象，接口的区别</h3><h3 id="3-怎么理解SpringBoot的注解"><a href="#3-怎么理解SpringBoot的注解" class="headerlink" title="3.怎么理解SpringBoot的注解@"></a>3.怎么理解SpringBoot的注解@</h3><h3 id="4-单例模式怎么理解"><a href="#4-单例模式怎么理解" class="headerlink" title="4.单例模式怎么理解"></a>4.单例模式怎么理解</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/13/%E6%8A%80%E6%9C%AF%E9%9D%A2%E5%A4%8D%E7%9B%98/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/13/%E6%8A%80%E6%9C%AF%E9%9D%A2%E5%A4%8D%E7%9B%98/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/04/12/jQuery学习第二天/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">jQuery学习第二天 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#css%E5%92%8Chtml%EF%BC%8CVue%E9%83%A8%E5%88%86"><span class="toc-text">css和html，Vue部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-meta%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9B"><span class="toc-text">1.meta标签的使用；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-input-%E6%A0%87%E7%AD%BE%E7%9A%84file%E5%B1%9E%E6%80%A7"><span class="toc-text">2.input 标签的file属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="toc-text">3.盒子模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E5%8A%9E%E6%B3%95%EF%BC%9B"><span class="toc-text">4.水平垂直居中的办法；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-v-if-%E5%92%8C-v-show-%E5%8C%BA%E5%88%AB"><span class="toc-text">5.v-if 和 v-show 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-link%E7%9A%84hrfe%E5%92%8Cscript%E7%9A%84src%E5%8C%BA%E5%88%AB"><span class="toc-text">6.link的hrfe和script的src区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">~,等；</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link"><span class="toc-text">,等；</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-animation%E5%92%8Ctransition"><span class="toc-text">7.animation和transition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-image%E7%9A%84alt%E5%92%8Ctitle%E5%B1%9E%E6%80%A7"><span class="toc-text">8.image的alt和title属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-token%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">9.token的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-vue-router%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC%EF%BC%88push%EF%BC%8Cgo%EF%BC%8Creplace%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">10.vue-router中使用的路由跳转（push，go，replace方法的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%93%8D%E4%BD%9Cdom%E8%8A%82%E7%82%B9%EF%BC%88querySelector%E4%B8%8EgetElementById%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">11.操作dom节点（querySelector与getElementById的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-axios%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">12.axios拦截器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">13.CSS选择器的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js%E9%83%A8%E5%88%86"><span class="toc-text">js部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">1.基本数据类型和引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ES6%E7%9A%84Symbol%E5%92%8CBigInt"><span class="toc-text">2.ES6的Symbol和BigInt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%EF%BC%88%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cthis%EF%BC%8Carguments%EF%BC%89"><span class="toc-text">3.箭头函数（和普通函数的区别，this，arguments）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%EF%BC%88Promise%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E9%80%86%E8%BD%AC%EF%BC%89"><span class="toc-text">4.异步（Promise的状态为什么不能逆转）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Promise%E7%9A%84race-%E5%92%8Call-%E6%96%B9%E6%B3%95"><span class="toc-text">5.Promise的race()和all()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-async%E5%92%8Cawait%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">6.async和await到底是什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%BD%91%E9%83%A8%E5%88%86"><span class="toc-text">计网部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-http%E5%92%8Chttps%E5%8C%BA%E5%88%AB%EF%BC%88https%E7%9A%84s%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">1.http和https区别（https的s是什么）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-GET%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">2.GET和POST请求的区别（能干什么）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E9%83%A8%E5%88%86"><span class="toc-text">Java部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MVC%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.MVC模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-java%E4%B8%AD%E7%9A%84class%EF%BC%88%E7%B1%BB%EF%BC%89%E5%92%8C%E5%AF%B9%E8%B1%A1%EF%BC%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">2.java中的class（类）和对象，接口的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3SpringBoot%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="toc-text">3.怎么理解SpringBoot的注解@</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3"><span class="toc-text">4.单例模式怎么理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>48</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>8</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#css%E5%92%8Chtml%EF%BC%8CVue%E9%83%A8%E5%88%86"><span class="toc-text">css和html，Vue部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-meta%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9B"><span class="toc-text">1.meta标签的使用；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-input-%E6%A0%87%E7%AD%BE%E7%9A%84file%E5%B1%9E%E6%80%A7"><span class="toc-text">2.input 标签的file属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="toc-text">3.盒子模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E5%8A%9E%E6%B3%95%EF%BC%9B"><span class="toc-text">4.水平垂直居中的办法；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-v-if-%E5%92%8C-v-show-%E5%8C%BA%E5%88%AB"><span class="toc-text">5.v-if 和 v-show 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-link%E7%9A%84hrfe%E5%92%8Cscript%E7%9A%84src%E5%8C%BA%E5%88%AB"><span class="toc-text">6.link的hrfe和script的src区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">~,等；</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link"><span class="toc-text">,等；</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-animation%E5%92%8Ctransition"><span class="toc-text">7.animation和transition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-image%E7%9A%84alt%E5%92%8Ctitle%E5%B1%9E%E6%80%A7"><span class="toc-text">8.image的alt和title属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-token%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">9.token的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-vue-router%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC%EF%BC%88push%EF%BC%8Cgo%EF%BC%8Creplace%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">10.vue-router中使用的路由跳转（push，go，replace方法的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%93%8D%E4%BD%9Cdom%E8%8A%82%E7%82%B9%EF%BC%88querySelector%E4%B8%8EgetElementById%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">11.操作dom节点（querySelector与getElementById的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-axios%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">12.axios拦截器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">13.CSS选择器的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js%E9%83%A8%E5%88%86"><span class="toc-text">js部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">1.基本数据类型和引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ES6%E7%9A%84Symbol%E5%92%8CBigInt"><span class="toc-text">2.ES6的Symbol和BigInt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%EF%BC%88%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cthis%EF%BC%8Carguments%EF%BC%89"><span class="toc-text">3.箭头函数（和普通函数的区别，this，arguments）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%EF%BC%88Promise%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E9%80%86%E8%BD%AC%EF%BC%89"><span class="toc-text">4.异步（Promise的状态为什么不能逆转）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Promise%E7%9A%84race-%E5%92%8Call-%E6%96%B9%E6%B3%95"><span class="toc-text">5.Promise的race()和all()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-async%E5%92%8Cawait%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">6.async和await到底是什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%BD%91%E9%83%A8%E5%88%86"><span class="toc-text">计网部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-http%E5%92%8Chttps%E5%8C%BA%E5%88%AB%EF%BC%88https%E7%9A%84s%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">1.http和https区别（https的s是什么）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-GET%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">2.GET和POST请求的区别（能干什么）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E9%83%A8%E5%88%86"><span class="toc-text">Java部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MVC%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.MVC模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-java%E4%B8%AD%E7%9A%84class%EF%BC%88%E7%B1%BB%EF%BC%89%E5%92%8C%E5%AF%B9%E8%B1%A1%EF%BC%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">2.java中的class（类）和对象，接口的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3SpringBoot%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="toc-text">3.怎么理解SpringBoot的注解@</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3"><span class="toc-text">4.单例模式怎么理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#css%E5%92%8Chtml%EF%BC%8CVue%E9%83%A8%E5%88%86"><span class="toc-text">css和html，Vue部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-meta%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%9B"><span class="toc-text">1.meta标签的使用；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-input-%E6%A0%87%E7%AD%BE%E7%9A%84file%E5%B1%9E%E6%80%A7"><span class="toc-text">2.input 标签的file属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="toc-text">3.盒子模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E7%9A%84%E5%8A%9E%E6%B3%95%EF%BC%9B"><span class="toc-text">4.水平垂直居中的办法；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-v-if-%E5%92%8C-v-show-%E5%8C%BA%E5%88%AB"><span class="toc-text">5.v-if 和 v-show 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-link%E7%9A%84hrfe%E5%92%8Cscript%E7%9A%84src%E5%8C%BA%E5%88%AB"><span class="toc-text">6.link的hrfe和script的src区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">~,等；</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link"><span class="toc-text">,等；</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-animation%E5%92%8Ctransition"><span class="toc-text">7.animation和transition</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-image%E7%9A%84alt%E5%92%8Ctitle%E5%B1%9E%E6%80%A7"><span class="toc-text">8.image的alt和title属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-token%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">9.token的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-vue-router%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%9A%84%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC%EF%BC%88push%EF%BC%8Cgo%EF%BC%8Creplace%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">10.vue-router中使用的路由跳转（push，go，replace方法的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%93%8D%E4%BD%9Cdom%E8%8A%82%E7%82%B9%EF%BC%88querySelector%E4%B8%8EgetElementById%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="toc-text">11.操作dom节点（querySelector与getElementById的区别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-axios%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">12.axios拦截器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-text">13.CSS选择器的优先级</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#js%E9%83%A8%E5%88%86"><span class="toc-text">js部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">1.基本数据类型和引用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ES6%E7%9A%84Symbol%E5%92%8CBigInt"><span class="toc-text">2.ES6的Symbol和BigInt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%EF%BC%88%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Cthis%EF%BC%8Carguments%EF%BC%89"><span class="toc-text">3.箭头函数（和普通函数的区别，this，arguments）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%EF%BC%88Promise%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E9%80%86%E8%BD%AC%EF%BC%89"><span class="toc-text">4.异步（Promise的状态为什么不能逆转）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Promise%E7%9A%84race-%E5%92%8Call-%E6%96%B9%E6%B3%95"><span class="toc-text">5.Promise的race()和all()方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-async%E5%92%8Cawait%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">6.async和await到底是什么</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%BD%91%E9%83%A8%E5%88%86"><span class="toc-text">计网部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-http%E5%92%8Chttps%E5%8C%BA%E5%88%AB%EF%BC%88https%E7%9A%84s%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">1.http和https区别（https的s是什么）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-GET%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%83%BD%E5%B9%B2%E4%BB%80%E4%B9%88%EF%BC%89"><span class="toc-text">2.GET和POST请求的区别（能干什么）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E9%83%A8%E5%88%86"><span class="toc-text">Java部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-MVC%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.MVC模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-java%E4%B8%AD%E7%9A%84class%EF%BC%88%E7%B1%BB%EF%BC%89%E5%92%8C%E5%AF%B9%E8%B1%A1%EF%BC%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">2.java中的class（类）和对象，接口的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3SpringBoot%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="toc-text">3.怎么理解SpringBoot的注解@</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3"><span class="toc-text">4.单例模式怎么理解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-13</div>
+        <a href="/2022/04/13/技术面复盘/"><div class="recent-posts-item-content">技术面复盘反省</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-12</div>
+        <a href="/2022/04/12/jQuery学习第二天/"><div class="recent-posts-item-content">jQuery学习第二天</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/jQuery学习第一天/"><div class="recent-posts-item-content">jQuery学习第一天</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-10</div>
+        <a href="/2022/04/10/async函数/"><div class="recent-posts-item-content">async函数</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
