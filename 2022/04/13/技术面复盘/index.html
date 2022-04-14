@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-04-13">
-  <meta property="og:article:modified_time" content="2022-04-13">
+  <meta property="og:article:modified_time" content="2022-04-14">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -217,7 +217,7 @@
     
     
     <span class="dot"></span>
-    <span>1.5k 字</span>
+    <span>3.2k 字</span>
     
   </div>
   
@@ -259,14 +259,15 @@ content里面的3是指定3秒后跳转到指定页面；<span aria-hidden="true
 具体详见：https://blog.csdn.net/yc123h/article/details/51356143<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="2-input-标签的file属性"><a href="#2-input-标签的file属性" class="headerlink" title="2.input 标签的file属性"></a>2.input 标签的file属性</h3><p>​    首先明确input标签是基于Web的表单创建交互式控件，以便接受来自用户的数据；可以通过使用type属性来决定输入的各自类型；</p>
 <p>​    使用type = “file” 可使得用户通过input元素选择一个或多个文件（需要multiple属性）以提交表单的方式上传到服务器。</p>
-<p>​    当使用type = “file” 属性的时候，它有一下几个附加属性：</p>
+<p>​    当使用type = “file” 属性的时候，它有以下几个附加属性：</p>
 <p>​    1.accept：一个或多个唯一文件类型的说明符，描述允许的文件类型，它的值为字符串，定义input应该接受的文件类型；</p>
 <pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>docpicker<span class="token punctuation">"</span></span>
   <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>​    2.capture：捕获图像或视频数据的源（前提是accept属性中指定的是图片或者视频类型），值 user 表示应该使用前置摄像头和/或麦克风。值 environment 表示应该使用后置摄像头和/或麦克风。</p>
 <p>​    3.files：FileList 对象每个已选择的文件。如果 multiple 属性没有指定，则这个列表只有一个成员。</p>
 <p>​    4.multiple：布尔值，如果出现，则表示用户可以选择多个文件。</p>
-<h3 id="3-盒子模型"><a href="#3-盒子模型" class="headerlink" title="3.盒子模型"></a>3.盒子模型</h3><h3 id="4-水平垂直居中的办法；"><a href="#4-水平垂直居中的办法；" class="headerlink" title="4.水平垂直居中的办法；"></a>4.水平垂直居中的办法；</h3><h3 id="5-v-if-和-v-show-区别"><a href="#5-v-if-和-v-show-区别" class="headerlink" title="5.v-if 和 v-show 区别"></a>5.v-if 和 v-show 区别</h3><h3 id="6-link的hrfe和script的src区别"><a href="#6-link的hrfe和script的src区别" class="headerlink" title="6.link的hrfe和script的src区别"></a>6.link的hrfe和script的src区别</h3><p>​    首先明确src和href都是用来引用外部的资源；这两者的区别如下：</p>
+<h3 id="3-盒子模型"><a href="#3-盒子模型" class="headerlink" title="3.盒子模型"></a>3.盒子模型</h3><p>​    </p>
+<h3 id="4-水平垂直居中的办法；"><a href="#4-水平垂直居中的办法；" class="headerlink" title="4.水平垂直居中的办法；"></a>4.水平垂直居中的办法；</h3><h3 id="5-v-if-和-v-show-区别"><a href="#5-v-if-和-v-show-区别" class="headerlink" title="5.v-if 和 v-show 区别"></a>5.v-if 和 v-show 区别</h3><h3 id="6-link的hrfe和script的src区别"><a href="#6-link的hrfe和script的src区别" class="headerlink" title="6.link的hrfe和script的src区别"></a>6.link的hrfe和script的src区别</h3><p>​    首先明确src和href都是用来引用外部的资源；这两者的区别如下：</p>
 <p>​    <strong><em>href</em></strong>：全称：Hypertext Reference，超文本引用，它指向一些网络资源，建立和当前元素（a标签）或者说是当前文档（link）的链接关系。在加载它的时候，不会停止对当前文档的处理，浏览器会继续往下执行。</p>
 <p>​    <strong><em>src</em></strong>：全称：source，资源，表示对资源的引用，它指向的内容会嵌入到当前标签（img，iframe，video，audio，script）所在的位置（这种标签称为可替换元素）。src会将它所指向的资源下载到当前文档内，如请求js脚本。当浏览器解析到该元素时，会暂停其他资源的下载和处理，直到将src所指向的资源加载，编译，执行完毕。（所以实际开发中把js脚本写在页面底部比较稳妥）；</p>
 <p>​    总结：href用于表示引用资源与当前元素或文档的关系，src会替换掉当前的标签；遇到href所指向的引用资源时页面会并行加载不停止对当前文档的处理，但是src所指向的资源需要浏览器暂停当前对文档的处理来加载当前src的内容，加载完成后才会继续往下继续对文档的处理；</p>
@@ -275,7 +276,75 @@ content里面的3是指定3秒后跳转到指定页面；<span aria-hidden="true
 <p>​    非替换元素（non-replaced element），它的内容是包含在文档中的元素，它的内容受CSS渲染控制，非替换元素的内容不会超过CSS的模型范围，CSS在渲染时会考虑到非替换元素的内容。常见的非替换元素有<div>,<p>,</p><h1>~<h6>,<table>等；</table></h6></h1></div></p>
 <h3 id="7-animation和transition"><a href="#7-animation和transition" class="headerlink" title="7.animation和transition"></a>7.animation和transition</h3><h3 id="8-image的alt和title属性"><a href="#8-image的alt和title属性" class="headerlink" title="8.image的alt和title属性"></a>8.image的alt和title属性</h3><h3 id="9-token的使用"><a href="#9-token的使用" class="headerlink" title="9.token的使用"></a>9.token的使用</h3><h3 id="10-vue-router中使用的路由跳转（push，go，replace方法的区别）"><a href="#10-vue-router中使用的路由跳转（push，go，replace方法的区别）" class="headerlink" title="10.vue-router中使用的路由跳转（push，go，replace方法的区别）"></a>10.vue-router中使用的路由跳转（push，go，replace方法的区别）</h3><h3 id="11-操作dom节点（querySelector与getElementById的区别）"><a href="#11-操作dom节点（querySelector与getElementById的区别）" class="headerlink" title="11.操作dom节点（querySelector与getElementById的区别）"></a>11.操作dom节点（querySelector与getElementById的区别）</h3><h3 id="12-axios拦截器"><a href="#12-axios拦截器" class="headerlink" title="12.axios拦截器"></a>12.axios拦截器</h3><h3 id="13-CSS选择器的优先级"><a href="#13-CSS选择器的优先级" class="headerlink" title="13.CSS选择器的优先级"></a>13.CSS选择器的优先级</h3><h2 id="js部分"><a href="#js部分" class="headerlink" title="js部分"></a>js部分</h2><h3 id="1-基本数据类型和引用数据类型"><a href="#1-基本数据类型和引用数据类型" class="headerlink" title="1.基本数据类型和引用数据类型"></a>1.基本数据类型和引用数据类型</h3><pre><code>字符串的隐式转换（为什么会进行隐式转换），null + undefined = NaN 
 </code></pre>
-<h3 id="2-ES6的Symbol和BigInt"><a href="#2-ES6的Symbol和BigInt" class="headerlink" title="2.ES6的Symbol和BigInt"></a>2.ES6的Symbol和BigInt</h3><h3 id="3-箭头函数（和普通函数的区别，this，arguments）"><a href="#3-箭头函数（和普通函数的区别，this，arguments）" class="headerlink" title="3.箭头函数（和普通函数的区别，this，arguments）"></a>3.箭头函数（和普通函数的区别，this，arguments）</h3><h3 id="4-异步（Promise的状态为什么不能逆转）"><a href="#4-异步（Promise的状态为什么不能逆转）" class="headerlink" title="4.异步（Promise的状态为什么不能逆转）"></a>4.异步（Promise的状态为什么不能逆转）</h3><h3 id="5-Promise的race-和all-方法"><a href="#5-Promise的race-和all-方法" class="headerlink" title="5.Promise的race()和all()方法"></a>5.Promise的race()和all()方法</h3><h3 id="6-async和await到底是什么"><a href="#6-async和await到底是什么" class="headerlink" title="6.async和await到底是什么"></a>6.async和await到底是什么</h3><h2 id="计网部分"><a href="#计网部分" class="headerlink" title="计网部分"></a>计网部分</h2><h3 id="1-http和https区别（https的s是什么）"><a href="#1-http和https区别（https的s是什么）" class="headerlink" title="1.http和https区别（https的s是什么）"></a>1.http和https区别（https的s是什么）</h3><h3 id="2-GET和POST请求的区别（能干什么）"><a href="#2-GET和POST请求的区别（能干什么）" class="headerlink" title="2.GET和POST请求的区别（能干什么）"></a>2.GET和POST请求的区别（能干什么）</h3><h2 id="Java部分"><a href="#Java部分" class="headerlink" title="Java部分"></a>Java部分</h2><h3 id="1-MVC模式"><a href="#1-MVC模式" class="headerlink" title="1.MVC模式"></a>1.MVC模式</h3><h3 id="2-java中的class（类）和对象，接口的区别"><a href="#2-java中的class（类）和对象，接口的区别" class="headerlink" title="2.java中的class（类）和对象，接口的区别"></a>2.java中的class（类）和对象，接口的区别</h3><h3 id="3-怎么理解SpringBoot的注解"><a href="#3-怎么理解SpringBoot的注解" class="headerlink" title="3.怎么理解SpringBoot的注解@"></a>3.怎么理解SpringBoot的注解@</h3><h3 id="4-单例模式怎么理解"><a href="#4-单例模式怎么理解" class="headerlink" title="4.单例模式怎么理解"></a>4.单例模式怎么理解</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+<h3 id="2-ES6的Symbol和BigInt"><a href="#2-ES6的Symbol和BigInt" class="headerlink" title="2.ES6的Symbol和BigInt"></a>2.ES6的Symbol和BigInt</h3><h3 id="3-箭头函数（和普通函数的区别，this，arguments）"><a href="#3-箭头函数（和普通函数的区别，this，arguments）" class="headerlink" title="3.箭头函数（和普通函数的区别，this，arguments）"></a>3.箭头函数（和普通函数的区别，this，arguments）</h3><h3 id="4-异步（Promise的状态为什么不能逆转）"><a href="#4-异步（Promise的状态为什么不能逆转）" class="headerlink" title="4.异步（Promise的状态为什么不能逆转）"></a>4.异步（Promise的状态为什么不能逆转）</h3><h3 id="5-Promise的race-和all-方法"><a href="#5-Promise的race-和all-方法" class="headerlink" title="5.Promise的race()和all()方法"></a>5.Promise的race()和all()方法</h3><h3 id="6-async和await到底是什么"><a href="#6-async和await到底是什么" class="headerlink" title="6.async和await到底是什么"></a>6.async和await到底是什么</h3><h2 id="计网部分"><a href="#计网部分" class="headerlink" title="计网部分"></a>计网部分</h2><h3 id="1-http和https区别（https的s是什么）"><a href="#1-http和https区别（https的s是什么）" class="headerlink" title="1.http和https区别（https的s是什么）"></a>1.http和https区别（https的s是什么）</h3><p>​    <strong>HTTP协议</strong>：Hyper Text Transfer Protocol（超文本传输协议），属于应用层协议，基于TCP协议（TCP协议是端到端的可靠连接协议）的应用层传输协议。HTTP协议是用于本地浏览器和服务器传输超文本的传输协议。它是一种无状态协议；</p>
+<p>​    <strong>在平时的从浏览器中键入URL请求到网页加载完成所经历的过程：</strong></p>
+<p>​    1.对输入的url地址进行DNS域名解析，得到对应的IP地址；</p>
+<p>​    2.向IP地址服务器发起TCP请求，经过三次握手后建立TCP连接；</p>
+<p>​    3.向服务器发起HTTP请求；</p>
+<p>​    4.服务器接受到HTTP请求，处理请求，响应HTTP请求；</p>
+<p>​    5.浏览器根据响应的数据解析html代码，并请求html代码中的资源（js脚本，css，图片等）；</p>
+<p>​    6.浏览器渲染页面并显示（页面渲染步骤：先解析html文件生成DOM树，解析CSS文件构成渲染树，边解析边渲染）；</p>
+<p>​    <strong>HTTP请求的组成结构</strong>：</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414153650005.png" alt="image-20220414153650005" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414153650005.png" class="lozad post-image"></p>
+<p>​    <strong>（1）请求行（包含请求方法，请求url，http协议版本，换行）</strong></p>
+<p>​            GET/example.html HTTP/1.1(CRLF)</p>
+<p>​            请求方法有如下几种：</p>
+<p>​            GET：请求获取URL所标识的资源</p>
+<p>​            POST：在请求URL所标识的资源后增加新的数据</p>
+<p>​            PUT：请求服务器存储一个或修改一个资源，使用URL作为其标识</p>
+<p>​            DELETE：请求服务器删除URL所标识的资源</p>
+<p>​            HEAD：请求获取URL所标识的资源的响应消息报头</p>
+<p>​            TRACE：请求服务器回送收到的请求信息，主要用于测试或诊断</p>
+<p>​            OPTIONS：请求查询服务器性能或查询与资源相关的选项和需求</p>
+<p>​            CONNECT：保留将来使用</p>
+<p>​    <strong>（2）请求头（消息报头）</strong></p>
+<p>​            请求头是由一些键值对组成，每行一对关键字和值用 : 分隔。允许客户端向服务器发送一些附加信息或者客户端自身的信息。常见的请求头如下：</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414155525884.png" alt="image-20220414155525884" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414155525884.png" class="lozad post-image"></p>
+<p>​    <strong>（3）空行（CRLF）</strong></p>
+<p>​            最后一个请求头之后是一个空行，发送回车符和换行符，通知服务器以下不再有请求头。</p>
+<p>​    <strong>（4）请求正文（请求体）</strong></p>
+<p>​            GET方法中请求体是空的，请求体多在POST方法中使用</p>
+<p>​    <strong>HTTP响应的组成结构</strong>：</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414160304575.png" alt="image-20220414160304575" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414160304575.png" class="lozad post-image"></p>
+<p>​        HTTP响应由3部分组成：</p>
+<p>​        （1）状态行</p>
+<p>​                状态行包含三部分，HTTP协议的版本号，状态码（用来表示网页服务器响应状态的3位数字代码，1xx-5xx），以及对状态码的文本描述。</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414161541990.png" alt="image-20220414161541990" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414161541990.png" class="lozad post-image"></p>
+<p>​        （2）消息报头</p>
+<p>​        （3）响应正文</p>
+<p>​    <strong>HTTP协议的特点</strong>：无连接（每次只处理一个请求，服务器处理完客户的请求后并收到应答后即断开连接）；无状态（HTTP协议无法根据之前的状态进行本次的请求处理）；灵活（HTTP允许传输任意的数据类型在传输的类型由Content-Type加以标记）</p>
+<p>​    <strong>HTTP协议的缺点</strong>：</p>
+<p>​        （1）通信使用明文不加密；</p>
+<p>​        （2）不验证通信方身份，可能遇到伪装；</p>
+<p>​        （3）无法验证报文的完整性，可能已遭篡改；</p>
+<p>​    总的来说：不安全！</p>
+<p>​    <strong>HTTPS协议</strong></p>
+<p>​    https协议就是身披SSL外壳的Http协议。https协议是一种通过计算机网络进行安全通信的传输协议，经由http进行通信，利用SSL／TLS进行加密数据包。https默认的端口号是443。HTTP+加密+认证+完整性保护=HTTPS</p>
+<p>​    <strong>简述SSL/TLS握手过程</strong></p>
+<p>​    （1）客户端向服务端发送Client Hello打招呼（其中包括客户端支持的TLS版本和选择的加密套件，并生成第一随机数一同发送）</p>
+<p>​    （2）服务端向客户端发送Serve Hello（，开始服务器打招呼其中包括服务端选择的TLS版本，加密套件，并生成第二随机数一同发送）</p>
+<p>​    （3）紧接着服务端再发送Certificate（服务端的SSL证书）</p>
+<p>​    （4）服务器再发送Serve Key Exchange（服务端的公钥）</p>
+<p>​    （5）服务端发送Serve Hello Done（服务器打招呼结束）</p>
+<p>​    （6）客户端再生成一个第三随机数（也称为预主密钥），客户端使用之前接受的公钥加密刚才生成的预主密钥，并向服务端发送Client Key Exchange，Change Ciper Spec，Encrypted Handshake Message（其中包含加密后的预主密钥一同发送）</p>
+<p>​    （7）服务端接受到加密后的预主密钥以后，使用服务端的私钥进行解密，获得未加密的预主密钥（第三随机数）</p>
+<p>​    （8）客户端和服务端都使用第一随机数，第二随机数，预主密钥计算出会话密钥（即客户端和服务端会得到同一个会话密钥）</p>
+<p>​    （9）此时服务端可客户端都拥有了同一个会话密钥，之后的会话都使用这个会话密钥对数据进行加密，即后面使用的是对称加密</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414180102261.png" alt="image-20220414180102261" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220414180102261.png" class="lozad post-image"></p>
+<p>​    <strong>HTTPS的特点</strong></p>
+<p>​    内容加密（传输的数据不是明文），验证身份（通过证书认证客户端访问的是目标服务器），保证数据的完整性（防止传输的数据遭到修改）</p>
+<p>​    <strong>HTTPS的缺点</strong></p>
+<p>​    HTTPS协议的握手阶段比较耗时，会使页面加载时间延长；SSL证书需要绑定IP，不能再一个IP上绑定多个域名；</p>
+<h3 id="2-GET和POST请求的区别（能干什么）"><a href="#2-GET和POST请求的区别（能干什么）" class="headerlink" title="2.GET和POST请求的区别（能干什么）"></a>2.GET和POST请求的区别（能干什么）</h3><p>​    首先明确GET请求和POST请求都是HTTP协议中的两中方法。</p>
+<p>​    1.GET的数据在URL中是可见的，POST请求是不显示在URL中的（即GET参数通过url传递，POST放在请求体中）；</p>
+<p>​    2.GET请求对长度是有限制的，POST请求长度是无限制的；</p>
+<p>​    3.GET比POST不安全，参数会暴露在URL中；</p>
+<p>​    4.GET请求浏览器会主动缓存，但是POST请求不会；</p>
+<p>​    5.GET请求产生一个TCP数据包，POST请求会产生两个TCP数据包。GET请求中浏览器会把http header 和 data 一并发出，对于POST请求，浏览器会先发送header，服务器响应100 continue后，浏览器再发送data；</p>
+<h2 id="Java部分"><a href="#Java部分" class="headerlink" title="Java部分"></a>Java部分</h2><h3 id="1-MVC模式"><a href="#1-MVC模式" class="headerlink" title="1.MVC模式"></a>1.MVC模式</h3><h3 id="2-java中的class（类）和对象，接口的区别"><a href="#2-java中的class（类）和对象，接口的区别" class="headerlink" title="2.java中的class（类）和对象，接口的区别"></a>2.java中的class（类）和对象，接口的区别</h3><h3 id="3-怎么理解SpringBoot的注解"><a href="#3-怎么理解SpringBoot的注解" class="headerlink" title="3.怎么理解SpringBoot的注解@"></a>3.怎么理解SpringBoot的注解@</h3><h3 id="4-单例模式怎么理解"><a href="#4-单例模式怎么理解" class="headerlink" title="4.单例模式怎么理解"></a>4.单例模式怎么理解</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​    一次很糟糕的技术面试，95%的都不会，开学到现在，拼命的给自己塞入知识，好多知识原理都是只了解到了表面或者只能说是了解，没想过为什么，感觉自己学了，其实啥都没学会，慢下来吧，这段时间先把找找工作的事情停一停，把毕设做好，再把之前学的再深入学习。</p>
+<p>​    只要去经历，就会有所成长。</p>
+<p>​    我要成为什么样的人？</p>
+
   </div>
   <div>
   
