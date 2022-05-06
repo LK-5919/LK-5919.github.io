@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-04-17">
-  <meta property="og:article:modified_time" content="2022-04-30">
+  <meta property="og:article:modified_time" content="2022-05-06">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -236,7 +236,7 @@
     <h2 id="虚拟DOM和DIFF算法介绍"><a href="#虚拟DOM和DIFF算法介绍" class="headerlink" title="虚拟DOM和DIFF算法介绍"></a>虚拟DOM和DIFF算法介绍</h2><p>在网页中看到的一个个html标签元素就是一个真实的DOM，而虚拟DOM就是使用JavaScript对象来描述DOM的层次结构。DOM中的一切属性都在虚拟DOM中有对应的属性；</p>
 <p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220417112934448.png" alt="image-20220417112934448" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220417112934448.png" class="lozad post-image"></p>
 <p>与上图所示的真实DOM对应的虚拟DOM如下图：</p>
-<img src="/LkGiteeCoder/LkGiteeCoder/Users\李\AppData\Roaming\Typora\typora-user-images\image-20220417113044572.png" alt="image-20220417113044572" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/LkGiteeCoder/LkGiteeCoder/Users\李\AppData\Roaming\Typora\typora-user-images\image-20220417113044572.png" class="lozad post-image">
+<img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220417113044572.png" alt="image-20220417113044572" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220417113044572.png" class="lozad post-image">
 
 <p>当页面的数据进行变化时，会先进行新老虚拟DOM比较（diff精细化比较），算出应该如何最小量更新，最后反映到真正的DOM上；</p>
 <p>补充：真实DOM转变为虚拟DOM属于模板编译原理范畴；</p>
