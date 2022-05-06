@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>Coding</title>
+  
+  
+  <meta property="og:title" content="Coding">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="_NULL0的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-04-30">
+  <meta property="og:article:modified_time" content="2022-05-02">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-04-30T07:30:05.889Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-04-30</span>
+    </time>
+    
+    
+    <span class="dot"></span>
+    <span>4.2k 字</span>
+    
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <hr>
+<p>title: 服务器环境部署<br>tags: 云服务器CentOS8<br>category: 服务器<br>date: 2022-04-30 15:30:05<br>excerpt: CentOS服务器环境部署Java…</p>
+<h2 id="使用Xshell连接服务器"><a href="#使用Xshell连接服务器" class="headerlink" title="使用Xshell连接服务器"></a>使用Xshell连接服务器</h2><p>软件新建连接，输入服务器IP地址，键入登录名和登录密码，连接；</p>
+<h2 id="部署Java环境"><a href="#部署Java环境" class="headerlink" title="部署Java环境"></a>部署Java环境</h2><p>使用手动安装Java环境，首先在清华大学镜像源下载jdk8的压缩包</p>
+<p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/x64/linux">https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/x64/linux</a></p>
+<p>使用Xftp将压缩包上传至 /usr/java/文件夹</p>
+<p>上传完毕以后进入对应文件夹</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">cd &#x2F;usr&#x2F;java&#x2F;
+
+检测当前文件夹下的文件
+ll
+
+输入以下命令解压压缩包
+tar -zxvf OpenJDK8U-jdk_x64_linux_hotspot_8u332b09.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>解压完毕后修改解压后的文件夹名称为jdk8，开始配置JAVA环境变量</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">vim &#x2F;etc&#x2F;profile   #进入配置文件
+
+#进入配置文件后，键入i开始插入模式，按下esc键退出编辑模式，输入:wq进行保存
+
+#在配置文件中输入以下代码：
+
+#java
+export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk8    # jdk1.8.0_311为解压缩的目录名称
+export PATH&#x3D;$JAVA_HOME&#x2F;bin:$PATH
+export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib
+
+#退出保存后输入以下命令刷新配置文件
+source &#x2F;etc&#x2F;profile
+
+#输入以下命令检测配置是否生效
+java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430162937038.png" alt="image-20220430162937038" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430162937038.png" class="lozad post-image"></p>
+<p>出现上述结果说明jdk8环境配置成功。</p>
+<h2 id="部署MySQL8环境并配置远程登录"><a href="#部署MySQL8环境并配置远程登录" class="headerlink" title="部署MySQL8环境并配置远程登录"></a>部署MySQL8环境并配置远程登录</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#使用全局命令安装MySQL（不用考虑当前路径）
+
+sudo dnf install @mysql
+
+#键入y确认安装，等待安装完成即可
+
+#安装完成以后，配置MySQL开机自启动
+sudo systemctl enable --now mysqld
+
+#检查MySQL服务是否正在运行
+sudo systemctl status mysqld  # active表示正在运行
+
+#开始设置MySQL密码及安全设置
+sudo mysql_secure_installation  #进入该脚本后输入y确认进行配置
+
+#配置的第一项为密码策略强度，输入0回车
+
+#输入新密码，回车确认（输入的密码不会在屏幕显示）
+
+#在此输入新密码，回车确认
+
+#确认是否继续使用刚才提供的密码，输入y，回车确认
+
+#密码确认后，配置是否移除匿名用户 输入y回车确认
+
+#移除匿名用户后，配置是否需要远程登录，输入n，回车确认
+
+#移除test数据库，输入y，回车确认
+
+#是否重新载入权限表，输入y，回车确认
+
+#开始配置远程登录，首先先登录服务器的MySQL
+
+mysql -uroot -p自己刚才设置的登录密码
+
+#执行一下MySQL语句将root用户的host字段设为 &#39;%&#39;
+use mysql
+update user set host&#x3D;&#39;%&#39; where user&#x3D;&#39;root&#39;;
+flush privileges;
+
+#上面语句执行完毕以后，退出MySQL
+exit
+
+#先开启防火墙服务
+systemctl start firewalld.service
+
+#设置开机自启动
+systemctl enable firewalld.service
+
+#查看防火墙状态
+systemctl status firewalld
+
+#以上配置完成后，开启系统防火墙3306端口
+sudo firewall-cmd --add-port&#x3D;3306&#x2F;tcp --permanent
+sudo firewall-cmd --reload
+
+#关闭MySQL主机查询dns，首先打开 &#x2F;etc&#x2F;my.cnf文件
+vim &#x2F;etc&#x2F;my.cnf
+
+#添加以下内容
+[mysqld]
+skip-name-resolve
+
+#保存文件，退出重启服务
+sudo systemctl restart mysqld<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上面的步骤完成后，还需要进入到服务器的控制台上配置防火墙规则，以腾讯云服务器为例：</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430175403395.png" alt="image-20220430175403395" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430175403395.png" class="lozad post-image"></p>
+<p>新增3306MySQL端口规则；</p>
+<p>在windows主机使用Navicat远程连接服务器上的MySQL测试；</p>
+<h2 id="部署Git"><a href="#部署Git" class="headerlink" title="部署Git"></a>部署Git</h2><p>在这里使用源码安装Git，首先安装一些工具</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">yum groupinstall &quot;Development Tools&quot;  #键入y回车确认安装
+
+yum install wget unzip gettext-devel openssl-devel perl-CPAN perl-devel zlib-devel libcurl-devel expat-devel #键入y回车确认安装<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>以上工具安装完成以后，在<a target="_blank" rel="noopener" href="https://git-scm.com/download/linux">Git (git-scm.com)</a>下载最新的压缩包，下载完毕后，使用xftp上传至 /usr/git/文件夹下</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#解压
+tar -zxvf git-2.36.0.tar.gz
+
+#解压完毕后重命名文件夹为git，并进入该解压文件夹
+
+cd .&#x2F;git
+
+#使用源代码安装并构建Git
+sudo make prefix&#x3D;&#x2F;usr&#x2F;local all install
+
+#安装完成后检测当前当前版本呢
+git --version
+
+#检测的版本与手动安装的版本不一致
+#移除现有版本
+yum remove git #输入y回车确认移除
+
+#配置全局环境变量
+vim &#x2F;etc&#x2F;profile
+
+#输入以下内容
+
+#git
+export GIT_HOME&#x3D;&#x2F;usr&#x2F;git&#x2F;git
+export PATH&#x3D;$GIT_HOME&#x2F;bin:$PATH
+
+#保存文件退出并刷新配置文件
+source &#x2F;etc&#x2F;profile
+
+#重新检测git版本
+git --version  #检测版本为2.36 2022年5月1日<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Git安装完成以后，开始配置账户信息</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#配置个人用户信息
+git config --global user.name &quot;_null0&quot;
+git config --global user.email &quot;_null0@1628069508@qq.com&quot;
+
+#验证用户信息配置
+git config --list
+
+#进入git工作目录创建SSH Key
+ ssh-keygen -t rsa -C &quot;1628069508@qq.com&quot;
+ 
+ #确认生成密钥的地方 -- 回车使用默认
+ 
+ #输入密码
+ 
+ #再次输入密码
+ 
+ #查看生成的密钥
+ cat ~&#x2F;.ssh&#x2F;id_rsa.pub #复制整个文本内容 包括开头的ssh-rsa后面的邮箱<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Git配置账户信息完成后，进行简单的测试操作</p>
+<p>新建 /usr/git/git_project 文件夹，此文件夹用来存放项目提交和项目拉取</p>
+<p>进入此文件夹，测试以前在gitHub上用来测试的项目<a href="mailto:&#103;&#x69;&#116;&#64;&#103;&#105;&#116;&#104;&#117;&#x62;&#46;&#x63;&#111;&#x6d;">&#103;&#x69;&#116;&#64;&#103;&#105;&#116;&#104;&#117;&#x62;&#46;&#x63;&#111;&#x6d;</a>:LK-5919/LK_RepoTest.git</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#拉取项目
+git clone git@github.com:LK-5919&#x2F;LK_RepoTest.git
+
+#输入yes回车确认
+
+#输入ssh-key密钥的密码 null5919 回车确认，即可拉取到项目<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501161535617.png" alt="image-20220501161535617" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501161535617.png" class="lozad post-image"></p>
+<p>拉取到项目后，这里新建一个分支提交测试文件</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#查看当前分支  -- 此时默认是在main分支
+
+#创建一个新分支 -- centos_test
+git branch centos_test
+
+#分支创建成功后，切换到新分支
+git checkout centos_test
+
+#在新分支创建文件
+vim centos.txt
+
+#输入测试文本后，将当前的修改提交到本地
+git add .
+
+#提交到本地后，提交commit
+git commit -m &quot;centos提交测试文件&quot;
+
+#将修改push到远端仓库
+git push origin centos_test  #输入密码后确认push
+
+#其他地方获取最近更新过的仓库文件
+git pull origin main  #main为分支名
+
+#centos 复制文件夹到指定目录
+cp &#x2F;usr&#x2F;git&#x2F;git_project&#x2F;onlineExam-Front-Vue&#x2F;dist&#x2F; -a &#x2F;web&#x2F;onlineExam-Front&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501163014083.png" alt="image-20220501163014083" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501163014083.png" class="lozad post-image"></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lovychen/p/9051601.html">git命令（10）：git 常用操作，撤销修改（2） - 细雨微光 - 博客园 (cnblogs.com)</a></p>
+<p>至此服务器Git环境基本部署测试完毕</p>
+<p>在这里对VS Code配置Git进行简单记录</p>
+<p>在vscode 设置中找到 git.path，打开settings.json文件</p>
+<p>添加电脑上git软件的路径 </p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"git.path"</span><span class="token operator">:</span> <span class="token string">"D:/git/Git/cmd/git.exe"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>保存文件重启vscode，重启后clone刚才的测试项目后使用Vscode打开</p>
+<p>此时修改文件，即可在左侧看到文件的更改记录，修改文件后，点击文件旁边的 + 号可以暂存修改（相当于add命令）</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501170827925.png" alt="image-20220501170827925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501170827925.png" class="lozad post-image"></p>
+<p>文件暂存后，可在输入框中输入本次commit的备注，点击右上 的 :white_check_mark: 即可完成commit命令</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171218878.png" alt="image-20220501171218878" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171218878.png" class="lozad post-image"></p>
+<p>再点击勾号旁边的 … 依次点击push即可完成推送。</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171802182.png" alt="image-20220501171802182" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171802182.png" class="lozad post-image"></p>
+<h2 id="部署Nodejs环境"><a href="#部署Nodejs环境" class="headerlink" title="部署Nodejs环境"></a>部署Nodejs环境</h2><p>从官网下载最新的nodejs压缩包 <a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Download | Node.js (nodejs.org)</a></p>
+<p>下载完成后通过xftp传输到 /usr/nodejs/ 文件夹下并解压</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">tar -xvf node-v16.15.0-linux-x64.tar.xz
+
+#解压完成后重命名文件夹为nodejs16并进入此文件夹
+cd .&#x2F;nodejs16
+
+#配置npm和node命令全局生效
+#修改配置文件
+vim &#x2F;etc&#x2F;profile
+
+#输入以下命令，保存并退出
+#nodejs
+export PATH&#x3D;$PATH:&#x2F;usr&#x2F;nodejs&#x2F;nodejs16&#x2F;bin
+
+#刷新配置文件
+source &#x2F;etc&#x2F;profile
+
+#查看node和npm版本
+node -v
+npm -v
+
+#安装成功后添加cnpm镜像源
+npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org
+
+#安装完成后查看cnpm版本
+cnpm -v<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="部署Nginx"><a href="#部署Nginx" class="headerlink" title="部署Nginx"></a>部署Nginx</h2><p>在官网下载最新压缩包<a target="_blank" rel="noopener" href="https://nginx.org/en/download.html">nginx: download</a></p>
+<p>下载完成后通过xftp传输至 /usr/nginx/ 文件夹下，并解压缩</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">tar -zxvf nginx-1.21.6.tar.gz
+
+#解压完成后重命名文件夹为nginx-1.21.6，并进入此文件夹
+
+#在使用源码安装前需要先配置gcc环境
+yum -y install gcc automake autoconf libtool make
+yum install gcc gcc-c++
+yum -y install pcre*
+yum -y install openssl*
+
+#配置 文件路径为解压文件夹的外层文件夹（否则编译安装将出错）
+.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;nginx --with-http_mp4_module --with-http_flv_module --with-http_realip_module --with-http_ssl_module
+
+cd .&#x2F;nginx-1.21.6
+
+#编译
+make
+
+#安装
+make install
+
+#配置全局文件
+vim &#x2F;etc&#x2F;profile
+
+#添加以下配置
+#nginx
+export PATH&#x3D;&#x2F;usr&#x2F;nginx&#x2F;sbin:$PATH
+
+#保存文件退出并刷新
+source &#x2F;etc&#x2F;profile
+
+#检测是否安装成功
+nginx -t
+
+#创建开机自启动脚本,在脚本中粘贴官网脚本（https:&#x2F;&#x2F;www.nginx.com&#x2F;resources&#x2F;wiki&#x2F;start&#x2F;topics&#x2F;examples&#x2F;redhatnginxinit&#x2F;），如下
+vim &#x2F;etc&#x2F;init.d&#x2F;nginx
+
+#脚本内容 如下：
+#!&#x2F;bin&#x2F;sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  NGINX is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP&#x2F;POP3 proxy server
+# processname: nginx
+# config:      &#x2F;etc&#x2F;nginx&#x2F;nginx.conf
+# config:      &#x2F;etc&#x2F;sysconfig&#x2F;nginx
+# pidfile:     &#x2F;var&#x2F;run&#x2F;nginx.pid
+
+# Source function library.
+. &#x2F;etc&#x2F;rc.d&#x2F;init.d&#x2F;functions
+
+# Source networking configuration.
+. &#x2F;etc&#x2F;sysconfig&#x2F;network
+
+# Check that networking is up.
+[ &quot;$NETWORKING&quot; &#x3D; &quot;no&quot; ] &amp;&amp; exit 0
+
+nginx&#x3D;&quot;&#x2F;usr&#x2F;sbin&#x2F;nginx&quot;
+prog&#x3D;$(basename $nginx)
+
+NGINX_CONF_FILE&#x3D;&quot;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf&quot;
+
+[ -f &#x2F;etc&#x2F;sysconfig&#x2F;nginx ] &amp;&amp; . &#x2F;etc&#x2F;sysconfig&#x2F;nginx
+
+lockfile&#x3D;&#x2F;var&#x2F;lock&#x2F;subsys&#x2F;nginx
+
+make_dirs() &#123;
+   # make required directories
+   user&#x3D;&#96;$nginx -V 2&gt;&amp;1 | grep &quot;configure arguments:.*--user&#x3D;&quot; | sed &#39;s&#x2F;[^*]*--user&#x3D;\([^ ]*\).*&#x2F;\1&#x2F;g&#39; -&#96;
+   if [ -n &quot;$user&quot; ]; then
+      if [ -z &quot;&#96;grep $user &#x2F;etc&#x2F;passwd&#96;&quot; ]; then
+         useradd -M -s &#x2F;bin&#x2F;nologin $user
+      fi
+      options&#x3D;&#96;$nginx -V 2&gt;&amp;1 | grep &#39;configure arguments:&#39;&#96;
+      for opt in $options; do
+          if [ &#96;echo $opt | grep &#39;.*-temp-path&#39;&#96; ]; then
+              value&#x3D;&#96;echo $opt | cut -d &quot;&#x3D;&quot; -f 2&#96;
+              if [ ! -d &quot;$value&quot; ]; then
+                  # echo &quot;creating&quot; $value
+                  mkdir -p $value &amp;&amp; chown -R $user $value
+              fi
+          fi
+       done
+    fi
+&#125;
+
+start() &#123;
+    [ -x $nginx ] || exit 5
+    [ -f $NGINX_CONF_FILE ] || exit 6
+    make_dirs
+    echo -n $&quot;Starting $prog: &quot;
+    daemon $nginx -c $NGINX_CONF_FILE
+    retval&#x3D;$?
+    echo
+    [ $retval -eq 0 ] &amp;&amp; touch $lockfile
+    return $retval
+&#125;
+
+stop() &#123;
+    echo -n $&quot;Stopping $prog: &quot;
+    killproc $prog -QUIT
+    retval&#x3D;$?
+    echo
+    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile
+    return $retval
+&#125;
+
+restart() &#123;
+    configtest || return $?
+    stop
+    sleep 1
+    start
+&#125;
+
+reload() &#123;
+    configtest || return $?
+    echo -n $&quot;Reloading $prog: &quot;
+    killproc $prog -HUP
+    retval&#x3D;$?
+    echo
+&#125;
+
+force_reload() &#123;
+    restart
+&#125;
+
+configtest() &#123;
+  $nginx -t -c $NGINX_CONF_FILE
+&#125;
+
+rh_status() &#123;
+    status $prog
+&#125;
+
+rh_status_q() &#123;
+    rh_status &gt;&#x2F;dev&#x2F;null 2&gt;&amp;1
+&#125;
+
+case &quot;$1&quot; in
+    start)
+        rh_status_q &amp;&amp; exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart|configtest)
+        $1
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    force-reload)
+        force_reload
+        ;;
+    status)
+        rh_status
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 0
+            ;;
+    *)
+        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest&#125;&quot;
+        exit 2
+esac
+
+#进入vim编辑器后，按i进入插入模式，再按shift+insert键粘贴脚本代码
+
+#修改其中的代码为如下
+nginx&#x3D;&quot;&#x2F;usr&#x2F;nginx&#x2F;sbin&#x2F;nginx&quot;  #自己的路径
+NGINX_CONF_FILE&#x3D;&quot;&#x2F;usr&#x2F;nginx&#x2F;conf&#x2F;nginx.conf&quot;  #自己的路径
+
+#保存并退出文件后设置文件执行权限
+chmod a+x &#x2F;etc&#x2F;init.d&#x2F;nginx
+
+#设置终端模式开机启动
+ chkconfig nginx on<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>先来测试一下当前nginx是否成功配置</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#安装工具
+yum install initscripts
+
+#进入 &#x2F;usr&#x2F;nginx&#x2F;sbin&#x2F; 文件夹,启动服务
+.&#x2F;nginx
+
+#服务启动后仍然不能通过ip访问，即使腾讯云的控制台8080端口开放也不能
+#此时为centos的防火墙没有开放8080端口
+#在这里设置centos防火墙关闭且禁止防火墙自启动
+
+#（关闭防火墙）
+systemctl stop firewalld.service 
+
+#禁用防火墙
+systemctl disable firewalld.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>此时可以通过ip地址加端口访问到nginx的默认页</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214612782.png" alt="image-20220501214612782" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214612782.png" class="lozad post-image"></p>
+<h2 id="测试部署一个前后端分离项目（Vue-SpringBoot）"><a href="#测试部署一个前后端分离项目（Vue-SpringBoot）" class="headerlink" title="测试部署一个前后端分离项目（Vue+SpringBoot）"></a>测试部署一个前后端分离项目（Vue+SpringBoot）</h2><p>以上配置完成后，这里以将Windows上的一个Vue项目部署到服务器为例进行测试。</p>
+<p>首先使用vscode打包Vue项目</p>
+<p>npm run build</p>
+<p>打包完成后，生成一个dist文件夹，在服务器根目录下新建一个 /web/onlineExam-Front/ 文件夹，将dist文件夹上传值这里</p>
+<p>上传完毕以后，编辑nginx配置文件</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">vim &#x2F;usr&#x2F;nginx&#x2F;conf&#x2F;nginx.conf
+
+#在此配置文件中新增一个server块
+#onlineExam-Front
+        server &#123;
+           listen 8081;  #项目访问的端口号
+           server_name 175.178.92.227;  #服务器IP
+           root &#x2F;web&#x2F;onlineExam-Front&#x2F;dist; #vue项目路径
+           index index.html; #项目首页
+
+		#据说可以不用配置
+           location &#x2F; &#123;
+              root &#x2F;web&#x2F;onlineExam-Front&#x2F;dist;
+              index index.html index.htm;
+              try_files $uri $uri&#x2F; &#x2F;index.html;
+           &#125;    
+        &#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>配置完成后重启nginx</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nginx -s reload<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>通过IP加端口访问</p>
+<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214847206.png" alt="image-20220501214847206" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214847206.png" class="lozad post-image"></p>
+<p>前端部署完毕后，开始部署后端SpringBoot项目，在maven中的lifecycle先点击clear，再点击package完成打包</p>
+<p>将项目打包成jar（自带Tomcat）后，上传至 /web/onlineExam-Back/ 文件夹下，输入以下命令运行jar包</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">java -jar xxxx.jar  #xxxx.jar为打包的jar包名称
+
+#后台启动jar包
+nohup java -jar &#x2F;web&#x2F;onlineExam-Back&#x2F;onlineExam.jar &amp;
+
+#后台终止jar包程序，输入：ps -ef | grep java
+#查看使用java命令的进程，再输入：kill pid 即可终止运行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>项目启动后，再访问之前的前端页面，出现跨域问题；</p>
+<h2 id="Nginx跨域问题"><a href="#Nginx跨域问题" class="headerlink" title="Nginx跨域问题"></a>Nginx跨域问题</h2><p>Vue项目存在两种跨域问题：开发环境下的跨域问题和线上环境下的跨域问题</p>
+<h3 id="Vue开发环境跨域问题"><a href="#Vue开发环境跨域问题" class="headerlink" title="Vue开发环境跨域问题"></a>Vue开发环境跨域问题</h3><p>修改原来的前端项目文件，在项目根目录下新增文件 vue.config.js ，具体配置如下</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">添加如下代码：
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//关闭eslint</span>
+    lintOnSave<span class="token operator">:</span><span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token comment">//配置代理跨域</span>
+  devServer<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    proxy<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token string">"/api"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        target<span class="token operator">:</span> <span class="token string">"http://175.178.92.227:8082/"</span><span class="token punctuation">,</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>之后，vue项目中的axios请求就会发往代理IP地址的。</p>
+<h3 id="Vue线上环境的跨域问题"><a href="#Vue线上环境的跨域问题" class="headerlink" title="Vue线上环境的跨域问题"></a>Vue线上环境的跨域问题</h3><p>通过使用nginx代理解决跨域问题，在vue项目中axios发送请求的IP和端口应该和打包后访问dist资源的端口一致。</p>
+<p>以本项目为例，我将打包后的dist放在服务器的 /web/onlineExam-Front/ 下，给nginx的配置如下：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#onlineExam-Front
+	server &#123;
+           listen 8081;
+           server_name localhost 127.0.0.1;  #服务器IP
+	       #允许跨域请求的域，* 代表所有
+     	   #add_header &#39;Access-Control-Allow-Origin&#39; *;
+     	   #允许带上cookie请求
+     	   #add_header &#39;Access-Control-Allow-Credentials&#39; &#39;true&#39;;
+           #允许请求的方法，比如 GET&#x2F;POST&#x2F;PUT&#x2F;DELETE
+           #add_header &#39;Access-Control-Allow-Methods&#39; *;
+           #允许请求的header
+           #add_header &#39;Access-Control-Allow-Headers&#39; *;
+           #root &#x2F;web&#x2F;onlineExam-Front&#x2F;dist; #vue项目路径
+           #index index.html;
+	   
+          location &#x2F; &#123;
+          	 add_header &#39;Access-Control-Allow-Origin&#39; &#39;$http_origin&#39; ;
+          	 add_header &#39;Access-Control-Allow-Credentials&#39; &#39;true&#39; ;
+          	 add_header &#39;Access-Control-Allow-Methods&#39; &#39;PUT,POST,GET,DELETE,OPTIONS&#39; ;
+          	 add_header &#39;Access-Control-Allow-Headers&#39; &#39;Content-Type,Content-Length,Authorization,Accept,X-Requested-With&#39;;
+
+            root &#x2F;web&#x2F;onlineExam-Front&#x2F;dist; #vue项目路径
+            index index.html;
+
+             # 此处用于处理 Vue、Angular、React 使用H5 的 History时 重写的问题
+            # if (!-e $request_filename) &#123;
+            #     rewrite ^(.*) &#x2F;index.html last;
+            #     break;
+            # &#125;
+	       &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样，当在浏览器通过IP+8081端口访问时，将会向用户展示dist文件夹下的index.html。</p>
+<p>而我们在上线时，应该保持axios的请求路径也是同一个IP+端口，具体如下</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//axios请求基本路径和dist资源访问路径应保持一致</span>
+<span class="token keyword">const</span> baseURL <span class="token operator">=</span> <span class="token string">'http://175.178.92.227:8081/api/'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> service <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  baseURL<span class="token operator">:</span> baseURL<span class="token punctuation">,</span>
+  timeout<span class="token operator">:</span> <span class="token number">5000</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>之后再通过nginx给刚才的dist再添加一个location配置，如下</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"># 代理服务端接口
+        location &#x2F;api&#x2F; &#123;
+            proxy_pass http:&#x2F;&#x2F;localhost:8082&#x2F;api&#x2F;;# 代理接口地址
+        &#125;
+        
+#此时nginx.conf 全部文件如下
+
+worker_processes  1;
+
+events &#123;
+    worker_connections  1024;
+&#125;
+
+
+http &#123;
+    include       mime.types;
+    default_type  application&#x2F;octet-stream;
+    sendfile        on;
+    #tcp_nopush     on;
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+    #gzip  on;
+    
+    #nginx默认首页
+    server &#123;
+        listen       8888;
+        server_name  localhost;
+        
+        location &#x2F; &#123;
+            root   html;
+            index  index.html index.htm;
+        &#125;
+        error_page   500 502 503 504  &#x2F;50x.html;
+        location &#x3D; &#x2F;50x.html &#123;
+            root   html;
+        &#125;
+    &#125;
+    
+	#onlineExam
+	server &#123;
+           listen 8081;
+           server_name localhost 127.0.0.1;  #服务器IP
+	   
+          location &#x2F; &#123;
+          	 add_header &#39;Access-Control-Allow-Origin&#39; &#39;$http_origin&#39; ;
+          	 add_header &#39;Access-Control-Allow-Credentials&#39; &#39;true&#39; ;
+          	 add_header &#39;Access-Control-Allow-Methods&#39; &#39;PUT,POST,GET,DELETE,OPTIONS&#39; ;
+          	 add_header &#39;Access-Control-Allow-Headers&#39; &#39;Content-Type,Content-Length,Authorization,Accept,X-Requested-With&#39;;
+
+            root &#x2F;web&#x2F;onlineExam-Front&#x2F;dist; #vue项目路径
+            index index.html;
+	       &#125;
+
+	    #解决跨域 -- 注意前端项目的请求路径应该是8081端口，先提交到8081端口，代理服务器通过&#x2F;api&#x2F; 前缀
+	    #识别请求，将请求代理转发到服务器上的8082端口，从而解决跨域
+	    
+        # 代理服务端接口--将转发到本服务器上运行的SpringBoot项目端口
+        location &#x2F;api&#x2F; &#123;
+            proxy_pass http:&#x2F;&#x2F;localhost:8082&#x2F;api&#x2F;;# 代理接口地址
+            &#125;
+         &#125;
+&#125;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样配置以后，在访问dist下的网页时，在发送具有api请求前缀的请求时，就会被nginx代理接口识别，并转发到此时服务器的8082/api/下的端口（8082/api/ 为此时项目SpringBoot后端在服务器运行的端口路径），从而解决跨域问题。</p>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/04/30/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/04/17/Vue的虚拟DOM和Diff算法/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">Vue的虚拟DOM和Diff算法 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Xshell%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">使用Xshell连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Java%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Java环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2MySQL8%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-text">部署MySQL8环境并配置远程登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Git"><span class="toc-text">部署Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nodejs%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Nodejs环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nginx"><span class="toc-text">部署Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE%EF%BC%88Vue-SpringBoot%EF%BC%89"><span class="toc-text">测试部署一个前后端分离项目（Vue+SpringBoot）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Nginx跨域问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue开发环境跨域问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E7%9A%84%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue线上环境的跨域问题</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>50</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>9</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>3</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Xshell%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">使用Xshell连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Java%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Java环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2MySQL8%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-text">部署MySQL8环境并配置远程登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Git"><span class="toc-text">部署Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nodejs%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Nodejs环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nginx"><span class="toc-text">部署Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE%EF%BC%88Vue-SpringBoot%EF%BC%89"><span class="toc-text">测试部署一个前后端分离项目（Vue+SpringBoot）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Nginx跨域问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue开发环境跨域问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E7%9A%84%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue线上环境的跨域问题</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Vue原理">
+        <div class="categories-list-item">
+          Vue原理
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Xshell%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">使用Xshell连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Java%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Java环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2MySQL8%E7%8E%AF%E5%A2%83%E5%B9%B6%E9%85%8D%E7%BD%AE%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95"><span class="toc-text">部署MySQL8环境并配置远程登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Git"><span class="toc-text">部署Git</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nodejs%E7%8E%AF%E5%A2%83"><span class="toc-text">部署Nodejs环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2Nginx"><span class="toc-text">部署Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AA%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E9%A1%B9%E7%9B%AE%EF%BC%88Vue-SpringBoot%EF%BC%89"><span class="toc-text">测试部署一个前后端分离项目（Vue+SpringBoot）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Nginx跨域问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue开发环境跨域问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E7%9A%84%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="toc-text">Vue线上环境的跨域问题</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-30</div>
+        <a href="/2022/04/30/服务器环境部署/"><div class="recent-posts-item-content"></div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-17</div>
+        <a href="/2022/04/17/Vue的虚拟DOM和Diff算法/"><div class="recent-posts-item-content">Vue的虚拟DOM和Diff算法</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-13</div>
+        <a href="/2022/04/13/技术面复盘/"><div class="recent-posts-item-content">技术面复盘反省</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-12</div>
+        <a href="/2022/04/12/jQuery学习第二天/"><div class="recent-posts-item-content">jQuery学习第二天</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
