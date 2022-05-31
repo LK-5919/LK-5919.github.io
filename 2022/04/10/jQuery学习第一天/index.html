@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-04-10">
-  <meta property="og:article:modified_time" content="2022-04-12">
+  <meta property="og:article:modified_time" content="2022-05-31">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -257,8 +257,8 @@
 上面的代码是jQuery文件的整体结构，可以看出jQuery文件里面是一个匿名自调用函数，而我们在网页中引入这个文件是就会执行一次这个文件（也就是执行了这个匿名自调用函数）；
 
 在这个函数的最后，可以看出执行了给全局window添加了一个$属性和jQuery属性，而他们的值都是jQuery文件中定义的一个函数；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235426436.png" alt="image-20220410235426436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235426436.png" class="lozad post-image"></p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235215104.png" alt="image-20220410235215104" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220410235215104.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220410235426436.png" alt="image-20220410235426436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220410235426436.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220410235215104.png" alt="image-20220410235215104" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220410235215104.png" class="lozad post-image"></p>
 <pre class="line-numbers language-js" data-language="js"><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">.</span>jQuery <span class="token operator">===</span> window<span class="token punctuation">.</span>$<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//true</span>
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>$<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//'[object Function]'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>既然jQuery是一个函数，那么window.$对应的也是一个函数，所以我们在使用全局$属性是，需要传入参数使用；传入的参数不一样，函数执行的效果也不同；</p>
@@ -271,9 +271,9 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <h2 id="DOM对象和jQuery对象"><a href="#DOM对象和jQuery对象" class="headerlink" title="DOM对象和jQuery对象"></a>DOM对象和jQuery对象</h2><p>DOM对象 — 使用原生JS获取到的对象；该对象只能调用dom方法或属性；</p>
 <p>jQuery对象 — 使用jQuery选择器获取的对象；该对象只能调用jQuery对象的方法或属性；</p>
 <p>DOM对象就是浏览器中的真实节点（元素节点，文本节点等）；</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001252754.png" alt="image-20220411001252754" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001252754.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220411001252754.png" alt="image-20220411001252754" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220411001252754.png" class="lozad post-image"></p>
 <p>jQuery对象其实是一个伪数组（使用index表示key，具有length属性，可遍历），数组里面的value值就是DOM对象；</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001711925.png" alt="image-20220411001711925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220411001711925.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220411001711925.png" alt="image-20220411001711925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220411001711925.png" class="lozad post-image"></p>
 <p>dom对象转换成jQuery对象 ： var $one = $(one); //这里的one是dom对象，默认使用$开头来表示jQuery对象；</p>
 <p>jQuery对象转换成dom对象：</p>
 <p>​    1.使用数组下标index  var div1 = $divs[0];  //这里表示从jQuery对象中取出第一个dom对象；</p>

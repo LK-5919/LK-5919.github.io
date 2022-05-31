@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-05-26">
-  <meta property="og:article:modified_time" content="2022-05-29">
+  <meta property="og:article:modified_time" content="2022-05-31">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -1024,11 +1024,11 @@ nav ul</span> <span class="token punctuation">&#123;</span>
  	<span class="token punctuation">&#125;</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="bootstrap盒子模型设计的精妙之处"><a href="#bootstrap盒子模型设计的精妙之处" class="headerlink" title="bootstrap盒子模型设计的精妙之处"></a>bootstrap盒子模型设计的精妙之处</h3><p>从上面的代码可以知道，栅格的固定容器外部两边各有15px的padding，行的两边各有-15px的margin，列的两边各有15px的padding作为槽宽；</p>
 <p>从内往外分析，列两边具有15px的padding槽宽是为了列与列之间的内容不会紧紧相连在一起，如下</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529111827436.png" alt="image-20220529111827436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529111827436.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529111827436.png" alt="image-20220529111827436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529111827436.png" class="lozad post-image"></p>
 <p>列与列之间有了15px的padding槽宽，但如果在列之间再放入行，行之间再放入列，效果如下图：</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529112607946.png" alt="image-20220529112607946" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529112607946.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529112607946.png" alt="image-20220529112607946" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529112607946.png" class="lozad post-image"></p>
 <p>在第一列中再放入一行，且保持列与列之间的15px槽宽，此时，就会造成列中嵌套的行中的列与最外部的列之间间隔为45px，造成间隔过大，所以此时需要给行设置两边各-15px的margin，如下图：</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529113555277.png" alt="image-20220529113555277" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220529113555277.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529113555277.png" alt="image-20220529113555277" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220529113555277.png" class="lozad post-image"></p>
 <p>如上图，给行的两边加上-15px的margin后，此时最外部的行两侧也就多了-15px的外边距，为了不影响固定容器的整体可见盒子大小，需要给最外边的固定容器两边加上15px的内边距，从而抵消行的负外边距。</p>
 
   </div>

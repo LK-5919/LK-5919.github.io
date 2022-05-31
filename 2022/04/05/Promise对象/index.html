@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-04-05">
-  <meta property="og:article:modified_time" content="2022-04-06">
+  <meta property="og:article:modified_time" content="2022-05-31">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -245,7 +245,7 @@
 </ol>
 <p>有了Promise对象，可以将异步操作以同步操作的流程表达，避免回调地狱（层层嵌套的回调函数）；</p>
 <p>​    补充：<strong>同步，就是调用某个东西是，调用方得等待这个调用返回结果才能继续往后执行。异步，和同步相反  调用方不会理解得到结果，而是在调用发出后调用者可用继续执行后续操作，被调用者通过状体来通知调用者，或者通过回掉函数来处理这个调用</strong></p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220405112927676.png" alt="image-20220405112927676" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220405112927676.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220405112927676.png" alt="image-20220405112927676" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220405112927676.png" class="lozad post-image"></p>
 <img src="/LkGiteeCoder/LkGiteeCoder/Users\李\AppData\Roaming\Typora\typora-user-images\image-20220405113022240.png" alt="image-20220405113022240" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/LkGiteeCoder/LkGiteeCoder/Users\李\AppData\Roaming\Typora\typora-user-images\image-20220405113022240.png" class="lozad post-image">
 
 <p>Promise还提供了统一的接口，使得控制一部操作更加容易；</p>
@@ -296,7 +296,7 @@ promise<span class="token punctuation">.</span><span class="token function">then
 <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"同步任务2继续执行"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220405115442209.png" alt="image-20220405115442209" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220405115442209.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220405115442209.png" alt="image-20220405115442209" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220405115442209.png" class="lozad post-image"></p>
 <pre class="line-numbers language-js" data-language="js"><code class="language-js">从执行结果可以知道，Promise的then回调执行将会在当前脚本的所有同步任务执行以后才执行；
 
 <span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">)</span>函数的参数除了返回异步请求的值以外，也可以返回一个Promise实例：
@@ -518,7 +518,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
   <span class="token keyword">const</span> promise <span class="token operator">=</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>promise <span class="token keyword">instanceof</span> <span class="token class-name">Promise</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220406113531394.png" alt="image-20220406113531394" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220406113531394.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220406113531394.png" alt="image-20220406113531394" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220406113531394.png" class="lozad post-image"></p>
 <pre class="line-numbers language-js" data-language="js"><code class="language-js">可知，传入一个thenable对象时，将obj转换成Promise对象后，将会立即执行thenable对象的then方法，
 在这里先输出<span class="token boolean">true</span>再执行then，是因为then回调属于异步，需要当脚本的所有同步代码执行
 完毕以后才开始执行异步回调；

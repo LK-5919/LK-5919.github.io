@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-03-25">
-  <meta property="og:article:modified_time" content="2022-03-26">
+  <meta property="og:article:modified_time" content="2022-05-31">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -429,7 +429,7 @@ location<span class="token punctuation">.</span><span class="token function">rep
 			console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"停止定时器！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
              <span class="token comment">//当count = 10 的时候停止定时器；切记停止计时器的调用判断要写在定时器的内部回调函数中；</span>
 		<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//每过一秒在控制台输出count；</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220326111437081.png" alt="image-20220326111437081" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220326111437081.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220326111437081.png" alt="image-20220326111437081" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220326111437081.png" class="lozad post-image"></p>
 <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">结果分析：
 	首先<span class="token constant">JS</span>代码是从上到下执行的，在遇到创建定时器语句的时候，就异步启动定时器（相当于新开一个线程），但是此时定时器设定的是<span class="token number">10</span>ms才执行一次，所以目前的状态是开始计时而不会输出count而是继续执行下面的语句，遇到延时器语句，也异步开启一个延时器，但是此时因为要延时<span class="token number">5</span>秒才会执行延时器里的回调函数，所以此时程序继续往下执行，输出了最后一个控制台输出语句；而此时的时间才过了<span class="token number">0.38</span>ms，此时还不到定时器的第一次回调执行，而当定时器的<span class="token number">10</span>次回调都执行了延时器也还没有到时间。
     所以结果就是js代码最后面的语句先执行；

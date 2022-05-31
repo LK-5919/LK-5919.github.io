@@ -25,7 +25,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:article:published_time" content="2022-05-06">
-  <meta property="og:article:modified_time" content="2022-05-06">
+  <meta property="og:article:modified_time" content="2022-05-31">
   <meta property="og:article:author" content="NULL0">
   
   
@@ -262,7 +262,7 @@ source &#x2F;etc&#x2F;profile
 
 #输入以下命令检测配置是否生效
 java -version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430162937038.png" alt="image-20220430162937038" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430162937038.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220430162937038.png" alt="image-20220430162937038" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220430162937038.png" class="lozad post-image"></p>
 <p>出现上述结果说明jdk8环境配置成功。</p>
 <h2 id="部署MySQL8环境并配置远程登录"><a href="#部署MySQL8环境并配置远程登录" class="headerlink" title="部署MySQL8环境并配置远程登录"></a>部署MySQL8环境并配置远程登录</h2><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#使用全局命令安装MySQL（不用考虑当前路径）
 
@@ -330,7 +330,7 @@ skip-name-resolve
 #保存文件，退出重启服务
 sudo systemctl restart mysqld<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>上面的步骤完成后，还需要进入到服务器的控制台上配置防火墙规则，以腾讯云服务器为例：</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430175403395.png" alt="image-20220430175403395" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220430175403395.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220430175403395.png" alt="image-20220430175403395" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220430175403395.png" class="lozad post-image"></p>
 <p>新增3306MySQL端口规则；</p>
 <p>在windows主机使用Navicat远程连接服务器上的MySQL测试；</p>
 <h2 id="部署Git"><a href="#部署Git" class="headerlink" title="部署Git"></a>部署Git</h2><p>在这里使用源码安装Git，首先安装一些工具</p>
@@ -390,14 +390,14 @@ git config --list
  cat ~&#x2F;.ssh&#x2F;id_rsa.pub #复制整个文本内容 包括开头的ssh-rsa后面的邮箱<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>Git配置账户信息完成后，进行简单的测试操作</p>
 <p>新建 /usr/git/git_project 文件夹，此文件夹用来存放项目提交和项目拉取</p>
-<p>进入此文件夹，测试以前在gitHub上用来测试的项目<a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#x6d;">&#x67;&#105;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#x6d;</a>:LK-5919/LK_RepoTest.git</p>
+<p>进入此文件夹，测试以前在gitHub上用来测试的项目<a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#x6f;&#x6d;">&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#x68;&#117;&#x62;&#46;&#x63;&#x6f;&#x6d;</a>:LK-5919/LK_RepoTest.git</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#拉取项目
 git clone git@github.com:LK-5919&#x2F;LK_RepoTest.git
 
 #输入yes回车确认
 
 #输入ssh-key密钥的密码 null5919 回车确认，即可拉取到项目<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501161535617.png" alt="image-20220501161535617" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501161535617.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501161535617.png" alt="image-20220501161535617" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501161535617.png" class="lozad post-image"></p>
 <p>拉取到项目后，这里新建一个分支提交测试文件</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#查看当前分支  -- 此时默认是在main分支
 
@@ -424,7 +424,7 @@ git pull origin main  #main为分支名
 
 #centos 复制文件夹到指定目录
 cp &#x2F;usr&#x2F;git&#x2F;git_project&#x2F;onlineExam-Front-Vue&#x2F;dist&#x2F; -a &#x2F;web&#x2F;onlineExam-Front&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501163014083.png" alt="image-20220501163014083" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501163014083.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501163014083.png" alt="image-20220501163014083" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501163014083.png" class="lozad post-image"></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lovychen/p/9051601.html">git命令（10）：git 常用操作，撤销修改（2） - 细雨微光 - 博客园 (cnblogs.com)</a></p>
 <p>至此服务器Git环境基本部署测试完毕</p>
 <p>在这里对VS Code配置Git进行简单记录</p>
@@ -433,11 +433,11 @@ cp &#x2F;usr&#x2F;git&#x2F;git_project&#x2F;onlineExam-Front-Vue&#x2F;dist&#x2F;
 <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"git.path"</span><span class="token operator">:</span> <span class="token string">"D:/git/Git/cmd/git.exe"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>保存文件重启vscode，重启后clone刚才的测试项目后使用Vscode打开</p>
 <p>此时修改文件，即可在左侧看到文件的更改记录，修改文件后，点击文件旁边的 + 号可以暂存修改（相当于add命令）</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501170827925.png" alt="image-20220501170827925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501170827925.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501170827925.png" alt="image-20220501170827925" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501170827925.png" class="lozad post-image"></p>
 <p>文件暂存后，可在输入框中输入本次commit的备注，点击右上 的 :white_check_mark: 即可完成commit命令</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171218878.png" alt="image-20220501171218878" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171218878.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501171218878.png" alt="image-20220501171218878" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501171218878.png" class="lozad post-image"></p>
 <p>再点击勾号旁边的 … 依次点击push即可完成推送。</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171802182.png" alt="image-20220501171802182" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501171802182.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501171802182.png" alt="image-20220501171802182" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501171802182.png" class="lozad post-image"></p>
 <h2 id="部署Nodejs环境"><a href="#部署Nodejs环境" class="headerlink" title="部署Nodejs环境"></a>部署Nodejs环境</h2><p>从官网下载最新的nodejs压缩包 <a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">Download | Node.js (nodejs.org)</a></p>
 <p>下载完成后通过xftp传输到 /usr/nodejs/ 文件夹下并解压</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">tar -xvf node-v16.15.0-linux-x64.tar.xz
@@ -665,7 +665,7 @@ systemctl stop firewalld.service
 #禁用防火墙
 systemctl disable firewalld.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>此时可以通过ip地址加端口访问到nginx的默认页</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214612782.png" alt="image-20220501214612782" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214612782.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501214612782.png" alt="image-20220501214612782" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501214612782.png" class="lozad post-image"></p>
 <h2 id="测试部署一个前后端分离项目（Vue-SpringBoot）"><a href="#测试部署一个前后端分离项目（Vue-SpringBoot）" class="headerlink" title="测试部署一个前后端分离项目（Vue+SpringBoot）"></a>测试部署一个前后端分离项目（Vue+SpringBoot）</h2><p>以上配置完成后，这里以将Windows上的一个Vue项目部署到服务器为例进行测试。</p>
 <p>首先使用vscode打包Vue项目</p>
 <p>npm run build</p>
@@ -692,7 +692,7 @@ systemctl disable firewalld.service<span aria-hidden="true" class="line-numbers-
 <p>配置完成后重启nginx</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">nginx -s reload<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>通过IP加端口访问</p>
-<p><img src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214847206.png" alt="image-20220501214847206" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://gitee.com/LkGiteeCoder/pic-go/raw/master/img/image-20220501214847206.png" class="lozad post-image"></p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501214847206.png" alt="image-20220501214847206" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220501214847206.png" class="lozad post-image"></p>
 <p>前端部署完毕后，开始部署后端SpringBoot项目，在maven中的lifecycle先点击clear，再点击package完成打包</p>
 <p>将项目打包成jar（自带Tomcat）后，上传至 /web/onlineExam-Back/ 文件夹下，输入以下命令运行jar包</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">java -jar xxxx.jar  #xxxx.jar为打包的jar包名称
