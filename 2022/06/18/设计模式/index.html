@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>设计模式</title>
+  
+  
+  <meta property="og:title" content="设计模式">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="_NULL0的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-06-18">
+  <meta property="og:article:modified_time" content="2022-06-18">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      设计模式
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-06-18T10:07:42.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-06-18</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/设计模式/" class="post-meta-link">设计模式</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>1.3k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="设计模式介绍"><a href="#设计模式介绍" class="headerlink" title="设计模式介绍"></a>设计模式介绍</h2><p>设计模式是软件开发人员在软件开发过程中常使用二点解决方案，这些设计模式代表了最佳的实践，设计模式使代码编制工程化，是软件工程的基石。</p>
+<h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><ul>
+<li><p>创建型</p>
+<ol>
+<li>单例模式</li>
+<li>原型模式</li>
+<li>工厂模式</li>
+<li>抽象工厂模式</li>
+<li>建造者模式</li>
+</ol>
+</li>
+<li><p>结构型</p>
+<ol>
+<li>适配器模式</li>
+<li>装饰器模式</li>
+<li>代理模式</li>
+<li>外观模式</li>
+<li>桥接模式</li>
+<li>组合模式</li>
+<li>享元模式</li>
+</ol>
+</li>
+<li><p>行为型</p>
+<ol>
+<li>观察者模式</li>
+<li>迭代器模式</li>
+<li>策略模式</li>
+<li>模板方法模式</li>
+<li>职责链模式</li>
+<li>命令模式</li>
+<li>备忘录模式</li>
+<li>状态模式</li>
+<li>访问者模式</li>
+<li>中介者模式</li>
+<li>解释器模式</li>
+</ol>
+</li>
+</ul>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>该模式提供了一种创建对象的最佳方式，此模式涉及一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建，在程序运行期间，单例模式只会在全局作用域下创建一次实例对象，让所有需要调用的地方都共享这一单例对象。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//先定义一个类</span>
+<span class="token keyword">function</span> <span class="token function">Singleton</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>instance <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//获取此类的实例方法</span>
+Singleton<span class="token punctuation">.</span><span class="token function-variable function">getInstance</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>instance<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//如果此时此类的实例未被创建，则调用构造函数创建实例</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//若实例已存在，返回单一实例</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>insatnce<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="使用场景例子"><a href="#使用场景例子" class="headerlink" title="使用场景例子"></a>使用场景例子</h3><ul>
+<li>页面中的模态框，只有在用户点击时才创建，且保证弹窗只有一个（惰性单例，需要时才创建类实例对象）；</li>
+<li>Vuex的store</li>
+</ul>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><h3 id="是什么-1"><a href="#是什么-1" class="headerlink" title="是什么"></a>是什么</h3><p>原型模式是创建一个共享的原型，通过拷贝这个原型来创建新的类，用来创建重复的对象。原型模式用于定义方法和共享的属性。</p>
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//定义一个Person类</span>
+<span class="token keyword">class</span> <span class="token class-name">Person</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">constructor</span> <span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//定义一个Student类，继承Person类</span>
+<span class="token keyword">class</span> <span class="token class-name">Student</span> <span class="token keyword">extends</span> <span class="token class-name">Person</span><span class="token punctuation">&#123;</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token parameter">name</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//创建student实例</span>
+<span class="token keyword">const</span> student <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Stuednt</span><span class="token punctuation">(</span><span class="token string">"LK"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><h3 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a>是什么</h3><p>工厂模式定义一个用于创建对象的接口，这个接口由子类决定实例化哪一个类，不暴露创建对象的具体逻辑，而是将逻辑封装在一个函数中，那么这个函数就可以被视为一个工厂，其就像工厂一样重复的产生类似的产品，工厂模式只需要我们传入正确的参数，就能生产类似的产品。</p>
+<h3 id="实现-—-简单工厂模式"><a href="#实现-—-简单工厂模式" class="headerlink" title="实现 — 简单工厂模式"></a>实现 — 简单工厂模式</h3><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//使用简单工厂模式创建同一类对象类的实例</span>
+<span class="token keyword">function</span> <span class="token function">Factory</span><span class="token punctuation">(</span><span class="token parameter">career</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">function</span> <span class="token function">User</span><span class="token punctuation">(</span><span class="token parameter">career<span class="token punctuation">,</span> work</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>career <span class="token operator">=</span> career 
+        <span class="token keyword">this</span><span class="token punctuation">.</span>work <span class="token operator">=</span> work
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">let</span> work<span class="token punctuation">;</span>
+    <span class="token keyword">switch</span><span class="token punctuation">(</span>career<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token string">'coder'</span><span class="token operator">:</span>
+            work <span class="token operator">=</span>  <span class="token punctuation">[</span><span class="token string">'写代码'</span><span class="token punctuation">,</span> <span class="token string">'修Bug'</span><span class="token punctuation">]</span> 
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span>career<span class="token punctuation">,</span> work<span class="token punctuation">)</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token string">'hr'</span><span class="token operator">:</span>
+            work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'招聘'</span><span class="token punctuation">,</span> <span class="token string">'员工信息管理'</span><span class="token punctuation">]</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span>career<span class="token punctuation">,</span> work<span class="token punctuation">)</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token string">'driver'</span><span class="token operator">:</span>
+            work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'开车'</span><span class="token punctuation">]</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span>career<span class="token punctuation">,</span> work<span class="token punctuation">)</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">case</span> <span class="token string">'boss'</span><span class="token operator">:</span>
+            work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'喝茶'</span><span class="token punctuation">,</span> <span class="token string">'开会'</span><span class="token punctuation">,</span> <span class="token string">'审批文件'</span><span class="token punctuation">]</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span>career<span class="token punctuation">,</span> work<span class="token punctuation">)</span>
+            <span class="token keyword">break</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> coder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token string">'coder'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>coder<span class="token punctuation">)</span>
+<span class="token keyword">let</span> boss <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token string">'boss'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>boss<span class="token punctuation">)</span>
+<span class="token comment">//Factory就是一个简单工厂。当我们调用工厂函数时，只需要传递career</span>
+<span class="token comment">//就可以获取到包含用户工作内容的实例对象</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现-—-工厂方法模式"><a href="#实现-—-工厂方法模式" class="headerlink" title="实现 — 工厂方法模式"></a>实现 — 工厂方法模式</h3><p>相比于简单工厂模式，工厂方法模式把具体的产品放到了工厂函数的prototype中，这样一来，扩展产品种类就不必修改工厂函数;</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 工厂方法</span>
+<span class="token keyword">function</span> <span class="token function">Factory</span><span class="token punctuation">(</span><span class="token parameter">career</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token keyword">instanceof</span> <span class="token class-name">Factory</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">this</span><span class="token punctuation">[</span>career<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Factory</span><span class="token punctuation">(</span>career<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 工厂方法函数的原型中设置所有对象的构造函数</span>
+<span class="token class-name">Factory</span><span class="token punctuation">.</span>prototype<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+    <span class="token string">'coder'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>careerName <span class="token operator">=</span> <span class="token string">'程序员'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'写代码'</span><span class="token punctuation">,</span> <span class="token string">'修Bug'</span><span class="token punctuation">]</span> 
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">'hr'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>careerName <span class="token operator">=</span> <span class="token string">'HR'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'招聘'</span><span class="token punctuation">,</span> <span class="token string">'员工信息管理'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">'driver'</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>careerName <span class="token operator">=</span> <span class="token string">'司机'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'开车'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">'boss'</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>careerName <span class="token operator">=</span> <span class="token string">'老板'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>work <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'喝茶'</span><span class="token punctuation">,</span> <span class="token string">'开会'</span><span class="token punctuation">,</span> <span class="token string">'审批文件'</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">let</span> coder <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token string">'coder'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>coder<span class="token punctuation">)</span>
+<span class="token keyword">let</span> hr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Factory</span><span class="token punctuation">(</span><span class="token string">'hr'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>hr<span class="token punctuation">)</span>
+
+<span class="token comment">//工厂方法关键核心代码是工厂里面的判断this是否属于工厂，也就是做了分支判断，这个工厂只做我能做的产品</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="实现-—-抽象工厂模式"><a href="#实现-—-抽象工厂模式" class="headerlink" title="实现 — 抽象工厂模式"></a>实现 — 抽象工厂模式</h3><p>简单工厂模式和工厂方法模式都是直接生成实例，但是抽象工厂模式不同，抽象工厂模式并不直接生成实例， 而是用于对产品类簇的创建；</p>
+<p>通俗点来讲就是：简单工厂和工厂方法模式的工作是生产产品，那么抽象工厂模式的工作就是生产工厂的；</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>工厂的优点就是我们只要传递正确的参数，就能获得所需的对象，而不需要关心其创建的具体细节；</p>
+<ul>
+<li>JQuery的$()就是一个工厂函数，它根据传入参数的不同创建元素或者去寻找上下文中的元素，创建成相应的jQuery对象；</li>
+</ul>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/18/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/06/15/微信小程序-1/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">微信小程序-1 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="toc-text">设计模式介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="toc-text">设计模式分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%BE%8B%E5%AD%90"><span class="toc-text">使用场景例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-1"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-2"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 简单工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 工厂方法模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 抽象工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">使用场景</span></a></li></ol></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>54</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>13</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>4</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="toc-text">设计模式介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="toc-text">设计模式分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%BE%8B%E5%AD%90"><span class="toc-text">使用场景例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-1"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-2"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 简单工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 工厂方法模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 抽象工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">使用场景</span></a></li></ol></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Vue原理">
+        <div class="categories-list-item">
+          Vue原理
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/服务器">
+        <div class="categories-list-item">
+          服务器
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/BootStrap">
+        <div class="categories-list-item">
+          BootStrap
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/微信小程序">
+        <div class="categories-list-item">
+          微信小程序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/设计模式">
+        <div class="categories-list-item">
+          设计模式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+    <a href="\tags\CentOS8" title="CentOS8"><div class="tags-list-item">CentOS8</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="toc-text">设计模式介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="toc-text">设计模式分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E4%BE%8B%E5%AD%90"><span class="toc-text">使用场景例子</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-1"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-2"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 简单工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 工厂方法模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-%E2%80%94-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">实现 — 抽象工厂模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">使用场景</span></a></li></ol></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-18</div>
+        <a href="/2022/06/18/设计模式/"><div class="recent-posts-item-content">设计模式</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-15</div>
+        <a href="/2022/06/15/微信小程序-1/"><div class="recent-posts-item-content">微信小程序-1</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-05-31</div>
+        <a href="/2022/05/31/前端小常识/"><div class="recent-posts-item-content">前端小常识</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-05-26</div>
+        <a href="/2022/05/26/bootstrap栅格源码分析/"><div class="recent-posts-item-content">bootstrap栅格源码分析</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>

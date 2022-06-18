@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>前端小常识</title>
+  
+  
+  <meta property="og:title" content="前端小常识">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/05/31/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%B8%B8%E8%AF%86/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="_NULL0的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-05-31">
+  <meta property="og:article:modified_time" content="2022-06-10">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      前端小常识
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-05-31T14:00:05.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-05-31</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/面试/" class="post-meta-link">面试</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>2.1k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="JS的数据类型"><a href="#JS的数据类型" class="headerlink" title="JS的数据类型"></a>JS的数据类型</h2><h2 id="基本数据类型和引用数据类型的差别"><a href="#基本数据类型和引用数据类型的差别" class="headerlink" title="基本数据类型和引用数据类型的差别"></a>基本数据类型和引用数据类型的差别</h2><h2 id="引用类型为什么变量中保存的是数据的地址而不是具体的值"><a href="#引用类型为什么变量中保存的是数据的地址而不是具体的值" class="headerlink" title="引用类型为什么变量中保存的是数据的地址而不是具体的值"></a>引用类型为什么变量中保存的是数据的地址而不是具体的值</h2><h2 id="typeof-null的问题"><a href="#typeof-null的问题" class="headerlink" title="typeof null的问题"></a>typeof null的问题</h2><h2 id="NaN属于哪个类型"><a href="#NaN属于哪个类型" class="headerlink" title="NaN属于哪个类型"></a>NaN属于哪个类型</h2><h2 id="NaN是基本数据类型，为什么NaN-NaN-结果为false"><a href="#NaN是基本数据类型，为什么NaN-NaN-结果为false" class="headerlink" title="NaN是基本数据类型，为什么NaN === NaN 结果为false"></a>NaN是基本数据类型，为什么NaN === NaN 结果为false</h2><h2 id="JS的数组如何向第一个位置插入数据"><a href="#JS的数组如何向第一个位置插入数据" class="headerlink" title="JS的数组如何向第一个位置插入数据"></a>JS的数组如何向第一个位置插入数据</h2><h2 id="JS的数组去掉重复数据"><a href="#JS的数组去掉重复数据" class="headerlink" title="JS的数组去掉重复数据"></a>JS的数组去掉重复数据</h2><h2 id="local-Storage和sessionStorage有什么区别"><a href="#local-Storage和sessionStorage有什么区别" class="headerlink" title="local Storage和sessionStorage有什么区别"></a>local Storage和sessionStorage有什么区别</h2><h2 id="介绍一下闭包和作用域链"><a href="#介绍一下闭包和作用域链" class="headerlink" title="介绍一下闭包和作用域链"></a>介绍一下闭包和作用域链</h2><h2 id="CSS选择器的优先级从高到低介绍一下"><a href="#CSS选择器的优先级从高到低介绍一下" class="headerlink" title="CSS选择器的优先级从高到低介绍一下"></a>CSS选择器的优先级从高到低介绍一下</h2><h2 id="定位有哪几种，及其特点"><a href="#定位有哪几种，及其特点" class="headerlink" title="定位有哪几种，及其特点"></a>定位有哪几种，及其特点</h2><h2 id="什么是伪类和伪元素，两者的区别，-和-的区别"><a href="#什么是伪类和伪元素，两者的区别，-和-的区别" class="headerlink" title="什么是伪类和伪元素，两者的区别，: 和 :: 的区别"></a>什么是伪类和伪元素，两者的区别，: 和 :: 的区别</h2><h2 id="数组如何删除数据"><a href="#数组如何删除数据" class="headerlink" title="数组如何删除数据"></a>数组如何删除数据</h2><h2 id="什么是深浅拷贝"><a href="#什么是深浅拷贝" class="headerlink" title="什么是深浅拷贝"></a>什么是深浅拷贝</h2><h2 id="箭头函数和普通函数的区别"><a href="#箭头函数和普通函数的区别" class="headerlink" title="箭头函数和普通函数的区别"></a>箭头函数和普通函数的区别</h2><h2 id="HTML5新增了哪些标签"><a href="#HTML5新增了哪些标签" class="headerlink" title="HTML5新增了哪些标签"></a>HTML5新增了哪些标签</h2><h2 id="什么是语义化标签，解决了什么问题"><a href="#什么是语义化标签，解决了什么问题" class="headerlink" title="什么是语义化标签，解决了什么问题"></a>什么是语义化标签，解决了什么问题</h2><h2 id="CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中"><a href="#CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中" class="headerlink" title="CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中"></a>CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中</h2><h2 id="行内元素，行内块元素，块元素"><a href="#行内元素，行内块元素，块元素" class="headerlink" title="行内元素，行内块元素，块元素"></a>行内元素，行内块元素，块元素</h2><h2 id="块元素，两个垂直排列的时候他们的margin是如何计算的"><a href="#块元素，两个垂直排列的时候他们的margin是如何计算的" class="headerlink" title="块元素，两个垂直排列的时候他们的margin是如何计算的"></a>块元素，两个垂直排列的时候他们的margin是如何计算的</h2><h2 id="行内块元素水平排列时它们会自带一个边距，是怎么产生的"><a href="#行内块元素水平排列时它们会自带一个边距，是怎么产生的" class="headerlink" title="行内块元素水平排列时它们会自带一个边距，是怎么产生的"></a>行内块元素水平排列时它们会自带一个边距，是怎么产生的</h2><h2 id="怎么改变函数的this指向，call-bind-apply-（什么样的函数可以被改变this指向）的区别"><a href="#怎么改变函数的this指向，call-bind-apply-（什么样的函数可以被改变this指向）的区别" class="headerlink" title="怎么改变函数的this指向，call bind apply （什么样的函数可以被改变this指向）的区别"></a>怎么改变函数的this指向，call bind apply （什么样的函数可以被改变this指向）的区别</h2><h2 id="let-const-var-的区别"><a href="#let-const-var-的区别" class="headerlink" title="let const var 的区别"></a>let const var 的区别</h2><h2 id="什么是暂时性死区"><a href="#什么是暂时性死区" class="headerlink" title="什么是暂时性死区"></a>什么是暂时性死区</h2><h2 id="Vue的计算属性和methods中的函数有什么区别"><a href="#Vue的计算属性和methods中的函数有什么区别" class="headerlink" title="Vue的计算属性和methods中的函数有什么区别"></a>Vue的计算属性和methods中的函数有什么区别</h2><h2 id="Vue中如何对组件内部传递参数props"><a href="#Vue中如何对组件内部传递参数props" class="headerlink" title="Vue中如何对组件内部传递参数props"></a>Vue中如何对组件内部传递参数props</h2><h2 id="props可以设置哪些功能，它和data有什么区别"><a href="#props可以设置哪些功能，它和data有什么区别" class="headerlink" title="props可以设置哪些功能，它和data有什么区别"></a>props可以设置哪些功能，它和data有什么区别</h2><h2 id="Vue中key的作用，在列表渲染的时候"><a href="#Vue中key的作用，在列表渲染的时候" class="headerlink" title="Vue中key的作用，在列表渲染的时候"></a>Vue中key的作用，在列表渲染的时候</h2><h2 id="什么是ajax"><a href="#什么是ajax" class="headerlink" title="什么是ajax"></a>什么是ajax</h2><h2 id="ajax通过什么协议进行通信的"><a href="#ajax通过什么协议进行通信的" class="headerlink" title="ajax通过什么协议进行通信的"></a>ajax通过什么协议进行通信的</h2><h2 id="HTTP协议在建立连接的时候会有哪些步骤"><a href="#HTTP协议在建立连接的时候会有哪些步骤" class="headerlink" title="HTTP协议在建立连接的时候会有哪些步骤"></a>HTTP协议在建立连接的时候会有哪些步骤</h2><h2 id="JSON-stringify-和JSON-parse-在做深拷贝时存在哪些问题"><a href="#JSON-stringify-和JSON-parse-在做深拷贝时存在哪些问题" class="headerlink" title="JSON.stringify 和JSON.parse 在做深拷贝时存在哪些问题"></a>JSON.stringify 和JSON.parse 在做深拷贝时存在哪些问题</h2><h2 id="Vue的v-if和v-show有哪些区别"><a href="#Vue的v-if和v-show有哪些区别" class="headerlink" title="Vue的v-if和v-show有哪些区别"></a>Vue的v-if和v-show有哪些区别</h2><h2 id="数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现"><a href="#数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现" class="headerlink" title="数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现"></a>数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现</h2><h2 id="Vue的路由模式hash和history，两者有什么区别"><a href="#Vue的路由模式hash和history，两者有什么区别" class="headerlink" title="Vue的路由模式hash和history，两者有什么区别"></a>Vue的路由模式hash和history，两者有什么区别</h2><h2 id="Vue的双向绑定"><a href="#Vue的双向绑定" class="headerlink" title="Vue的双向绑定"></a>Vue的双向绑定</h2><h2 id="怎么精确的判断一个js数据的类型"><a href="#怎么精确的判断一个js数据的类型" class="headerlink" title="怎么精确的判断一个js数据的类型"></a>怎么精确的判断一个js数据的类型</h2><h2 id="死循环会不会阻止Vue的生命周期执行"><a href="#死循环会不会阻止Vue的生命周期执行" class="headerlink" title="死循环会不会阻止Vue的生命周期执行"></a>死循环会不会阻止Vue的生命周期执行</h2><h2 id="调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢"><a href="#调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢" class="headerlink" title="调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢"></a>调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢</h2><h2 id="一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到"><a href="#一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到" class="headerlink" title="一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到"></a>一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到</h2><h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><h2 id="什么是跨域，怎么解决"><a href="#什么是跨域，怎么解决" class="headerlink" title="什么是跨域，怎么解决"></a>什么是跨域，怎么解决</h2><h2 id="清除浮动有哪几种方式"><a href="#清除浮动有哪几种方式" class="headerlink" title="清除浮动有哪几种方式"></a>清除浮动有哪几种方式</h2><h2 id="Promise是什么，能做什么"><a href="#Promise是什么，能做什么" class="headerlink" title="Promise是什么，能做什么"></a>Promise是什么，能做什么</h2><h2 id="Promise-all-和-Promise-race-的区别"><a href="#Promise-all-和-Promise-race-的区别" class="headerlink" title="Promise.all 和 Promise.race 的区别"></a>Promise.all 和 Promise.race 的区别</h2><h2 id="能被继承的CSS样式举例"><a href="#能被继承的CSS样式举例" class="headerlink" title="能被继承的CSS样式举例"></a>能被继承的CSS样式举例</h2><h2 id="border的默认颜色是从哪来的"><a href="#border的默认颜色是从哪来的" class="headerlink" title="border的默认颜色是从哪来的"></a>border的默认颜色是从哪来的</h2><h2 id="Vue中去和缓存组件（-component-router-view）的内容"><a href="#Vue中去和缓存组件（-component-router-view）的内容" class="headerlink" title="Vue中去和缓存组件（ component router-view）的内容"></a>Vue中去和缓存组件（ component router-view）的内容</h2><h2 id="JS的执行机制"><a href="#JS的执行机制" class="headerlink" title="JS的执行机制"></a>JS的执行机制</h2><h2 id="计算机网络七层模型"><a href="#计算机网络七层模型" class="headerlink" title="计算机网络七层模型"></a>计算机网络七层模型</h2><h2 id="Vue-router的params参数和query参数的区别"><a href="#Vue-router的params参数和query参数的区别" class="headerlink" title="Vue-router的params参数和query参数的区别"></a>Vue-router的params参数和query参数的区别</h2><h2 id="Vuex的缺点，使用场景"><a href="#Vuex的缺点，使用场景" class="headerlink" title="Vuex的缺点，使用场景"></a>Vuex的缺点，使用场景</h2><h2 id="Cookie，SessionStorage，localStorage的区别"><a href="#Cookie，SessionStorage，localStorage的区别" class="headerlink" title="Cookie，SessionStorage，localStorage的区别"></a>Cookie，SessionStorage，localStorage的区别</h2><h2 id="怎么跳出for循环"><a href="#怎么跳出for循环" class="headerlink" title="怎么跳出for循环"></a>怎么跳出for循环</h2><h2 id="防抖和节流"><a href="#防抖和节流" class="headerlink" title="防抖和节流"></a>防抖和节流</h2><h2 id="闭包的使用场景"><a href="#闭包的使用场景" class="headerlink" title="闭包的使用场景"></a>闭包的使用场景</h2><h2 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h2><h2 id="JS实现常见的排序算法以及优化"><a href="#JS实现常见的排序算法以及优化" class="headerlink" title="JS实现常见的排序算法以及优化"></a>JS实现常见的排序算法以及优化</h2><h2 id="常见的浏览器内核"><a href="#常见的浏览器内核" class="headerlink" title="常见的浏览器内核"></a>常见的浏览器内核</h2><h2 id="如何理解JS中的this"><a href="#如何理解JS中的this" class="headerlink" title="如何理解JS中的this"></a>如何理解JS中的this</h2><h2 id="数组去重有哪些方法"><a href="#数组去重有哪些方法" class="headerlink" title="数组去重有哪些方法"></a>数组去重有哪些方法</h2><h2 id="CSS动画与JS动画的区别"><a href="#CSS动画与JS动画的区别" class="headerlink" title="CSS动画与JS动画的区别"></a>CSS动画与JS动画的区别</h2><h2 id="页面的回流与重绘"><a href="#页面的回流与重绘" class="headerlink" title="页面的回流与重绘"></a>页面的回流与重绘</h2><h2 id="事件的冒泡与捕获"><a href="#事件的冒泡与捕获" class="headerlink" title="事件的冒泡与捕获"></a>事件的冒泡与捕获</h2><h2 id="Vue中组件间的通信"><a href="#Vue中组件间的通信" class="headerlink" title="Vue中组件间的通信"></a>Vue中组件间的通信</h2><h2 id="如何实现v-model"><a href="#如何实现v-model" class="headerlink" title="如何实现v-model"></a>如何实现v-model</h2><h2 id="怎么隐藏一个元素"><a href="#怎么隐藏一个元素" class="headerlink" title="怎么隐藏一个元素"></a>怎么隐藏一个元素</h2><h2 id="怎么快速找到第一大的数和第三大的数"><a href="#怎么快速找到第一大的数和第三大的数" class="headerlink" title="怎么快速找到第一大的数和第三大的数"></a>怎么快速找到第一大的数和第三大的数</h2><h2 id="网页的安全防护"><a href="#网页的安全防护" class="headerlink" title="网页的安全防护"></a>网页的安全防护</h2><h2 id="为什么不推荐使用-important"><a href="#为什么不推荐使用-important" class="headerlink" title="为什么不推荐使用 !important"></a>为什么不推荐使用 !important</h2><h2 id="前端性能优化"><a href="#前端性能优化" class="headerlink" title="前端性能优化"></a>前端性能优化</h2><h2 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h2><h2 id="从输入URL到页面显示的过程"><a href="#从输入URL到页面显示的过程" class="headerlink" title="从输入URL到页面显示的过程"></a>从输入URL到页面显示的过程</h2><h2 id="Vue的生命周期"><a href="#Vue的生命周期" class="headerlink" title="Vue的生命周期"></a>Vue的生命周期</h2><h2 id="nextTick是什么"><a href="#nextTick是什么" class="headerlink" title="nextTick是什么"></a>nextTick是什么</h2><h2 id="new关键字使用的背后具体操作"><a href="#new关键字使用的背后具体操作" class="headerlink" title="new关键字使用的背后具体操作"></a>new关键字使用的背后具体操作</h2><h2 id="宏微任务"><a href="#宏微任务" class="headerlink" title="宏微任务"></a>宏微任务</h2><h2 id="Diff算法中的key（能不能使用随机Random的key）"><a href="#Diff算法中的key（能不能使用随机Random的key）" class="headerlink" title="Diff算法中的key（能不能使用随机Random的key）"></a>Diff算法中的key（能不能使用随机Random的key）</h2><h2 id="数组的forEach-map-fliter-every-some-方法的不同"><a href="#数组的forEach-map-fliter-every-some-方法的不同" class="headerlink" title="数组的forEach(), map(), fliter() ,every(), some()方法的不同"></a>数组的forEach(), map(), fliter() ,every(), some()方法的不同</h2><p>（1）首先数组的forEach可对数组的每个元素执行一次提供的函数，它可传入三个参数</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114058199.png" alt="image-20220601114058199" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114058199.png" class="lozad post-image"></p>
+<p>该函数没有返回值；</p>
+<p>（2）数组的map()方法将会创建一个新数组，新数组的长度和原数组的长度一致，新数组的每一个元素都是调用提供的回调函数返回后的结果，如果不指定返回值，则新数组中的每一个元素均为undefined；可传入三个参数</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114459205.png" alt="image-20220601114459205" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114459205.png" class="lozad post-image"></p>
+<p>（3）数组的filter()方法将创建一个新数组，其包含通过所提供函数测试的所有元素，即在回调函数中若返回true则新数组中将放入此时正在遍历的旧数组元素，否则新数组不保留该元素。它可接受三个参数</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114805752.png" alt="image-20220601114805752" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601114805752.png" class="lozad post-image"></p>
+<p>若没有任何数组通过回调的过滤，则返回一个空的新数组，这一点是与map()方法不同的，map方法不指定返回值时将返回数组元素全为undefined的新数组；</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601115449387.png" alt="image-20220601115449387" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601115449387.png" class="lozad post-image"></p>
+<p>(4)数组的every()方法测试数组内的所有元素是否都能通过指定回调的测试，一旦存在某一元素不满足测试则立刻结束遍历，返回false，全部通过测试时则返回true；它可以传入三个参数</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601145556230.png" alt="image-20220601145556230" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601145556230.png" class="lozad post-image"></p>
+<p><strong>注意</strong>：若收到一个空数组，此方法在一切情况下都会返回 <code>true</code>。</p>
+<p>（5）数组的some()方法测试数组是不是至少有一个元素通过了指定的回调，当测试通过测试时返回true时将立刻停止遍历，但若元素未通过测试将继续遍历数组的剩余元素，全部元素不通过测试时将返回测试，此方法可实现数组的元素检查并自动停止循环，性能比filter()函数高。此方法可以传入三个参数</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601150208352.png" alt="image-20220601150208352" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601150208352.png" class="lozad post-image"></p>
+<p><strong>注意：</strong>如果用一个空数组进行测试，在任何情况下它返回的都是<code>false</code>。</p>
+<p>every()方法是只要有一个不符合测试就结束遍历，some()方法是只要有一个符合测试就结束遍历；</p>
+<h2 id="数组扁平化"><a href="#数组扁平化" class="headerlink" title="数组扁平化"></a>数组扁平化</h2><p>可使用递归处理数组扁平化</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//定义一个嵌套多层的数组 </span>
+   <span class="token keyword">let</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">11</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token number">13</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token number">14</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">15</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">//定义一个处理函数</span>
+    <span class="token keyword">function</span> <span class="token function">localArr</span><span class="token punctuation">(</span><span class="token parameter">arr</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">let</span> newArr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">function</span> <span class="token function">openArr</span><span class="token punctuation">(</span><span class="token parameter">arr1</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            arr1<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">element</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>element <span class="token keyword">instanceof</span> <span class="token class-name">Array</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token comment">//当遍历到当前元素是数组时开始递归</span>
+                    <span class="token function">openArr</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+                    <span class="token comment">//当元素只是基本值时放入目标数组中，结束本次遍历</span>
+                    newArr<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">openArr</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> newArr<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">let</span> res <span class="token operator">=</span> <span class="token function">localArr</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="数组的reduce-方法"><a href="#数组的reduce-方法" class="headerlink" title="数组的reduce()方法"></a>数组的reduce()方法</h2><p>reduce()方法对数组的每一个元素执行一次提供的回调函数，将回调函数返回的结果作为单个值返回，此方法接受4各参数：</p>
+<ol>
+<li><p>Accumulator (acc) (累计器)：累计器累计回调的返回值; 它是上一次调用回调时返回的累积值</p>
+</li>
+<li><p>Current Value (cur) (当前值)：数组中正在处理的元素。</p>
+</li>
+<li><p>Current Index (idx) (当前索引)：数组中正在处理的当前元素的索引。 如果提供了<code>initialValue</code>，则起始索引号为0，否则从索引1起始。</p>
+</li>
+<li><p>Source Array (src) (源数组)：调用<code>reduce()</code>的数组</p>
+</li>
+<li><p><code>initialValue</code>可选</p>
+<p>作为第一次调用 <code>callback</code>函数时的第一个参数的值。 如果没有提供初始值，则将使用数组中的第一个元素。 在没有初始值的空数组上调用 reduce 将报错。</p>
+</li>
+</ol>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601160744405.png" alt="image-20220601160744405" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601160744405.png" class="lozad post-image"></p>
+<h2 id="数组的splice-方法和slice-方法"><a href="#数组的splice-方法和slice-方法" class="headerlink" title="数组的splice()方法和slice()方法"></a>数组的splice()方法和slice()方法</h2><p>splice()方法通过删除或替换现有元素或者原地添加新的元素来修改数组,并以数组形式返回被修改的内容。此方法会改变原数组。</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601161121115.png" alt="image-20220601161121115" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601161121115.png" class="lozad post-image"></p>
+<p><code>slice()</code> 方法返回一个新的数组对象，这一对象是一个由 <code>begin</code> 和 <code>end</code> 决定的原数组的<strong>浅拷贝</strong>（包括 <code>begin</code>，不包括<code>end</code>）。原始数组不会被改变。</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601161458599.png" alt="image-20220601161458599" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220601161458599.png" class="lozad post-image"></p>
+<h2 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h2><p>柯里化（Currying）是把接受多个参数的函数变换成接受一个单一参数(最初函数的第一个参数)的函数，并且返回接受余下的参数且返回结果的新函数的技术。</p>
+<h2 id="HTML5新增标签"><a href="#HTML5新增标签" class="headerlink" title="HTML5新增标签"></a>HTML5新增标签</h2><h2 id="CSS3新增标签"><a href="#CSS3新增标签" class="headerlink" title="CSS3新增标签"></a>CSS3新增标签</h2><h2 id="怎么判断一个数是否为整数"><a href="#怎么判断一个数是否为整数" class="headerlink" title="怎么判断一个数是否为整数"></a>怎么判断一个数是否为整数</h2><h2 id="ES6新增，Map和weakMap"><a href="#ES6新增，Map和weakMap" class="headerlink" title="ES6新增，Map和weakMap"></a>ES6新增，Map和weakMap</h2><h2 id="rem和vw"><a href="#rem和vw" class="headerlink" title="rem和vw"></a>rem和vw</h2><h2 id="怎么解决跨域"><a href="#怎么解决跨域" class="headerlink" title="怎么解决跨域"></a>怎么解决跨域</h2><h2 id="闭包是什么，使用场景"><a href="#闭包是什么，使用场景" class="headerlink" title="闭包是什么，使用场景"></a>闭包是什么，使用场景</h2><h2 id="防抖和节流实现思路"><a href="#防抖和节流实现思路" class="headerlink" title="防抖和节流实现思路"></a>防抖和节流实现思路</h2><h2 id="浏览器性能优化方法"><a href="#浏览器性能优化方法" class="headerlink" title="浏览器性能优化方法"></a>浏览器性能优化方法</h2><h2 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h2><h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><h2 id="箭头函数与普通函数的区别"><a href="#箭头函数与普通函数的区别" class="headerlink" title="箭头函数与普通函数的区别"></a>箭头函数与普通函数的区别</h2>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/05/31/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%B8%B8%E8%AF%86/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/05/31/%E5%89%8D%E7%AB%AF%E5%B0%8F%E5%B8%B8%E8%AF%86/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  <div class="nav-item-prev">
+    <a href="/2022/06/15/微信小程序-1/" class="nav-link">
+      <i class="iconfont icon-left nav-prev-icon"></i>
+      <div>
+        <div class="nav-label">上一篇</div>
+        
+        <div class="nav-title">微信小程序-1 </div>
+        
+      </div>
+    </a>
+  </div>
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/05/26/bootstrap栅格源码分析/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">bootstrap栅格源码分析 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">JS的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="toc-text">基本数据类型和引用数据类型的差别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%98%E9%87%8F%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E6%98%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E8%80%8C%E4%B8%8D%E6%98%AF%E5%85%B7%E4%BD%93%E7%9A%84%E5%80%BC"><span class="toc-text">引用类型为什么变量中保存的是数据的地址而不是具体的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-null%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">typeof null的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%AA%E7%B1%BB%E5%9E%8B"><span class="toc-text">NaN属于哪个类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E6%98%AF%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88NaN-NaN-%E7%BB%93%E6%9E%9C%E4%B8%BAfalse"><span class="toc-text">NaN是基本数据类型，为什么NaN &#x3D;&#x3D;&#x3D; NaN 结果为false</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%90%91%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组如何向第一个位置插入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%8E%BB%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组去掉重复数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#local-Storage%E5%92%8CsessionStorage%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">local Storage和sessionStorage有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%97%AD%E5%8C%85%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-text">介绍一下闭包和作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B"><span class="toc-text">CSS选择器的优先级从高到低介绍一下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%8C%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-text">定位有哪几种，及其特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%AA%E7%B1%BB%E5%92%8C%E4%BC%AA%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">什么是伪类和伪元素，两者的区别，: 和 :: 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">数组如何删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="toc-text">什么是深浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数和普通函数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E4%BA%86%E5%93%AA%E4%BA%9B%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增了哪些标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE%EF%BC%8C%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">什么是语义化标签，解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%A6%82%E4%BD%95%E8%AE%A9%E4%B8%A4%E4%B8%AA%E5%8A%A8%E6%80%81%E5%B0%BA%E5%AF%B8%E7%9A%84div%E5%AD%90%E5%85%83%E7%B4%A0%E5%8F%82%E8%80%83%E7%88%B6%E5%85%83%E7%B4%A0%E5%9C%A8%E6%B0%B4%E5%B9%B3%E5%92%8C%E5%9E%82%E7%9B%B4%E6%96%B9%E5%90%91%E4%B8%8A%E5%B1%85%E4%B8%AD"><span class="toc-text">CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%EF%BC%8C%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E5%9D%97%E5%85%83%E7%B4%A0"><span class="toc-text">行内元素，行内块元素，块元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E4%B8%AA%E5%9E%82%E7%9B%B4%E6%8E%92%E5%88%97%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%96%E4%BB%AC%E7%9A%84margin%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E7%9A%84"><span class="toc-text">块元素，两个垂直排列的时候他们的margin是如何计算的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E6%8E%92%E5%88%97%E6%97%B6%E5%AE%83%E4%BB%AC%E4%BC%9A%E8%87%AA%E5%B8%A6%E4%B8%80%E4%B8%AA%E8%BE%B9%E8%B7%9D%EF%BC%8C%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F%E7%9A%84"><span class="toc-text">行内块元素水平排列时它们会自带一个边距，是怎么产生的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E6%94%B9%E5%8F%98%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91%EF%BC%8Ccall-bind-apply-%EF%BC%88%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E8%A2%AB%E6%94%B9%E5%8F%98this%E6%8C%87%E5%90%91%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">怎么改变函数的this指向，call bind apply （什么样的函数可以被改变this指向）的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let-const-var-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">let const var 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA"><span class="toc-text">什么是暂时性死区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8Cmethods%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的计算属性和methods中的函数有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AF%B9%E7%BB%84%E4%BB%B6%E5%86%85%E9%83%A8%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0props"><span class="toc-text">Vue中如何对组件内部传递参数props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#props%E5%8F%AF%E4%BB%A5%E8%AE%BE%E7%BD%AE%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%8C%E5%AE%83%E5%92%8Cdata%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">props可以设置哪些功能，它和data有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E5%9C%A8%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93%E7%9A%84%E6%97%B6%E5%80%99"><span class="toc-text">Vue中key的作用，在列表渲染的时候</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFajax"><span class="toc-text">什么是ajax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ajax%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E9%80%9A%E4%BF%A1%E7%9A%84"><span class="toc-text">ajax通过什么协议进行通信的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E5%9C%A8%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E6%9C%89%E5%93%AA%E4%BA%9B%E6%AD%A5%E9%AA%A4"><span class="toc-text">HTTP协议在建立连接的时候会有哪些步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON-stringify-%E5%92%8CJSON-parse-%E5%9C%A8%E5%81%9A%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%97%B6%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-text">JSON.stringify 和JSON.parse 在做深拷贝时存在哪些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84v-if%E5%92%8Cv-show%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的v-if和v-show有哪些区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%EF%BC%88%E5%8F%AF%E8%83%BD%E6%98%AF%E7%BA%AF%E6%95%B0%E5%AD%97%EF%BC%8C%E8%BF%98%E5%8F%AF%E8%83%BD%E6%98%AF%E6%95%B0%E7%BB%84%E5%A5%97%E5%AF%B9%E8%B1%A1%EF%BC%89%EF%BC%8C%E9%A1%BA%E5%BA%8F%E5%92%8C%E5%80%92%E5%BA%8F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8Fhash%E5%92%8Chistory%EF%BC%8C%E4%B8%A4%E8%80%85%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的路由模式hash和history，两者有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-text">Vue的双向绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AAjs%E6%95%B0%E6%8D%AE%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">怎么精确的判断一个js数据的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%BC%9A%E4%B8%8D%E4%BC%9A%E9%98%BB%E6%AD%A2Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%89%A7%E8%A1%8C"><span class="toc-text">死循环会不会阻止Vue的生命周期执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E5%90%8E%E5%8F%B0%E6%8E%A5%E5%8F%A3%E6%97%B6%E4%B8%80%E8%88%AC%E5%9C%A8Vue%E7%9A%84%E5%93%AA%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0%E9%87%8C%E8%B0%83%E7%94%A8%EF%BC%8C%E6%8E%A5%E5%8F%A3%E6%94%BE%E5%9C%A8created%E5%92%8C%E6%94%BE%E5%9C%A8mounted%E9%87%8C%E9%9D%A2%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%92%8CbeforeCreate%E7%9B%B8%E6%AF%94%E5%91%A2"><span class="toc-text">调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E5%9C%A8beforeCreate%E8%BF%99%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%87%8C%E9%9D%A2%E9%80%9A%E8%BF%87this%E8%8E%B7%E5%8F%96data%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E8%83%BD%E4%B8%8D%E8%83%BD%E5%81%9A%E5%88%B0"><span class="toc-text">一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="toc-text">同步和异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B7%A8%E5%9F%9F%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3"><span class="toc-text">什么是跨域，怎么解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">清除浮动有哪几种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">Promise是什么，能做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-all-%E5%92%8C-Promise-race-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Promise.all 和 Promise.race 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E8%A2%AB%E7%BB%A7%E6%89%BF%E7%9A%84CSS%E6%A0%B7%E5%BC%8F%E4%B8%BE%E4%BE%8B"><span class="toc-text">能被继承的CSS样式举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#border%E7%9A%84%E9%BB%98%E8%AE%A4%E9%A2%9C%E8%89%B2%E6%98%AF%E4%BB%8E%E5%93%AA%E6%9D%A5%E7%9A%84"><span class="toc-text">border的默认颜色是从哪来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%8E%BB%E5%92%8C%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6%EF%BC%88-component-router-view%EF%BC%89%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">Vue中去和缓存组件（ component router-view）的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-text">JS的执行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-text">计算机网络七层模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-router%E7%9A%84params%E5%8F%82%E6%95%B0%E5%92%8Cquery%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue-router的params参数和query参数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">Vuex的缺点，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie%EF%BC%8CSessionStorage%EF%BC%8ClocalStorage%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Cookie，SessionStorage，localStorage的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%B7%B3%E5%87%BAfor%E5%BE%AA%E7%8E%AF"><span class="toc-text">怎么跳出for循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81"><span class="toc-text">防抖和节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包的使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await"><span class="toc-text">async&#x2F;await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E5%AE%9E%E7%8E%B0%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="toc-text">JS实现常见的排序算法以及优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8"><span class="toc-text">常见的浏览器内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3JS%E4%B8%AD%E7%9A%84this"><span class="toc-text">如何理解JS中的this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="toc-text">数组去重有哪些方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8A%A8%E7%94%BB%E4%B8%8EJS%E5%8A%A8%E7%94%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">CSS动画与JS动画的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98"><span class="toc-text">页面的回流与重绘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%86%92%E6%B3%A1%E4%B8%8E%E6%8D%95%E8%8E%B7"><span class="toc-text">事件的冒泡与捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-text">Vue中组件间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0v-model"><span class="toc-text">如何实现v-model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E9%9A%90%E8%97%8F%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">怎么隐藏一个元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%BF%AB%E9%80%9F%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%80%E5%A4%A7%E7%9A%84%E6%95%B0%E5%92%8C%E7%AC%AC%E4%B8%89%E5%A4%A7%E7%9A%84%E6%95%B0"><span class="toc-text">怎么快速找到第一大的数和第三大的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E7%9A%84%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4"><span class="toc-text">网页的安全防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-important"><span class="toc-text">为什么不推荐使用 !important</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">前端性能优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEO"><span class="toc-text">SEO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5URL%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">从输入URL到页面显示的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nextTick%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">nextTick是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E7%9A%84%E8%83%8C%E5%90%8E%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-text">new关键字使用的背后具体操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="toc-text">宏微任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Diff%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84key%EF%BC%88%E8%83%BD%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E9%9A%8F%E6%9C%BARandom%E7%9A%84key%EF%BC%89"><span class="toc-text">Diff算法中的key（能不能使用随机Random的key）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84forEach-map-fliter-every-some-%E6%96%B9%E6%B3%95%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="toc-text">数组的forEach(), map(), fliter() ,every(), some()方法的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96"><span class="toc-text">数组扁平化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84reduce-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的reduce()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84splice-%E6%96%B9%E6%B3%95%E5%92%8Cslice-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的splice()方法和slice()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="toc-text">函数柯里化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">CSS3新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E6%95%B0%E6%98%AF%E5%90%A6%E4%B8%BA%E6%95%B4%E6%95%B0"><span class="toc-text">怎么判断一个数是否为整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%96%B0%E5%A2%9E%EF%BC%8CMap%E5%92%8CweakMap"><span class="toc-text">ES6新增，Map和weakMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem%E5%92%8Cvw"><span class="toc-text">rem和vw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F"><span class="toc-text">怎么解决跨域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包是什么，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">防抖和节流实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-text">浏览器性能优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="toc-text">前端工程化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E4%B8%8E%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数与普通函数的区别</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>54</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>13</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>4</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">JS的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="toc-text">基本数据类型和引用数据类型的差别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%98%E9%87%8F%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E6%98%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E8%80%8C%E4%B8%8D%E6%98%AF%E5%85%B7%E4%BD%93%E7%9A%84%E5%80%BC"><span class="toc-text">引用类型为什么变量中保存的是数据的地址而不是具体的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-null%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">typeof null的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%AA%E7%B1%BB%E5%9E%8B"><span class="toc-text">NaN属于哪个类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E6%98%AF%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88NaN-NaN-%E7%BB%93%E6%9E%9C%E4%B8%BAfalse"><span class="toc-text">NaN是基本数据类型，为什么NaN &#x3D;&#x3D;&#x3D; NaN 结果为false</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%90%91%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组如何向第一个位置插入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%8E%BB%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组去掉重复数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#local-Storage%E5%92%8CsessionStorage%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">local Storage和sessionStorage有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%97%AD%E5%8C%85%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-text">介绍一下闭包和作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B"><span class="toc-text">CSS选择器的优先级从高到低介绍一下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%8C%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-text">定位有哪几种，及其特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%AA%E7%B1%BB%E5%92%8C%E4%BC%AA%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">什么是伪类和伪元素，两者的区别，: 和 :: 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">数组如何删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="toc-text">什么是深浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数和普通函数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E4%BA%86%E5%93%AA%E4%BA%9B%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增了哪些标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE%EF%BC%8C%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">什么是语义化标签，解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%A6%82%E4%BD%95%E8%AE%A9%E4%B8%A4%E4%B8%AA%E5%8A%A8%E6%80%81%E5%B0%BA%E5%AF%B8%E7%9A%84div%E5%AD%90%E5%85%83%E7%B4%A0%E5%8F%82%E8%80%83%E7%88%B6%E5%85%83%E7%B4%A0%E5%9C%A8%E6%B0%B4%E5%B9%B3%E5%92%8C%E5%9E%82%E7%9B%B4%E6%96%B9%E5%90%91%E4%B8%8A%E5%B1%85%E4%B8%AD"><span class="toc-text">CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%EF%BC%8C%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E5%9D%97%E5%85%83%E7%B4%A0"><span class="toc-text">行内元素，行内块元素，块元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E4%B8%AA%E5%9E%82%E7%9B%B4%E6%8E%92%E5%88%97%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%96%E4%BB%AC%E7%9A%84margin%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E7%9A%84"><span class="toc-text">块元素，两个垂直排列的时候他们的margin是如何计算的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E6%8E%92%E5%88%97%E6%97%B6%E5%AE%83%E4%BB%AC%E4%BC%9A%E8%87%AA%E5%B8%A6%E4%B8%80%E4%B8%AA%E8%BE%B9%E8%B7%9D%EF%BC%8C%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F%E7%9A%84"><span class="toc-text">行内块元素水平排列时它们会自带一个边距，是怎么产生的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E6%94%B9%E5%8F%98%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91%EF%BC%8Ccall-bind-apply-%EF%BC%88%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E8%A2%AB%E6%94%B9%E5%8F%98this%E6%8C%87%E5%90%91%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">怎么改变函数的this指向，call bind apply （什么样的函数可以被改变this指向）的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let-const-var-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">let const var 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA"><span class="toc-text">什么是暂时性死区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8Cmethods%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的计算属性和methods中的函数有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AF%B9%E7%BB%84%E4%BB%B6%E5%86%85%E9%83%A8%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0props"><span class="toc-text">Vue中如何对组件内部传递参数props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#props%E5%8F%AF%E4%BB%A5%E8%AE%BE%E7%BD%AE%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%8C%E5%AE%83%E5%92%8Cdata%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">props可以设置哪些功能，它和data有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E5%9C%A8%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93%E7%9A%84%E6%97%B6%E5%80%99"><span class="toc-text">Vue中key的作用，在列表渲染的时候</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFajax"><span class="toc-text">什么是ajax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ajax%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E9%80%9A%E4%BF%A1%E7%9A%84"><span class="toc-text">ajax通过什么协议进行通信的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E5%9C%A8%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E6%9C%89%E5%93%AA%E4%BA%9B%E6%AD%A5%E9%AA%A4"><span class="toc-text">HTTP协议在建立连接的时候会有哪些步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON-stringify-%E5%92%8CJSON-parse-%E5%9C%A8%E5%81%9A%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%97%B6%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-text">JSON.stringify 和JSON.parse 在做深拷贝时存在哪些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84v-if%E5%92%8Cv-show%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的v-if和v-show有哪些区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%EF%BC%88%E5%8F%AF%E8%83%BD%E6%98%AF%E7%BA%AF%E6%95%B0%E5%AD%97%EF%BC%8C%E8%BF%98%E5%8F%AF%E8%83%BD%E6%98%AF%E6%95%B0%E7%BB%84%E5%A5%97%E5%AF%B9%E8%B1%A1%EF%BC%89%EF%BC%8C%E9%A1%BA%E5%BA%8F%E5%92%8C%E5%80%92%E5%BA%8F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8Fhash%E5%92%8Chistory%EF%BC%8C%E4%B8%A4%E8%80%85%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的路由模式hash和history，两者有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-text">Vue的双向绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AAjs%E6%95%B0%E6%8D%AE%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">怎么精确的判断一个js数据的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%BC%9A%E4%B8%8D%E4%BC%9A%E9%98%BB%E6%AD%A2Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%89%A7%E8%A1%8C"><span class="toc-text">死循环会不会阻止Vue的生命周期执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E5%90%8E%E5%8F%B0%E6%8E%A5%E5%8F%A3%E6%97%B6%E4%B8%80%E8%88%AC%E5%9C%A8Vue%E7%9A%84%E5%93%AA%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0%E9%87%8C%E8%B0%83%E7%94%A8%EF%BC%8C%E6%8E%A5%E5%8F%A3%E6%94%BE%E5%9C%A8created%E5%92%8C%E6%94%BE%E5%9C%A8mounted%E9%87%8C%E9%9D%A2%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%92%8CbeforeCreate%E7%9B%B8%E6%AF%94%E5%91%A2"><span class="toc-text">调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E5%9C%A8beforeCreate%E8%BF%99%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%87%8C%E9%9D%A2%E9%80%9A%E8%BF%87this%E8%8E%B7%E5%8F%96data%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E8%83%BD%E4%B8%8D%E8%83%BD%E5%81%9A%E5%88%B0"><span class="toc-text">一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="toc-text">同步和异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B7%A8%E5%9F%9F%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3"><span class="toc-text">什么是跨域，怎么解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">清除浮动有哪几种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">Promise是什么，能做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-all-%E5%92%8C-Promise-race-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Promise.all 和 Promise.race 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E8%A2%AB%E7%BB%A7%E6%89%BF%E7%9A%84CSS%E6%A0%B7%E5%BC%8F%E4%B8%BE%E4%BE%8B"><span class="toc-text">能被继承的CSS样式举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#border%E7%9A%84%E9%BB%98%E8%AE%A4%E9%A2%9C%E8%89%B2%E6%98%AF%E4%BB%8E%E5%93%AA%E6%9D%A5%E7%9A%84"><span class="toc-text">border的默认颜色是从哪来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%8E%BB%E5%92%8C%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6%EF%BC%88-component-router-view%EF%BC%89%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">Vue中去和缓存组件（ component router-view）的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-text">JS的执行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-text">计算机网络七层模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-router%E7%9A%84params%E5%8F%82%E6%95%B0%E5%92%8Cquery%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue-router的params参数和query参数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">Vuex的缺点，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie%EF%BC%8CSessionStorage%EF%BC%8ClocalStorage%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Cookie，SessionStorage，localStorage的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%B7%B3%E5%87%BAfor%E5%BE%AA%E7%8E%AF"><span class="toc-text">怎么跳出for循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81"><span class="toc-text">防抖和节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包的使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await"><span class="toc-text">async&#x2F;await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E5%AE%9E%E7%8E%B0%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="toc-text">JS实现常见的排序算法以及优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8"><span class="toc-text">常见的浏览器内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3JS%E4%B8%AD%E7%9A%84this"><span class="toc-text">如何理解JS中的this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="toc-text">数组去重有哪些方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8A%A8%E7%94%BB%E4%B8%8EJS%E5%8A%A8%E7%94%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">CSS动画与JS动画的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98"><span class="toc-text">页面的回流与重绘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%86%92%E6%B3%A1%E4%B8%8E%E6%8D%95%E8%8E%B7"><span class="toc-text">事件的冒泡与捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-text">Vue中组件间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0v-model"><span class="toc-text">如何实现v-model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E9%9A%90%E8%97%8F%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">怎么隐藏一个元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%BF%AB%E9%80%9F%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%80%E5%A4%A7%E7%9A%84%E6%95%B0%E5%92%8C%E7%AC%AC%E4%B8%89%E5%A4%A7%E7%9A%84%E6%95%B0"><span class="toc-text">怎么快速找到第一大的数和第三大的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E7%9A%84%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4"><span class="toc-text">网页的安全防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-important"><span class="toc-text">为什么不推荐使用 !important</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">前端性能优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEO"><span class="toc-text">SEO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5URL%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">从输入URL到页面显示的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nextTick%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">nextTick是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E7%9A%84%E8%83%8C%E5%90%8E%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-text">new关键字使用的背后具体操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="toc-text">宏微任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Diff%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84key%EF%BC%88%E8%83%BD%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E9%9A%8F%E6%9C%BARandom%E7%9A%84key%EF%BC%89"><span class="toc-text">Diff算法中的key（能不能使用随机Random的key）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84forEach-map-fliter-every-some-%E6%96%B9%E6%B3%95%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="toc-text">数组的forEach(), map(), fliter() ,every(), some()方法的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96"><span class="toc-text">数组扁平化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84reduce-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的reduce()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84splice-%E6%96%B9%E6%B3%95%E5%92%8Cslice-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的splice()方法和slice()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="toc-text">函数柯里化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">CSS3新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E6%95%B0%E6%98%AF%E5%90%A6%E4%B8%BA%E6%95%B4%E6%95%B0"><span class="toc-text">怎么判断一个数是否为整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%96%B0%E5%A2%9E%EF%BC%8CMap%E5%92%8CweakMap"><span class="toc-text">ES6新增，Map和weakMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem%E5%92%8Cvw"><span class="toc-text">rem和vw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F"><span class="toc-text">怎么解决跨域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包是什么，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">防抖和节流实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-text">浏览器性能优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="toc-text">前端工程化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E4%B8%8E%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数与普通函数的区别</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Vue原理">
+        <div class="categories-list-item">
+          Vue原理
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/服务器">
+        <div class="categories-list-item">
+          服务器
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/BootStrap">
+        <div class="categories-list-item">
+          BootStrap
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/微信小程序">
+        <div class="categories-list-item">
+          微信小程序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/设计模式">
+        <div class="categories-list-item">
+          设计模式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+    <a href="\tags\CentOS8" title="CentOS8"><div class="tags-list-item">CentOS8</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">JS的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="toc-text">基本数据类型和引用数据类型的差别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%98%E9%87%8F%E4%B8%AD%E4%BF%9D%E5%AD%98%E7%9A%84%E6%98%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E5%9C%B0%E5%9D%80%E8%80%8C%E4%B8%8D%E6%98%AF%E5%85%B7%E4%BD%93%E7%9A%84%E5%80%BC"><span class="toc-text">引用类型为什么变量中保存的是数据的地址而不是具体的值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typeof-null%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">typeof null的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%AA%E7%B1%BB%E5%9E%8B"><span class="toc-text">NaN属于哪个类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NaN%E6%98%AF%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88NaN-NaN-%E7%BB%93%E6%9E%9C%E4%B8%BAfalse"><span class="toc-text">NaN是基本数据类型，为什么NaN &#x3D;&#x3D;&#x3D; NaN 结果为false</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%90%91%E7%AC%AC%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组如何向第一个位置插入数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%95%B0%E7%BB%84%E5%8E%BB%E6%8E%89%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE"><span class="toc-text">JS的数组去掉重复数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#local-Storage%E5%92%8CsessionStorage%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">local Storage和sessionStorage有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E9%97%AD%E5%8C%85%E5%92%8C%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE"><span class="toc-text">介绍一下闭包和作用域链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7%E4%BB%8E%E9%AB%98%E5%88%B0%E4%BD%8E%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B"><span class="toc-text">CSS选择器的优先级从高到低介绍一下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%8C%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-text">定位有哪几种，及其特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BC%AA%E7%B1%BB%E5%92%8C%E4%BC%AA%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">什么是伪类和伪元素，两者的区别，: 和 :: 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">数组如何删除数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="toc-text">什么是深浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%92%8C%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数和普通函数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E4%BA%86%E5%93%AA%E4%BA%9B%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增了哪些标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE%EF%BC%8C%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">什么是语义化标签，解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%A6%82%E4%BD%95%E8%AE%A9%E4%B8%A4%E4%B8%AA%E5%8A%A8%E6%80%81%E5%B0%BA%E5%AF%B8%E7%9A%84div%E5%AD%90%E5%85%83%E7%B4%A0%E5%8F%82%E8%80%83%E7%88%B6%E5%85%83%E7%B4%A0%E5%9C%A8%E6%B0%B4%E5%B9%B3%E5%92%8C%E5%9E%82%E7%9B%B4%E6%96%B9%E5%90%91%E4%B8%8A%E5%B1%85%E4%B8%AD"><span class="toc-text">CSS如何让两个动态尺寸的div子元素参考父元素在水平和垂直方向上居中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%85%83%E7%B4%A0%EF%BC%8C%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E5%9D%97%E5%85%83%E7%B4%A0"><span class="toc-text">行内元素，行内块元素，块元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%A4%E4%B8%AA%E5%9E%82%E7%9B%B4%E6%8E%92%E5%88%97%E7%9A%84%E6%97%B6%E5%80%99%E4%BB%96%E4%BB%AC%E7%9A%84margin%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E7%9A%84"><span class="toc-text">块元素，两个垂直排列的时候他们的margin是如何计算的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E5%9D%97%E5%85%83%E7%B4%A0%E6%B0%B4%E5%B9%B3%E6%8E%92%E5%88%97%E6%97%B6%E5%AE%83%E4%BB%AC%E4%BC%9A%E8%87%AA%E5%B8%A6%E4%B8%80%E4%B8%AA%E8%BE%B9%E8%B7%9D%EF%BC%8C%E6%98%AF%E6%80%8E%E4%B9%88%E4%BA%A7%E7%94%9F%E7%9A%84"><span class="toc-text">行内块元素水平排列时它们会自带一个边距，是怎么产生的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E6%94%B9%E5%8F%98%E5%87%BD%E6%95%B0%E7%9A%84this%E6%8C%87%E5%90%91%EF%BC%8Ccall-bind-apply-%EF%BC%88%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E8%A2%AB%E6%94%B9%E5%8F%98this%E6%8C%87%E5%90%91%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">怎么改变函数的this指向，call bind apply （什么样的函数可以被改变this指向）的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let-const-var-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">let const var 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA"><span class="toc-text">什么是暂时性死区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E5%92%8Cmethods%E4%B8%AD%E7%9A%84%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的计算属性和methods中的函数有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AF%B9%E7%BB%84%E4%BB%B6%E5%86%85%E9%83%A8%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0props"><span class="toc-text">Vue中如何对组件内部传递参数props</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#props%E5%8F%AF%E4%BB%A5%E8%AE%BE%E7%BD%AE%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%EF%BC%8C%E5%AE%83%E5%92%8Cdata%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">props可以设置哪些功能，它和data有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%ADkey%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E5%9C%A8%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93%E7%9A%84%E6%97%B6%E5%80%99"><span class="toc-text">Vue中key的作用，在列表渲染的时候</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFajax"><span class="toc-text">什么是ajax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ajax%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E9%80%9A%E4%BF%A1%E7%9A%84"><span class="toc-text">ajax通过什么协议进行通信的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E5%9C%A8%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E6%9C%89%E5%93%AA%E4%BA%9B%E6%AD%A5%E9%AA%A4"><span class="toc-text">HTTP协议在建立连接的时候会有哪些步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON-stringify-%E5%92%8CJSON-parse-%E5%9C%A8%E5%81%9A%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%97%B6%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="toc-text">JSON.stringify 和JSON.parse 在做深拷贝时存在哪些问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84v-if%E5%92%8Cv-show%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的v-if和v-show有哪些区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8E%92%E5%BA%8F%EF%BC%88%E5%8F%AF%E8%83%BD%E6%98%AF%E7%BA%AF%E6%95%B0%E5%AD%97%EF%BC%8C%E8%BF%98%E5%8F%AF%E8%83%BD%E6%98%AF%E6%95%B0%E7%BB%84%E5%A5%97%E5%AF%B9%E8%B1%A1%EF%BC%89%EF%BC%8C%E9%A1%BA%E5%BA%8F%E5%92%8C%E5%80%92%E5%BA%8F%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="toc-text">数组排序（可能是纯数字，还可能是数组套对象），顺序和倒序如何实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8Fhash%E5%92%8Chistory%EF%BC%8C%E4%B8%A4%E8%80%85%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue的路由模式hash和history，两者有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A"><span class="toc-text">Vue的双向绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AAjs%E6%95%B0%E6%8D%AE%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-text">怎么精确的判断一个js数据的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E5%BE%AA%E7%8E%AF%E4%BC%9A%E4%B8%8D%E4%BC%9A%E9%98%BB%E6%AD%A2Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%89%A7%E8%A1%8C"><span class="toc-text">死循环会不会阻止Vue的生命周期执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E5%90%8E%E5%8F%B0%E6%8E%A5%E5%8F%A3%E6%97%B6%E4%B8%80%E8%88%AC%E5%9C%A8Vue%E7%9A%84%E5%93%AA%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%87%BD%E6%95%B0%E9%87%8C%E8%B0%83%E7%94%A8%EF%BC%8C%E6%8E%A5%E5%8F%A3%E6%94%BE%E5%9C%A8created%E5%92%8C%E6%94%BE%E5%9C%A8mounted%E9%87%8C%E9%9D%A2%E6%9C%89%E6%B2%A1%E6%9C%89%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%92%8CbeforeCreate%E7%9B%B8%E6%AF%94%E5%91%A2"><span class="toc-text">调用后台接口时一般在Vue的哪个生命周期函数里调用，接口放在created和放在mounted里面有没有区别，和beforeCreate相比呢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%AE%9A%E8%A6%81%E5%9C%A8beforeCreate%E8%BF%99%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%87%8C%E9%9D%A2%E9%80%9A%E8%BF%87this%E8%8E%B7%E5%8F%96data%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E8%83%BD%E4%B8%8D%E8%83%BD%E5%81%9A%E5%88%B0"><span class="toc-text">一定要在beforeCreate这个生命周期里面通过this获取data中的属性能不能做到</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="toc-text">同步和异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%B7%A8%E5%9F%9F%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3"><span class="toc-text">什么是跨域，怎么解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-text">清除浮动有哪几种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-text">Promise是什么，能做什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Promise-all-%E5%92%8C-Promise-race-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Promise.all 和 Promise.race 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E8%A2%AB%E7%BB%A7%E6%89%BF%E7%9A%84CSS%E6%A0%B7%E5%BC%8F%E4%B8%BE%E4%BE%8B"><span class="toc-text">能被继承的CSS样式举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#border%E7%9A%84%E9%BB%98%E8%AE%A4%E9%A2%9C%E8%89%B2%E6%98%AF%E4%BB%8E%E5%93%AA%E6%9D%A5%E7%9A%84"><span class="toc-text">border的默认颜色是从哪来的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E5%8E%BB%E5%92%8C%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6%EF%BC%88-component-router-view%EF%BC%89%E7%9A%84%E5%86%85%E5%AE%B9"><span class="toc-text">Vue中去和缓存组件（ component router-view）的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E7%9A%84%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="toc-text">JS的执行机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-text">计算机网络七层模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-router%E7%9A%84params%E5%8F%82%E6%95%B0%E5%92%8Cquery%E5%8F%82%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Vue-router的params参数和query参数的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">Vuex的缺点，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie%EF%BC%8CSessionStorage%EF%BC%8ClocalStorage%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">Cookie，SessionStorage，localStorage的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%B7%B3%E5%87%BAfor%E5%BE%AA%E7%8E%AF"><span class="toc-text">怎么跳出for循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81"><span class="toc-text">防抖和节流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包的使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await"><span class="toc-text">async&#x2F;await</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS%E5%AE%9E%E7%8E%B0%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="toc-text">JS实现常见的排序算法以及优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8"><span class="toc-text">常见的浏览器内核</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3JS%E4%B8%AD%E7%9A%84this"><span class="toc-text">如何理解JS中的this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B9%E6%B3%95"><span class="toc-text">数组去重有哪些方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS%E5%8A%A8%E7%94%BB%E4%B8%8EJS%E5%8A%A8%E7%94%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">CSS动画与JS动画的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%9B%9E%E6%B5%81%E4%B8%8E%E9%87%8D%E7%BB%98"><span class="toc-text">页面的回流与重绘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%86%92%E6%B3%A1%E4%B8%8E%E6%8D%95%E8%8E%B7"><span class="toc-text">事件的冒泡与捕获</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1"><span class="toc-text">Vue中组件间的通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0v-model"><span class="toc-text">如何实现v-model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E9%9A%90%E8%97%8F%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">怎么隐藏一个元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%BF%AB%E9%80%9F%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%80%E5%A4%A7%E7%9A%84%E6%95%B0%E5%92%8C%E7%AC%AC%E4%B8%89%E5%A4%A7%E7%9A%84%E6%95%B0"><span class="toc-text">怎么快速找到第一大的数和第三大的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E7%9A%84%E5%AE%89%E5%85%A8%E9%98%B2%E6%8A%A4"><span class="toc-text">网页的安全防护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8-important"><span class="toc-text">为什么不推荐使用 !important</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">前端性能优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEO"><span class="toc-text">SEO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E8%BE%93%E5%85%A5URL%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">从输入URL到页面显示的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Vue的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nextTick%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">nextTick是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%BF%E7%94%A8%E7%9A%84%E8%83%8C%E5%90%8E%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="toc-text">new关键字使用的背后具体操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8F%E5%BE%AE%E4%BB%BB%E5%8A%A1"><span class="toc-text">宏微任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Diff%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84key%EF%BC%88%E8%83%BD%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E9%9A%8F%E6%9C%BARandom%E7%9A%84key%EF%BC%89"><span class="toc-text">Diff算法中的key（能不能使用随机Random的key）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84forEach-map-fliter-every-some-%E6%96%B9%E6%B3%95%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="toc-text">数组的forEach(), map(), fliter() ,every(), some()方法的不同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%89%81%E5%B9%B3%E5%8C%96"><span class="toc-text">数组扁平化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84reduce-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的reduce()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84splice-%E6%96%B9%E6%B3%95%E5%92%8Cslice-%E6%96%B9%E6%B3%95"><span class="toc-text">数组的splice()方法和slice()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96"><span class="toc-text">函数柯里化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML5%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">HTML5新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3%E6%96%B0%E5%A2%9E%E6%A0%87%E7%AD%BE"><span class="toc-text">CSS3新增标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E6%95%B0%E6%98%AF%E5%90%A6%E4%B8%BA%E6%95%B4%E6%95%B0"><span class="toc-text">怎么判断一个数是否为整数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%96%B0%E5%A2%9E%EF%BC%8CMap%E5%92%8CweakMap"><span class="toc-text">ES6新增，Map和weakMap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rem%E5%92%8Cvw"><span class="toc-text">rem和vw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F"><span class="toc-text">怎么解决跨域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">闭包是什么，使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-text">防抖和节流实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-text">浏览器性能优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96"><span class="toc-text">前端工程化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E4%B8%8E%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">箭头函数与普通函数的区别</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-18</div>
+        <a href="/2022/06/18/设计模式/"><div class="recent-posts-item-content">设计模式</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-15</div>
+        <a href="/2022/06/15/微信小程序-1/"><div class="recent-posts-item-content">微信小程序-1</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-05-31</div>
+        <a href="/2022/05/31/前端小常识/"><div class="recent-posts-item-content">前端小常识</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-05-26</div>
+        <a href="/2022/05/26/bootstrap栅格源码分析/"><div class="recent-posts-item-content">bootstrap栅格源码分析</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
