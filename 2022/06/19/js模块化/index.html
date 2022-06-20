@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>JS模块化</title>
+  
+  
+  <meta property="og:title" content="JS模块化">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/19/js%E6%A8%A1%E5%9D%97%E5%8C%96/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="_NULL0的个人博客">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-06-19">
+  <meta property="og:article:modified_time" content="2022-06-20">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      JS模块化
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-06-19T07:06:35.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-06-19</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/webpack/" class="post-meta-link">webpack</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>2.4k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>将一个复杂的程序文件按照业务逻辑划分为多个单个文件，最终再组合在一起，拆分的文件就是模块，模块内部的数据是私有的，只是向外部暴露一些方法与外部其他模块通信；</p>
+<h3 id="模块化的优点"><a href="#模块化的优点" class="headerlink" title="模块化的优点"></a>模块化的优点</h3><ul>
+<li>避免命名冲突</li>
+<li>更好的分离，实现按需引入加载</li>
+<li>提高代码复用性和提高解耦性</li>
+</ul>
+<h3 id="模块化的解决方案"><a href="#模块化的解决方案" class="headerlink" title="模块化的解决方案"></a>模块化的解决方案</h3><ul>
+<li>CommonJS（可运行再服务端node和浏览器端）</li>
+<li>ES6（只能运行在浏览器端）</li>
+</ul>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><ol>
+<li>CommonJS的模块化代码可以直接运行在服务端运行；</li>
+<li>CommonJS的模块化代码需要经过browserify编译后才能运行在浏览器端；</li>
+</ol>
+<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//向外暴露模块 --- export</span>
+
+方法<span class="token number">1</span>： module<span class="token punctuation">.</span>exports <span class="token operator">=</span> value
+
+方法<span class="token number">2</span>： exports<span class="token punctuation">.</span>xxx <span class="token operator">=</span> value
+
+<span class="token comment">//引入模块 --- require</span>
+
+引入自定义模块 ： <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./xxx'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//xxx为自定义模块文件所在的位置</span>
+引入第三方模块 ： <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'xxx'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// xxx为第三方模块的名字</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在CommonJS中，<code>module.exports</code> 和 <code>exports</code> 是存放在栈中的引用，引用的内容是存放在堆中的数据，也就是说每一个模块化文件都有自己的<code>module.exports</code> 和 <code>exports</code>，初始情况下它们引用的是堆内存中的一个空对象；如下图：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619163522161.png" alt="image-20220619163522161" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619163522161.png" class="lozad post-image"></p>
+<p>测试如下</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619163925778.png" alt="image-20220619163925778" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619163925778.png" class="lozad post-image"></p>
+<h3 id="暴露和引入自定义模块"><a href="#暴露和引入自定义模块" class="headerlink" title="暴露和引入自定义模块"></a>暴露和引入自定义模块</h3><p>使用方法一向外暴露一个方法</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"LK"</span><span class="token punctuation">;</span>
+
+<span class="token comment">//使用方法1向外暴露一个方法,在这里将会在队中新开辟一片内存空间，并将module.exports的引用值指向此新对象</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结果如下</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619164908116.png" alt="image-20220619164908116" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619164908116.png" class="lozad post-image"></p>
+<p>可知以上的方法<code>module.exports = &#123;&#125;</code>将会是重新划分一个新对象，但是如果使用 <code>module.exports.xxx = value</code>，将会在原来初始的空对象中添加属性，此时<code>module.exports </code>和<code>exports</code>指向的仍然是同一个对象，如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//在原有的暴露空对象中追加属性</span>
+module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function-variable function">getName</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结果如下</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619165540980.png" alt="image-20220619165540980" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619165540980.png" class="lozad post-image"></p>
+<p>使用方法2进行方法暴露</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> msg <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+
+<span class="token comment">//使用方法2向外暴露方法,此时将会在堆中重新开辟空间存放暴露的方法</span>
+exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">getMsg</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结构如下：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619170204139.png" alt="image-20220619170204139" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619170204139.png" class="lozad post-image"></p>
+<p>但如果使用<code>exporst.xxx = value</code>将会在原来初始的空对象上添加属性，如下</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">const</span> msg <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+<span class="token comment">//在初始的空对象上添加属性</span>
+exports<span class="token punctuation">.</span><span class="token function-variable function">getMsg</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>exports<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结果如下：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619170534299.png" alt="image-20220619170534299" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619170534299.png" class="lozad post-image"></p>
+<p>在app.js文件中引入module1.js文件，如下</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//一般在此文件中按需引入js模块，进行合并</span>
+
+<span class="token keyword">const</span> module1 <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./module1'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module1<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出 LK</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="引入第三方模块"><a href="#引入第三方模块" class="headerlink" title="引入第三方模块"></a>引入第三方模块</h3><p>首先在当前文件夹下初始化npm环境，输入<code>npm init --yes</code>生成包的说明文件；</p>
+<p>安装第三方库 <code>cnpm install uniq --save</code></p>
+<p>之后再<code>app.js</code>文件中引入此第三方库</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//引入第三方库uniq</span>
+<span class="token keyword">const</span> uniq <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'uniq'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">uniq</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>运行结果如下</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619173652951.png" alt="image-20220619173652951" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619173652951.png" class="lozad post-image"></p>
+<p>从结果可知uniq是一个具有去重排序的函数，但是其排序只是字典排序，如下</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619173839776.png" alt="image-20220619173839776" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619173839776.png" class="lozad post-image"></p>
+<h3 id="CommonJS运行在浏览器端"><a href="#CommonJS运行在浏览器端" class="headerlink" title="CommonJS运行在浏览器端"></a>CommonJS运行在浏览器端</h3><p>commonJS中的<code>require</code>命令在浏览器中是不可识别的，直接使用将报错，如下，新建<code>index.html</code>文件，在里面引入<code>app.js</code>文件，如下图：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619224104068.png" alt="image-20220619224104068" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220619224104068.png" class="lozad post-image"></p>
+<p>此时，需要使用<code>browserify</code>将使用commonjs规范的文件编译成浏览器可以识别的文件，步骤如下</p>
+<ul>
+<li>npm全局安装browserify 命令： <code>cnpm i browserify -g</code></li>
+<li>安装完成后，进入需要编译文件 的所在目录</li>
+<li>控制台输入 <code>browserify app.js -o build.js</code></li>
+</ul>
+<p>此时，在<code>index.html</code>文件中引入<code>build.js</code>文件，网页即可正常运行（其中 -o 是output的意思，一般会把编译后的文件命名为build.js）</p>
+<h2 id="ES6模块化"><a href="#ES6模块化" class="headerlink" title="ES6模块化"></a>ES6模块化</h2><p>ES6提供的模块化语法只能在浏览器端运行，但是浏览器并不认识ES6语法，需要先使用<code>babel</code>将所有使用了ES5语法的js文件转换成CJS（CommonJS）语法的文件，之后再使用<code>browserify</code>将转换后的CJS入口文件<code>app.js</code>转换成浏览器可识别的<code>build.js</code>文件，Babel使用方法如下：</p>
+<ul>
+<li>先全局安装babel-cli（command line interface）<code>npm i babel-cli -g</code>;</li>
+<li>局部安装babel-preset-es2015 <code>cnpm install babel-preset-es2015</code>;</li>
+<li>再使用ES6模块化的文件根目录下新建<code>.babelrc</code>文件，其中rc代表 run control（运行时控制），写入如下代码：</li>
+</ul>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token punctuation">&#123;</span>
+	<span class="token string">"presets"</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token string">"es2015"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>经过以上步骤，就可开始使用ES6模块化语法，新建src文件夹，在里面书写页面文件和js文件；</p>
+<h3 id="ES6模块化语法-—-分别暴露"><a href="#ES6模块化语法-—-分别暴露" class="headerlink" title="ES6模块化语法  — 分别暴露"></a>ES6模块化语法  — 分别暴露</h3><p>新建<code>module1.js</code>文件，使用ES6模块化语法分别暴露模块，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//此文件使用ES6分别暴露语法暴露模块</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"ZK"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> msg <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">getMsg</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>新建<code>app.js</code>文件，使用ES6模块化语法引入模块，代码如下</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//此文件为使用ES6模块化语法的合并文件</span>
+
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span> name<span class="token punctuation">,</span>msg<span class="token punctuation">,</span>getName<span class="token punctuation">,</span>getMsg <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">"./module1"</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">getMsg</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>至此，页面是不能正确使用<code>app.js</code>文件的，在<code>index.html</code>文件中引入<code>app.js</code>脚本，报错如下：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620112546226.png" alt="image-20220620112546226" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620112546226.png" class="lozad post-image"></p>
+<p>可知，浏览器是不能直接识别ES6的模块化语法的，现在开始使用<code>babel</code>将src文件夹下所有使用了ES6模块化语法的js文件转换成CJS语法的文件，命令如下：<code>babel ./src -d ./build </code>,将转换后的所有js放在同目录下的build文件夹，此时build文件夹中的文件任不能被浏览器使用，需要使用<code>browserify</code>将入口文件<code>app.js</code>进行转换，输入如下命令：<code>browserify ./build/app.js -o ./build/build.js</code>; 之后再<code>index.html</code>文件中引入转换后的<code>build.js</code>文件，运行解果如下：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620150724808.png" alt="image-20220620150724808" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620150724808.png" class="lozad post-image"></p>
+<p>注意：分别暴露import接受时使用{ }，并不能直接把它理解成为解构赋值（CJS语法在引入时可以使用解构辅助的语法，因为其等号右边是对象，但是ES6语法不是）；</p>
+<p>延申一下分别暴露的另外两种形式：</p>
+<ul>
+<li>当多个模块分别暴露的内容命名冲突时，采用如下重命名方案：</li>
+</ul>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span>data<span class="token punctuation">,</span>msg<span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'./module1'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span>data <span class="token keyword">as</span> data2<span class="token punctuation">,</span> msg <span class="token keyword">as</span> msg2<span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'./module2'</span><span class="token punctuation">;</span>
+
+<span class="token comment">//将module2中与module1中重名的内容使用 as 关键字重命名</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>直接将分别暴露的内容使用对象形式接受，并重命名：</li>
+</ul>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> module1 <span class="token keyword">from</span> <span class="token string">'./module1'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module1<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620153442615.png" alt="image-20220620153442615" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620153442615.png" class="lozad post-image"></p>
+<h3 id="ES6模块化语法-—-统一暴露"><a href="#ES6模块化语法-—-统一暴露" class="headerlink" title="ES6模块化语法 — 统一暴露"></a>ES6模块化语法 — 统一暴露</h3><p>src文件中新建<code>module2.js</code>文件，在文件中使用统一暴露语法暴露模块，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//此文件使用 统一暴露语法暴露模块</span>
+
+<span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"LK"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> person <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    age<span class="token operator">:</span> <span class="token number">20</span><span class="token punctuation">,</span>
+    sex<span class="token operator">:</span> <span class="token string">"男"</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">function</span> <span class="token function">getPerson</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">//统一暴露，注意统一暴露时使用的&#123;&#125; ,并不意味着暴露就是一个对象，这只是ES6语法而已，</span>
+<span class="token comment">//在引入统一暴露的模块时，引入的方法和分别暴露引入方法一致</span>
+<span class="token comment">//统一暴露于分别暴露的区别在于，可以在最后批量暴露， 且在暴露的时候可以进行重命名</span>
+
+<span class="token comment">//统一暴露的简写形式</span>
+<span class="token keyword">export</span> <span class="token punctuation">&#123;</span>name<span class="token punctuation">,</span>person<span class="token punctuation">,</span>getPerson<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">//统一暴露的完整写法,在暴露的时候可进行重命名</span>
+<span class="token comment">// export &#123;name as a, person as p ,getPerson as funP&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>app.js</code>文件中引入module2模块，并重新转换：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//引入统一暴露的模块,方法和引入分别暴露的三种方法一致</span>
+<span class="token keyword">import</span> <span class="token punctuation">&#123;</span>name<span class="token punctuation">,</span>person<span class="token punctuation">,</span>getPerson<span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'./module2'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>person<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">getPerson</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620161815192.png" alt="image-20220620161815192" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620161815192.png" class="lozad post-image"></p>
+<p>补充：引入统一暴露的模块方法和引入分别暴露模块的方法一致，不再赘述；</p>
+<h3 id="ES6模块化语法-—-默认暴露"><a href="#ES6模块化语法-—-默认暴露" class="headerlink" title="ES6模块化语法 — 默认暴露"></a>ES6模块化语法 — 默认暴露</h3><p>在src文件件中新建<code>module3.js</code>，在此文件中使用默认暴露语法暴露模块，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//此文件使用默认暴露语法暴露模块</span>
+
+<span class="token comment">//默认暴露 使用 export default 关键字,默认暴露在一个文件中只能使用一次</span>
+
+<span class="token comment">//默认暴露 export default 关键字后需要接表达式</span>
+
+<span class="token comment">/**
+ * 
+ * 错误形式
+ * export default const a = 1;
+ * 
+ * 以上的暴露形式是错误的,相当于在接受时 xxx = const a = 1;
+ * 
+ * 应采取如下形式:
+ * export default 1;
+ *  以上形式,相当于在接受时 xxx  = 1;
+ * 
+ * 或则在最后再进行默认暴露,如下
+ * 
+ * const a = 1;
+ * export default a;
+ */</span>
+
+
+<span class="token comment">//使用默认暴露向外暴露数据</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span>
+    name<span class="token operator">:</span> <span class="token string">"LK"</span><span class="token punctuation">,</span>
+    age<span class="token operator">:</span> <span class="token number">22</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>再<code>app.js</code>文件中引入默认暴露的模块，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//引入默认暴露的模块,引入默认暴露的模块时,直接定义一个变量接收</span>
+<span class="token keyword">import</span> module3 <span class="token keyword">from</span> <span class="token string">'./module3'</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module3<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620163638308.png" alt="image-20220620163638308" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620163638308.png" class="lozad post-image"></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在CJS中，若在一个模块中同时使用<code>module.exports</code> 和 <code>exports</code> ，将会优先使用前者，但是ES6语法中，可以同时使用多种暴露方法，在src文件夹中新建<code>module4.js</code>文件，同时使用多种暴露方法，如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//在此文件中同时使用ES6中的多种模块化语法</span>
+
+<span class="token comment">//分别暴露</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token string">"LK"</span><span class="token punctuation">;</span>
+
+<span class="token comment">//统一暴露</span>
+<span class="token keyword">function</span> <span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">export</span> <span class="token punctuation">&#123;</span>sayHello<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">//默认暴露</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span>
+    id<span class="token operator">:</span> <span class="token string">"001"</span><span class="token punctuation">,</span>
+    work<span class="token operator">:</span> <span class="token string">"WEB"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在<code>app.js</code>文件中使用如下方法引入模块：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//引入同时使用多种暴露方法的模块</span>
+<span class="token keyword">import</span> module4<span class="token punctuation">,</span><span class="token punctuation">&#123;</span>name<span class="token punctuation">,</span>sayHello<span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'./module4'</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>module4<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sayHello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620173916359.png" alt="image-20220620173916359" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220620173916359.png" class="lozad post-image"></p>
+
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/19/js%E6%A8%A1%E5%9D%97%E5%8C%96/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/06/19/js%E6%A8%A1%E5%9D%97%E5%8C%96/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/06/18/设计模式/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">设计模式 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-text">模块化的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">模块化的解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS"><span class="toc-text">CommonJS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E5%92%8C%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97"><span class="toc-text">暴露和引入自定义模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="toc-text">引入第三方模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF"><span class="toc-text">CommonJS运行在浏览器端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">ES6模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E5%88%86%E5%88%AB%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法  — 分别暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E7%BB%9F%E4%B8%80%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 统一暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E9%BB%98%E8%AE%A4%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 默认暴露</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-text">补充</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>55</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>14</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>4</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-text">模块化的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">模块化的解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS"><span class="toc-text">CommonJS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E5%92%8C%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97"><span class="toc-text">暴露和引入自定义模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="toc-text">引入第三方模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF"><span class="toc-text">CommonJS运行在浏览器端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">ES6模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E5%88%86%E5%88%AB%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法  — 分别暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E7%BB%9F%E4%B8%80%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 统一暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E9%BB%98%E8%AE%A4%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 默认暴露</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-text">补充</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Vue原理">
+        <div class="categories-list-item">
+          Vue原理
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/服务器">
+        <div class="categories-list-item">
+          服务器
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/BootStrap">
+        <div class="categories-list-item">
+          BootStrap
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/微信小程序">
+        <div class="categories-list-item">
+          微信小程序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/设计模式">
+        <div class="categories-list-item">
+          设计模式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/webpack">
+        <div class="categories-list-item">
+          webpack
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+    <a href="\tags\CentOS8" title="CentOS8"><div class="tags-list-item">CentOS8</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-text">模块化的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">模块化的解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommonJS"><span class="toc-text">CommonJS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E5%92%8C%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97"><span class="toc-text">暴露和引入自定义模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="toc-text">引入第三方模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AF"><span class="toc-text">CommonJS运行在浏览器端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96"><span class="toc-text">ES6模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E5%88%86%E5%88%AB%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法  — 分别暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E7%BB%9F%E4%B8%80%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 统一暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES6%E6%A8%A1%E5%9D%97%E5%8C%96%E8%AF%AD%E6%B3%95-%E2%80%94-%E9%BB%98%E8%AE%A4%E6%9A%B4%E9%9C%B2"><span class="toc-text">ES6模块化语法 — 默认暴露</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-text">补充</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-19</div>
+        <a href="/2022/06/19/js模块化/"><div class="recent-posts-item-content">JS模块化</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-18</div>
+        <a href="/2022/06/18/设计模式/"><div class="recent-posts-item-content">设计模式</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-15</div>
+        <a href="/2022/06/15/微信小程序-1/"><div class="recent-posts-item-content">微信小程序-1</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-05-31</div>
+        <a href="/2022/05/31/前端小常识/"><div class="recent-posts-item-content">前端小常识</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
