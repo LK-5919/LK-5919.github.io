@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html  lang="zh-CN" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#fff" id="theme-color">
+  <meta name="description" content="_NULL0的个人博客">
+  <link rel="icon" href="/img/blog.png">
+  <title>Element-ui组件的使用</title>
+  
+  
+  <meta property="og:title" content="Element-ui组件的使用">
+  
+  
+  <meta property="og:url" content="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/07/17/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/index.html">
+  
+  
+  <meta property="og:img" content="/img/touxiang.png">
+  
+  
+  <meta property="og:img" content="记录下遇到的一些小问题">
+  
+  
+  <meta property="og:type" content="article">
+  <meta property="og:article:published_time" content="2022-07-17">
+  <meta property="og:article:modified_time" content="2022-07-17">
+  <meta property="og:article:author" content="NULL0">
+  
+  
+  <meta property="og:article:tag" content="WEB前端">
+  
+  
+  
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+    var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+      }
+    };
+    setDarkmode();
+  </script>
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+  <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+  <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  <link rel="prefetch" href="//unpkg.com/valine/dist/Valine.min.js" as="script">
+  
+  
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+
+  
+  
+<link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+
+  
+  
+  
+  
+  
+  
+  <link href="/js/lib/prism/prism-tomorrow.min.css" rel="stylesheet" data-prism="prism-tomorrow">
+  
+  
+  
+<link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="wrapper">
+    
+    <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+      <img class="navbar-logo-img" src="/img/blog.png" alt="logo">
+      
+      <span class="navbar-logo-dsc">Coding</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+    <a href="/" class="navbar-menu-item">
+    
+    首页
+    
+    </a>
+    
+    <a href="/archives" class="navbar-menu-item">
+    
+    归档
+    
+    </a>
+    
+    <a href="/tags" class="navbar-menu-item">
+    
+    标签
+    
+    </a>
+    
+    <a href="/categories" class="navbar-menu-item">
+    
+    分类
+    
+    </a>
+    
+    <a href="/links" class="navbar-menu-item">
+    
+    友链
+    
+    </a>
+    
+    <a class="navbar-menu-item darknavbar" id="dark"><i class="iconfont icon-weather"></i></a>
+    <a class="navbar-menu-item searchnavbar" id="search"><i class="iconfont icon-search" style="font-size: 1.2rem; font-weight: 400;"></i></a>
+  </div>
+</nav>
+    
+    <div id="local-search" style="display: none;">
+      <input class="navbar-menu-item" id="search-input" placeholder="请输入搜索内容...">
+      <div id="search-content"></div>
+    </div>
+    
+    <div class="section-wrap">
+      <div class="container">
+        <div class="columns">
+          <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Element-ui组件的使用
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-07-17T07:17:10.000Z">
+      <i class="iconfont icon-calendar" style="margin-right: 2px;"></i>
+      <span>2022-07-17</span>
+    </time>
+    
+    <span class="dot"></span>
+    
+    <a href="/categories/开发日记/" class="post-meta-link">开发日记</a>
+    
+    
+    
+    <span class="dot"></span>
+    <span>3.5k 字</span>
+    
+  </div>
+  
+  <div class="post-meta post-show-meta" style="margin-top: -10px;">
+    <div style="display: flex; align-items: center;">
+      <i class="iconfont icon-biaoqian" style="margin-right: 2px; font-size: 1.15rem;"></i>
+      
+      
+        <a href="/tags/WEB前端/" class="post-meta-link">WEB前端</a>
+      
+    </div>
+  </div>
+  
+  </header>
+  <div id="section" class="post-content">
+    <h2 id="题记"><a href="#题记" class="headerlink" title="题记"></a>题记</h2><p>此文用于记录在使用Element-ui中遇到的一下问题。</p>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p>在开发中有使用到<code>el-upload</code>组件进行文件上传，在这其中在上传图片时，小图片采取的是通过将本地图片转为Base64格式再上传到后端数据库进行存储，还有另外一种是直接将图片以<code>file</code>的格式上传到后端服务器，服务器储存文件成功后向前端返回图片存储的在线地址，之后提交表单时再将这个在线地址一起提交保存到服务器。在这里先来讲述一下<code>el-upload</code>组件的简单使用；</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-col</span> <span class="token attr-name">:span</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>12<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-form-item</span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>器械图标<span class="token punctuation">"</span></span> <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>machinePicBase64<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-upload</span>
+             <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>#<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:headers</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>myHeaders<span class="token punctuation">"</span></span>
+             <span class="token attr-name">multiple</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span>
+             <span class="token attr-name">list-type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>picture-card<span class="token punctuation">"</span></span>
+             <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>.jpg, .png<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:http-request</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>imageToBase64<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:before-upload</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>beforeUpload<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:limit</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:file-list</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>fileList<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:on-remove</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>handleRemove<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>&#123; disabled: uploadDisabled &#125;<span class="token punctuation">"</span></span>
+             <span class="token attr-name">:on-success</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>handleAvatarSuccess<span class="token punctuation">"</span></span>
+           <span class="token punctuation">></span></span>
+             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>el-icon-plus<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">></span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-upload</span><span class="token punctuation">></span></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-form-item</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-col</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>el-upload</code>组件的一些参数使用：</p>
+<ul>
+<li><code>list-type</code>: 为文件列表的类型，string — text/picture/picture-card；</li>
+<li><code>accept</code>: 接受上传的文件类型；</li>
+<li><code>limit</code>: 最大允许上传个数;</li>
+<li><code>multiple</code>: 是否支持多选文件;</li>
+<li><code>before-upload</code>: 上传文件之前的钩子，参数为上传的文件，若返回 false 或者返回 Promise 且被 reject，则停止上传；</li>
+<li><code>file-list</code>: 上传的文件列表，数组类型；</li>
+<li><code>action</code>：必选参数，为文件上传的后端地址，当使用默认上传行为的时候将走此后端地址；</li>
+<li><code>headers</code>: 设置默认上传的请求头部，为Object类型；</li>
+<li><code>http-request</code>: 值定义自定义上传行为，此值将覆盖默认上传方法；</li>
+<li><code>on-remove</code>: 文件列表移除文件时的钩子，默认传入file和fileList参数；</li>
+<li><code>on-success</code>: 文件上传成功时的钩子，默认传入response, file, fileList参数；</li>
+</ul>
+<p>在上传文件的时候我们可以判断文件的类型和文件的大小，在这里已经使用了<code>accept</code>来校验上传的文件类型，所以我们可以在<code>before-upload</code>钩子函数中部检验文件的大小，方法如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"> <span class="token comment">//上传图片前的钩子--检验图片大小</span>
+<span class="token comment">//此钩子函数默认传入file参数</span>
+    <span class="token function">beforeUpload</span><span class="token punctuation">(</span><span class="token parameter">file</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">const</span> isLt2M <span class="token operator">=</span> file<span class="token punctuation">.</span>size <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>isLt2M<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$message<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">'上传图片大小不能超过 2MB!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//当文件大小符合大小时，可往fileList数组中放入此上传的文件；（此操作不是必要）</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>fileList<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span>row<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> isLt2M<span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在上传小图片转为base64存储时，不需要上传到服务器，此时就可以不使用默认上传方法，此时<code>action=&#39;#&#39;</code>，在<code>http-request=&#39;imageToBase64&#39;</code>定义自定义上传方法，其中<code>imageToBase64</code>为在<code>method</code>中自己定义的方法。本地图片转base64的方法如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"> <span class="token comment">// 自定义上传方法 处理图片转化为base64</span>
+<span class="token comment">//默认传入file参数</span>
+    <span class="token function">imageToBase64</span><span class="token punctuation">(</span><span class="token parameter">file</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">let</span> reader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileReader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      reader<span class="token punctuation">.</span><span class="token function">readAsDataURL</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span>file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      reader<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">e</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//去除前缀--base64有个统一的前缀 'data:image/png;base64,'</span>
+        <span class="token comment">//在这里只截取保存逗号后面的字符串</span>
+        <span class="token keyword">let</span> img_base64 <span class="token operator">=</span> e<span class="token punctuation">.</span>target<span class="token punctuation">.</span>result<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>dialogData<span class="token punctuation">.</span>machinePicBase64 <span class="token operator">=</span> img_base64<span class="token punctuation">;</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在上传大图片的时候，可采用默认上传行为<code>:action=&#39;IP&#39;</code>，在这里<code>IP</code>为在data中自定义的地址接口，在这里有个必须要注意的点，在项目中，我们的每次请求一般都会在请求头中添加token后再进行发送，在我的这个项目中也是用到了axios的请求拦截器统一进行请求头添加token，但是我发现<code>el-upload</code>的默认上传方法并不是走我封装好的axios，也就是说默认上传方法并不会主动添加token请求头，这就需要我们在<code>:headers</code>中配置默认上传方法需要携带的请求头，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+           fileList<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment">//文件上传列表</span>
+           <span class="token constant">IP</span><span class="token operator">:</span> <span class="token string">'/api/upload'</span><span class="token punctuation">,</span> <span class="token comment">//自己后端的文件上传地址</span>
+           myHeaders<span class="token operator">:</span> <span class="token punctuation">&#123;</span> 
+               token<span class="token operator">:</span> sessionStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">"token"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                       <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+       <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+methods<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+   <span class="token comment">//上传教师头像成功的回调</span>
+   <span class="token function">handleAvatarSuccess</span><span class="token punctuation">(</span><span class="token parameter">res<span class="token punctuation">,</span> file</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+     <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>code <span class="token operator">==</span> <span class="token string">'0'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+         <span class="token comment">//将服务器返回的在线地址赋给表单数据</span>
+       <span class="token keyword">this</span><span class="token punctuation">.</span>dialogData<span class="token punctuation">.</span>avatarUrl <span class="token operator">=</span> res<span class="token punctuation">.</span>data
+     <span class="token punctuation">&#125;</span>
+   <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token comment">// 移除图片回调--清空fileList</span>
+   <span class="token function">handleRemove</span><span class="token punctuation">(</span><span class="token parameter">file<span class="token punctuation">,</span> fileList</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+     <span class="token keyword">this</span><span class="token punctuation">.</span>fileList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+   <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="文件上传-—-限制只上传一个文件"><a href="#文件上传-—-限制只上传一个文件" class="headerlink" title="文件上传 — 限制只上传一个文件"></a>文件上传 — 限制只上传一个文件</h2><p>项目中有一个需求是需要在上传一个文件成功后隐藏上传按钮，在此我才用判断fileList数组当前是否为空，当数组长度不为0时，通过css样式将上传按钮隐藏，当移除已经上传 的图片即清空fileList时再渲染上传按钮，所以需要给<code>el-upload</code>组件绑定一个动态类<code>:class=&#39;&#123; disabled: uploadDisabled &#125;&#39;</code>，通过计算属性及时判断当前的fileList数组长度来返回disabled的值，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js">computed<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token function-variable function">uploadDisabled</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>fileList<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中动态类样式为：</p>
+<pre class="line-numbers language-less" data-language="less"><code class="language-less"><span class="token comment">//在这里因为我的el-upload组件再dialog的表单中，故需要添加 /deep/ 使样式生效</span>
+<span class="token selector">/deep/ .disabled</span> <span class="token punctuation">&#123;</span>
+  <span class="token selector">.el-upload--picture-card</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="文件上传-—-图片回显"><a href="#文件上传-—-图片回显" class="headerlink" title="文件上传 — 图片回显"></a>文件上传 — 图片回显</h2><p>在项目中，有一个需求是当点击表单编辑时，需要再dialog中表单的<code>el-upload</code>组件回显之前上传成功的图片，在这里可以给<code>el-upload</code>组件的fileList中放入图片的在线url或者base64编码进行图片的回显，代码如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">// 编辑表单方法</span>
+<span class="token comment">//data为传入编辑表单的数据</span>
+    <span class="token function">modify</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token comment">//编辑时图片回显</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>fileList<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+        url<span class="token operator">:</span> <span class="token string">'data:image/jpg;base64,'</span> <span class="token operator">+</span> data<span class="token punctuation">.</span>icon<span class="token punctuation">,</span> <span class="token comment">//这里也可以是图片的在线地址</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//其他数据操作，在此省略</span>
+      <span class="token operator">...</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>dialog<span class="token punctuation">.</span>visible <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="表格展开"><a href="#表格展开" class="headerlink" title="表格展开"></a>表格展开</h2><p>在项目中有涉及到一个问卷的后台管理，需要实现后台对问卷题目的展示，题目的结构大致是题目加选项，所以需要在表格中遍历问卷的每一个题目，其中每一行题目信息又可以展开，展开的子表格中也是遍历展示每一个题目选项，表格的页面代码如下：</p>
+<pre class="line-numbers language-html" data-language="html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table</span>
+      <span class="token attr-name">:data</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>tableData<span class="token punctuation">"</span></span>
+    <span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">#tableSlot</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 展开子表格 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>expand<span class="token punctuation">"</span></span> <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">slot-scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>props<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table</span> <span class="token attr-name">:data</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>props.row.itemModelDtoList<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>id<span class="token punctuation">"</span></span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>选项编号<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>题目选项<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>memo<span class="token punctuation">"</span></span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>选项描述<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sort<span class="token punctuation">"</span></span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>选项排序<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+              <span class="token comment">&lt;!-- 图片 --></span>
+               <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span> <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span> <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>选项图片<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">slot-scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>scope<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-image</span>
+                    <span class="token attr-name">:src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>data:image/png;base64,<span class="token punctuation">'</span> + scope.row.icon<span class="token punctuation">"</span></span>
+                    <span class="token attr-name">fit</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>contain<span class="token punctuation">"</span></span>
+                    <span class="token style-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token style language-css"><span class="token property">width</span><span class="token punctuation">:</span> 40%</span><span class="token punctuation">"</span></span></span>
+                  <span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-image</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span>
+                <span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+              <span class="token comment">&lt;!-- 子表操作栏 --></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+                <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+                <span class="token attr-name">:label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$t(<span class="token punctuation">'</span>commons.operate<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span>
+                <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>220<span class="token punctuation">"</span></span>
+              <span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">slot-scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>scope<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-button</span>
+                    <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>danger<span class="token punctuation">"</span></span>
+                    <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>el-icon-delete<span class="token punctuation">"</span></span>
+                    <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mini<span class="token punctuation">"</span></span>
+                    <span class="token attr-name">plain</span>
+                    <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>deleteItem(scope.row)<span class="token punctuation">"</span></span>
+                    <span class="token punctuation">></span></span>&#123;&#123; $t('commons.delete') &#125;&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-button</span>
+                  <span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table</span><span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+         <span class="token comment">&lt;!-- 展开的子表结束 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+          <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>index<span class="token punctuation">"</span></span>
+          <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>50<span class="token punctuation">"</span></span>
+          <span class="token attr-name">:label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$t(<span class="token punctuation">'</span>commons.order<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span>
+        <span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 编号 --></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+          <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+          <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>id<span class="token punctuation">"</span></span>
+          <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>题目编号<span class="token punctuation">"</span></span>
+        <span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 问卷题目 --></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+          <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+          <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span>
+          <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>题目名称<span class="token punctuation">"</span></span>
+        <span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 问卷题目排序 --></span>
+         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+          <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+          <span class="token attr-name">prop</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>sort<span class="token punctuation">"</span></span>
+          <span class="token attr-name">label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>题目排序<span class="token punctuation">"</span></span>
+        <span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 操作栏 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-table-column</span>
+          <span class="token attr-name">align</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>center<span class="token punctuation">"</span></span>
+          <span class="token attr-name">:label</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$t(<span class="token punctuation">'</span>commons.operate<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span>
+          <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>220<span class="token punctuation">"</span></span>
+        <span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span> <span class="token attr-name">slot-scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>scope<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-button</span>
+              <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>primary<span class="token punctuation">"</span></span>
+              <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>el-icon-edit<span class="token punctuation">"</span></span>
+              <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mini<span class="token punctuation">"</span></span>
+              <span class="token attr-name">plain</span>
+              <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>modify(scope.row)<span class="token punctuation">"</span></span>
+              <span class="token punctuation">></span></span>&#123;&#123; $t('commons.modify') &#125;&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-button</span>
+            <span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>el-button</span>
+              <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>danger<span class="token punctuation">"</span></span>
+              <span class="token attr-name">icon</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>el-icon-delete<span class="token punctuation">"</span></span>
+              <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mini<span class="token punctuation">"</span></span>
+              <span class="token attr-name">plain</span>
+              <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>deleteQuestion(scope.row)<span class="token punctuation">"</span></span>
+              <span class="token punctuation">></span></span>&#123;&#123; $t('commons.delete') &#125;&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-button</span>
+            <span class="token punctuation">></span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table-column</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>el-table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>实现的效果类似下图：</p>
+<p><img src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220717174835407.png" alt="image-20220717174835407" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://lk-blog-1304200811.cos.ap-guangzhou.myqcloud.com/img/image-20220717174835407.png" class="lozad post-image"></p>
+<p>不过其中展开的是表格结构，图中的是表单结构，利用的是element-ui中提供的<code>type=&quot;expand&quot;</code>；在<code>el-table-column</code> 组件中开启上面那个type属性，之后利用插槽<code>slot-scope=&quot;props&quot;</code>，此时<code>props</code>中为当前行数据，之后展开的子表格中需要的数据即从<code>props</code>中获取；</p>
+<p>在这里复习一下Vue中三种插槽的简单使用方法：</p>
+<ul>
+<li>默认插槽：又名匿名插槽，不用设置名称属性，单个插槽可以放置在组件的任意位置，<code>一个组件只能有一个默认插槽</code>。</li>
+</ul>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&#x2F;&#x2F;子组将中
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;h2&gt;子组件 插槽使用&lt;&#x2F;h2&gt;
+	&#x2F;&#x2F;在子组件中为插槽预留位置
+        &lt;slot&gt;&lt;&#x2F;slot&gt;    
+	
+        &#x2F;&#x2F;默认内容，插槽还可以使用默认内容，在不传递值时显示默认内容的值
+	&lt;solt&gt;默认内容&lt;&#x2F;solt&gt; 
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+
+
+&#x2F;&#x2F;父组将中使用
+import Slotdemo from &quot;.&#x2F;soltDemo.vue&quot;;
+components: &#123;Slotdemo&#125;,
+    
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;!-- 插槽使用 --&gt;
+        &lt;Slotdemo&gt;
+            &lt;div class&#x3D;&quot;solt&quot;&gt;
+                &lt;div&gt;
+                    &lt;el-input placeholder&#x3D;&quot;请输入内容&quot;&gt;&lt;&#x2F;el-input&gt;
+                &lt;&#x2F;div&gt;
+            &lt;&#x2F;div&gt;
+        &lt;&#x2F;Slotdemo&gt;
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>具名插槽：当子组件功能复杂时，<code>子组件的插槽可能并非一个</code>，这个时候就需要给slot指定一个name属性，也就是具名插槽。</li>
+</ul>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&#x2F;&#x2F;子组件中
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;!-- 具名插槽 --&gt;
+        &lt;slot name&#x3D;&quot;title&quot;&gt;
+            title具名插槽默认内容
+        &lt;&#x2F;slot&gt;
+        &lt;div&gt;
+            &lt;slot name&#x3D;&quot;count&quot;&gt;
+                count具名插槽默认内容
+            &lt;&#x2F;slot&gt;
+        &lt;&#x2F;div&gt;
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+
+
+&#x2F;&#x2F;父组件中使用
+         import Slotdemo from &quot;.&#x2F;soltDemo.vue&quot;;
+	 components: &#123;Slotdemo&#125;,
+        &lt;!-- 具名插槽使用 --&gt;
+        &lt;!-- 注意：具名插槽一定要在外面包裹一层 template 并在其上面使用  v-solt&#x3D;&quot; &quot; 属性来指定插槽名称--&gt;
+        &lt;Slotdemo&gt;
+             
+            &lt;template v-solt&#x3D;&quot;title&quot;&gt;     
+                &lt;div&gt;title具名插槽 向名字为title的插槽插入内容&lt;&#x2F;div&gt;
+            &lt;&#x2F;template&gt;
+
+            &lt;template v-solt&#x3D;&quot;count&quot;&gt;
+                &lt;div&gt;count具名插槽 向名字为count的插槽插入内容&lt;&#x2F;div&gt;
+            &lt;&#x2F;template&gt;
+        &lt;&#x2F;Slotdemo&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>作用域插槽：我们可以将其叫做带数据的插槽，父组件在使用的时候可以替换slot插槽中的显示页面结构，但展示的数据还是来源于子组件。当数据在子组件中，但是插槽中渲染数据的节点由父组件决定，这种情况下，就需要使用作用域插槽。</li>
+</ul>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&#x2F;&#x2F;子组件中使用 solt 插槽将数据 传递至父组件
+
+&lt;template&gt;
+    &lt;div&gt;
+        &lt;slot :list&#x3D;&quot;list&quot;&gt;&lt;&#x2F;slot&gt;
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+&lt;script&gt;
+export default &#123;
+    data() &#123;
+        return &#123;
+            list: [&#39;张三&#39;, &#39;李四&#39;, &#39;王五&#39;]
+        &#125;
+    &#125;,
+&#125;
+&lt;&#x2F;script&gt;
+
+
+&#x2F;&#x2F;父组件中使用作用域插槽
+	import Slotdemo from &quot;.&#x2F;soltDemo.vue&quot;;
+	components: &#123;Slotdemo&#125;,
+        
+        &lt;!-- 作用域插槽 --&gt;
+        &lt;!-- 作用域插槽的使用必须要在子组件标签上面使用v-slo 获取到作用域插槽在子组件中的值再在后续中使用 --&gt;
+        &lt;Slotdemo v-slot&#x3D;&quot;&#123; list &#125;&quot;&gt;
+            &lt;!-- 作用域插槽 --&gt;
+            &lt;ol&gt;
+                &lt;li v-for&#x3D;&quot;item in list&quot; :key&#x3D;&quot;item.id&quot;&gt;
+                    &#123;&#123;item.count&#125;&#125;
+                &lt;&#x2F;li&gt;
+            &lt;&#x2F;ol&gt;
+        &lt;&#x2F;Slotdemo&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="支持远程搜索的下拉框"><a href="#支持远程搜索的下拉框" class="headerlink" title="支持远程搜索的下拉框"></a>支持远程搜索的下拉框</h2><p>在项目中，有一个需求是需要实现用户在文本输入框中键入关键字后，页面自动将关键字发送至后台进行检索，并将检索的查询结果作为下拉框的<code>options</code>进行渲染，具体代码如下：</p>
+<pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;el-select
+             v-model&#x3D;&quot;dialogData.courseIdList&quot;
+             multiple
+             collapse-tags
+             filterable
+             remote
+             reserve-keyword
+             placeholder&#x3D;&quot;请输入课程关键词&quot;
+             clearable
+             :remote-method&#x3D;&quot;remoteMethod&quot;
+             :loading&#x3D;&quot;loading&quot;
+           &gt;
+             &lt;el-option
+               v-for&#x3D;&quot;item in courseOptions&quot;
+               :key&#x3D;&quot;item.value&quot;
+               :label&#x3D;&quot;item.label&quot;
+               :value&#x3D;&quot;item.value&quot;
+             &gt;
+             &lt;&#x2F;el-option&gt;
+           &lt;&#x2F;el-select&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了启用远程搜索，需要将<code>filterable</code>和<code>remote</code>设置为<code>true</code>，同时传入一个<code>remote-method</code>。<code>remote-method</code>为一个<code>Function</code>，它会在输入值发生变化时调用，参数为当前输入值。需要注意的是，如果<code>el-option</code>是通过<code>v-for</code>指令渲染出来的，此时需要为<code>el-option</code>添加<code>key</code>属性，且其值需具有唯一性，比如此例中的<code>item.value</code>。<code>mutiple</code>为开启下拉框多选；</p>
+<p>远程异步搜索方法如下：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token comment">//异步远端搜索，query为默认传入的关键字</span>
+    <span class="token function">remoteMethod</span><span class="token punctuation">(</span><span class="token parameter">query</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">clearTimeout</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+      <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+      <span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token boolean">true</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>query <span class="token operator">!==</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          <span class="token function">getCourse</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> courseName<span class="token operator">:</span> query <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token string">'0'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">//remoteOptions数组存放后端返回的数组</span>
+              <span class="token keyword">this</span><span class="token punctuation">.</span>remoteOptions <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span> value<span class="token operator">:</span> item<span class="token punctuation">.</span>value<span class="token punctuation">,</span> label<span class="token operator">:</span> item<span class="token punctuation">.</span>label <span class="token punctuation">&#125;</span>
+              <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+              <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token boolean">false</span>
+            <span class="token punctuation">&#125;</span>
+          <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>loading <span class="token operator">=</span> <span class="token boolean">false</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>remoteOptions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">300</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在实现这个功能需求后，还涉及到需要在编辑表单回显数据到此下拉框，故在这里采取了使用两个数组存放数据：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+      loading<span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      remoteOptions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//远程模糊搜索返回的数据</span>
+      currentOptions<span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment">//用于修改时回显的数据</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+computed<span class="token operator">:</span><span class="token punctuation">&#123;</span>
+    <span class="token function">courseOptions</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//合并数组</span>
+        <span class="token keyword">let</span> options <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>remoteOptions<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>currentOptions<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//数组去重</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在编辑表单时，currentOptions存放后端数据库目前已保存的id，remoteOptions存放远程搜索的结果，<code>el-option</code>组件遍历的是计算属性将currentOptions和remoteOptions两个数组合并并去重的结果；</p>
+<h2 id="Vue中数据更新不及时的问题"><a href="#Vue中数据更新不及时的问题" class="headerlink" title="Vue中数据更新不及时的问题"></a>Vue中数据更新不及时的问题</h2><p>当给Vue的一个对象在method方法中动态添加属性时，会存在添加的数据不会立刻更新到页面的问题，因为我们此时添加的属性并不是响应式数据，不能被Vue观察到，可用如下方法给Vue的data中的对象添加属性：</p>
+<pre class="line-numbers language-js" data-language="js"><code class="language-js"> <span class="token comment">//添加响应式数据，确保数据及时更新到视，userForm为Object类型，sumFare为醉驾到其身上的新属性</span>
+<span class="token comment">//data[0].sumFare为属性值</span>
+Vue<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>userForm<span class="token punctuation">,</span><span class="token string">'sumFare'</span><span class="token punctuation">,</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>sumFare<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+  </div>
+  <div>
+  
+  <div class="post-note note-warning copyright" style="margin-top: 42px">
+    <p><span style="font-weight: bold;">作者：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/about">NULL0</a></p>
+    <p><span style="font-weight: bold;">文章链接：</span><a target="_blank" rel="nofollow noopener noreferrer" href="https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/07/17/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/">https://gitee.com/LkGiteeCoder/LkGiteeCoder.git/2022/07/17/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</a></p>
+    <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+  </div>
+  
+  </div>
+</article>
+<div class="nav">
+  
+  
+  <div class="nav-item-next">
+    <a href="/2022/06/19/js模块化/" class="nav-link">
+      <div>
+        <div class="nav-label">下一篇</div>
+        
+        <div class="nav-title">JS模块化 </div>
+        
+      </div>
+      <i class="iconfont icon-right nav-next-icon"></i>
+    </a>
+  </div>
+  
+</div>
+
+<div class="card card-content comment-card" style="margin-top: 16px;">
+  <div class="comment-card-title">评论</div>
+  
+  <div id="vcomments"></div>
+  
+  <script>
+    loadScript("//unpkg.com/valine/dist/Valine.min.js");
+    var oldLoadVa = window.onload;
+    window.onload = function () {
+      oldLoadVa && oldLoadVa();
+      new Valine({
+        el: '#vcomments',
+        appId: 'uTRGkiRwTaCOxehXeNLD8IOl-gzGzoHsz',
+        appKey: 'm6MpP7mYmQjosntaXuabcnVa',
+        placeholder: 'Just go go',
+        path: window.location.pathname,
+        avatar: 'mp',
+        meta: ["nick","mail","link"],
+        pageSize: '10',
+        lang: '',
+        visitor: 'false',
+        highlight: true,
+        recordIP: false,
+        
+        
+        
+        enableQQ: 'false',
+        requiredFields: [],
+      });
+    };
+  </script>
+
+</div>
+
+<div class="card card-content toc-card" id="mobiletoc">
+  <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%AE%B0"><span class="toc-text">题记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E9%99%90%E5%88%B6%E5%8F%AA%E4%B8%8A%E4%BC%A0%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-text">文件上传 — 限制只上传一个文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E5%9B%BE%E7%89%87%E5%9B%9E%E6%98%BE"><span class="toc-text">文件上传 — 图片回显</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E5%B1%95%E5%BC%80"><span class="toc-text">表格展开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E8%BF%9C%E7%A8%8B%E6%90%9C%E7%B4%A2%E7%9A%84%E4%B8%8B%E6%8B%89%E6%A1%86"><span class="toc-text">支持远程搜索的下拉框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E4%B8%8D%E5%8F%8A%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">Vue中数据更新不及时的问题</span></a></li></ol>
+</div></main>
+          <aside class="left-column">
+            
+            <div class="card card-author">
+              
+<img src="/img/touxiang.png" class="author-img">
+
+<p class="author-name">NULL0</p>
+<p class="author-description">_NULL0的个人博客</p>
+<div class="author-message">
+  <a class="author-posts-count" href="/archives">
+    <span>56</span>
+    <span>文章</span>
+  </a>
+  <a class="author-categories-count" href="/categories">
+    <span>15</span>
+    <span>分类</span>
+  </a>
+  <a class="author-tags-count" href="/tags">
+    <span>4</span>
+    <span>标签</span>
+  </a>
+</div>
+
+            </div>
+            
+            <div class="sticky-tablet">
+  
+  
+  <article class="display-when-two-columns spacer">
+    <div class="card card-content toc-card">
+      <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%AE%B0"><span class="toc-text">题记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E9%99%90%E5%88%B6%E5%8F%AA%E4%B8%8A%E4%BC%A0%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-text">文件上传 — 限制只上传一个文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E5%9B%BE%E7%89%87%E5%9B%9E%E6%98%BE"><span class="toc-text">文件上传 — 图片回显</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E5%B1%95%E5%BC%80"><span class="toc-text">表格展开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E8%BF%9C%E7%A8%8B%E6%90%9C%E7%B4%A2%E7%9A%84%E4%B8%8B%E6%8B%89%E6%A1%86"><span class="toc-text">支持远程搜索的下拉框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E4%B8%8D%E5%8F%8A%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">Vue中数据更新不及时的问题</span></a></li></ol>
+    </div>
+  </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header"><i class="iconfont icon-fenlei" style="padding-right: 2px;"></i>分类</div>
+  <div class="categories-list">
+    
+      <a href="/categories/HTML-CSS学习">
+        <div class="categories-list-item">
+          HTML-CSS学习
+          <span class="categories-list-item-badge">18</span>
+        </div>
+      </a>
+    
+      <a href="/categories/JavaScript基础">
+        <div class="categories-list-item">
+          JavaScript基础
+          <span class="categories-list-item-badge">15</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo环境搭建">
+        <div class="categories-list-item">
+          Hexo环境搭建
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Hexo文章测试">
+        <div class="categories-list-item">
+          Hexo文章测试
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/计算机网络复习">
+        <div class="categories-list-item">
+          计算机网络复习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/ES6语法">
+        <div class="categories-list-item">
+          ES6语法
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/jQuery">
+        <div class="categories-list-item">
+          jQuery
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/面试">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Vue原理">
+        <div class="categories-list-item">
+          Vue原理
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/服务器">
+        <div class="categories-list-item">
+          服务器
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/BootStrap">
+        <div class="categories-list-item">
+          BootStrap
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/微信小程序">
+        <div class="categories-list-item">
+          微信小程序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/设计模式">
+        <div class="categories-list-item">
+          设计模式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/webpack">
+        <div class="categories-list-item">
+          webpack
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/开发日记">
+        <div class="categories-list-item">
+          开发日记
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header"><i class="iconfont icon-biaoqian" style="padding-right: 2px;"></i>热门标签</div>
+  <div class="tags-list">
+    
+    <a href="\tags\WEB前端" title="WEB前端"><div class="tags-list-item">WEB前端</div></a>
+    
+    <a href="\tags\Hexo" title="Hexo"><div class="tags-list-item">Hexo</div></a>
+    
+    <a href="\tags\计算机网络" title="计算机网络"><div class="tags-list-item">计算机网络</div></a>
+    
+    <a href="\tags\CentOS8" title="CentOS8"><div class="tags-list-item">CentOS8</div></a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+          <aside class="right-column">
+            <div class="sticky-widescreen">
+  
+  
+  <article class="card card-content toc-card">
+    <div class="toc-header"><i class="iconfont icon-menu" style="padding-right: 2px;"></i>目录</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%AE%B0"><span class="toc-text">题记</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-text">文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E9%99%90%E5%88%B6%E5%8F%AA%E4%B8%8A%E4%BC%A0%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-text">文件上传 — 限制只上传一个文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E2%80%94-%E5%9B%BE%E7%89%87%E5%9B%9E%E6%98%BE"><span class="toc-text">文件上传 — 图片回显</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E5%B1%95%E5%BC%80"><span class="toc-text">表格展开</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E8%BF%9C%E7%A8%8B%E6%90%9C%E7%B4%A2%E7%9A%84%E4%B8%8B%E6%8B%89%E6%A1%86"><span class="toc-text">支持远程搜索的下拉框</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue%E4%B8%AD%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E4%B8%8D%E5%8F%8A%E6%97%B6%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">Vue中数据更新不及时的问题</span></a></li></ol>
+  </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header"><i class="iconfont icon-wenzhang_huaban" style="padding-right: 2px;"></i>最近文章</div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-07-17</div>
+        <a href="/2022/07/17/工作总结/"><div class="recent-posts-item-content">Element-ui组件的使用</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-19</div>
+        <a href="/2022/06/19/js模块化/"><div class="recent-posts-item-content">JS模块化</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-18</div>
+        <a href="/2022/06/18/设计模式/"><div class="recent-posts-item-content">设计模式</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-06-15</div>
+        <a href="/2022/06/15/微信小程序-1/"><div class="recent-posts-item-content">微信小程序-1</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>Copyright ©
+          
+          2021 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a href="/" class="footer-link">Coding </a>
+      </div>
+    </div>
+
+    
+    <div class="footer-dsc">
+      
+      Powered by
+      <a href="https://hexo.io/" class="footer-link" target="_blank" rel="nofollow noopener noreferrer">&nbsp;Hexo </a>
+      
+      
+      <span>&nbsp;|&nbsp;</span>
+      
+      
+      Theme -
+      <a href="https://github.com/theme-kaze" class="footer-link" target="_blank"
+        rel="nofollow noopener noreferrer">&nbsp;Kaze</a>
+      
+    </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+        <span>&nbsp;|&nbsp;</span>
+        
+        
+        本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer>
+  <a role="button" id="scrollbutton" class="basebutton"  aria-label="回到顶部">
+  <i class="iconfont icon-arrowleft button-icon"></i>
+</a>
+<a role="button" id="menubutton" class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a role="button" id="popbutton" class="basebutton" aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a role="button" id="darkbutton" class="basebutton darkwidget" aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a role="button" id="searchbutton" class="basebutton searchwidget" aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a>
+
+  
+  
+  
+  <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img');
+    var i;
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a');
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'));
+      wrapper.setAttribute('aria-label', 'illustration');
+      wrapper.style.cssText = 'width: 100%; display: flex; justify-content: center;';
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt;
+      wrapper.dataset.nolink = true;
+      img[i].before(wrapper);
+      wrapper.append(img[i]);
+      var divWrap = document.createElement('div');
+      divWrap.classList.add('gallery');
+      wrapper.before(divWrap);
+      divWrap.append(wrapper);
+    }
+    baguetteBox.run('.gallery');
+  }
+</script>
+<script>loadScript("/js/lib/lightbox/baguetteBox.min.js", addImgLayout)</script>
+  
+  
+  
+<script src="/js/main.js"></script>
+
+  
+  <script>loadScript("/js/lib/busuanzi.min.js")</script>
+  
+  
+  <script>
+    var addLazyload = function () {
+      var observer = lozad('.lozad', {
+        load: function (el) {
+          el.srcset = el.getAttribute('data-src');
+        },
+        loaded: function (el) {
+          el.classList.add('loaded');
+        }
+      });
+      observer.observe();
+    }
+  </script>
+  <script>loadScript("/js/lib/lozad.min.js", addLazyload)</script>
+  
+  
+</body>
+
+</html>
